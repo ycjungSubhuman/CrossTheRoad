@@ -43,8 +43,8 @@ void reshape(int w, int h) {
 
 void moveObjects()
 {
-	rectangle.x += 0.00001;
-	rectangle.y += 0.00001;
+	rectangle.x += 0.001;
+	rectangle.y += 0.001;
 
 	glutPostRedisplay();
 }
