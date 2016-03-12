@@ -1,6 +1,9 @@
 #include <Windows.h>
+#include <iostream>
 #include <GL/GL.h>
 #include <GL/glut.h>
+
+using namespace std;;
 
 typedef struct rect {
 	double x;
@@ -41,11 +44,12 @@ void reshape(int w, int h) {
 	glLoadIdentity();
 }
 
-void moveObjects()
+void moveObjects(int value)
 {
 	rectangle.x += 0.001;
 	rectangle.y += 0.001;
 
+	glutTimerFunc(20, moveObjects, 0);
 	glutPostRedisplay();
 }
 
@@ -59,7 +63,7 @@ int main (int argc, char** argv) {
 
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
-	glutIdleFunc(moveObjects);
+	glutTimerFunc(20, moveObjects, 0);
 	glutMainLoop();
 	return 0;
 }
