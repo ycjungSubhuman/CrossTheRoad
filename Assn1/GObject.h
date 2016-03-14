@@ -1,17 +1,18 @@
 #pragma once
 #include "Rect.h"
 #include <string>
+#include <functional>
 
 class GObject {
 private:
+	int z;
 	Rect obj;
 	Rect hitbox;
 	std::string type;
-	void (*drawFunc)(Rect& canvas);
+	std::function<std::string(const Rect& canvas)> drawFunc;
 public:
-	GObject(Rect obj, Rect hitbox, void(*drawFunc)(Rect& canvas));
+	GObject(const Rect& obj, const Rect& hitbox, std::function<std::string(const Rect&)> drawFunc, int z=0, std::string type="OBJECT");
 	void draw();
-	Rect getHitbox();
 	std::string getType();
 	static bool isCollide(const GObject&, const GObject&);
 };

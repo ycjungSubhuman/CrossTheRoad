@@ -2,9 +2,9 @@
 
 class GameState {
 private:
-	enum STATE {GAMEON, GAMEOVER};
-	int score;
+	enum State {GAMEON, GAMEOVER};
+	State state;
 public:
-	STATE getState();
-	void setstate(STATE state);
+	State getState();
+	void setState(State state);
 };
