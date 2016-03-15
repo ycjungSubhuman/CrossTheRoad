@@ -11,6 +11,8 @@ private:
 	std::string type;
 	std::function<void(const Rect&,int,int,int)> drawFunc;
 	int r, g, b;
+protected:
+	void setRect(const Rect& rect);
 public:
 	GObject(const Rect& obj, const Rect& hitbox, int z=0, std::string type="OBJECT");
 	void setFunc(const std::function<void(const Rect&,int,int,int)>& func);

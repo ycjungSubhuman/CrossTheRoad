@@ -2,6 +2,9 @@
 #include "Rect.h"
 #include <string>
 
+void GObject::setRect(const Rect& rect) {
+	this->obj = rect;
+}
 GObject::GObject(const Rect& obj, const Rect& hitbox, int z, std::string type) {
 	this->obj = obj;
 	this->hitbox = hitbox;
