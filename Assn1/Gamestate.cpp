@@ -1,6 +1,6 @@
 #include "Gamestate.h"
 
-State GameState::getState()
+GameState::State GameState::getState()
 {
 	return state;
 }

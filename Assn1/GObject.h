@@ -9,11 +9,13 @@ private:
 	Rect obj;
 	Rect hitbox;
 	std::string type;
-	std::function<void(const Rect& canvas)> drawFunc;
+	std::function<void(const Rect&,int,int,int)> drawFunc;
+	int r, g, b;
 public:
-	GObject(const Rect& obj, const Rect& hitbox, std::function<void(const Rect&)> drawFunc, int z=0, std::string type="OBJECT");
-	void setFunc(std::function<void(const Rect&)> func);
+	GObject(const Rect& obj, const Rect& hitbox, int z=0, std::string type="OBJECT");
+	void setFunc(const std::function<void(const Rect&,int,int,int)>& func);
 	void draw();
 	std::string getType();
+	void setColor(int r, int g, int b);
 	static bool isCollide(const GObject&, const GObject&);
 };

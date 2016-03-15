@@ -1,10 +1,13 @@
 #include<Windows.h>
 #include<GL/GL.h>
 #include<GL/glut.h>
+#include "stdlib.h"
+#include <time.h>
 
 void init(void) {
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glShadeModel(GL_FLAT);
+	srand((unsigned int)time(NULL));
 	/* Initiallize Objects */
 }
 void drawView(void) {

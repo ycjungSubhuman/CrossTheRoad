@@ -2,7 +2,7 @@
 
 class Rect {
 private:
-	double left, top, right, bottom;
+	double _left, _top, _right, _bottom;
 	static bool isPointInRect(const Rect& rect, double x, double y);
 public:
 	Rect();

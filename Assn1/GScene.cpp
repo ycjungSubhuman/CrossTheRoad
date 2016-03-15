@@ -6,9 +6,11 @@ void GScene::drawAll() {
 }
 GObject* GScene::addObject(GObject* obj) {
 	objects.push_back(obj);
+	return obj;
 }
 GObject* GScene::removeObject(GObject* obj) {
 	objects.erase(std::find(objects.begin(), objects.end(), obj));
+	return obj;
 }
 std::list<GObject*> GScene::getCollisions(GObject* obj) {
 	std::list<GObject*> result;

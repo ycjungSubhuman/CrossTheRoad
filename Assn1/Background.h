@@ -10,5 +10,6 @@ private:
 		[GRASS, ROAD, ROAD, ROAD, GRASS, ROAD, ROAD, ROAD, ROAD]  */
 	Linetype mapinfo[MAPLENGTH];
 public:
-	Background(const Rect& obj, const Rect& hitbox, int z, std::string type="BACKGROUND");
+	Background(const Rect& obj, const Rect& hitbox, int z, std::string type = "BACKGROUND");
+
 };
