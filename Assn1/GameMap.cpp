@@ -1,7 +1,7 @@
-#include "Background.h"
+#include "GameMap.h"
 #include <stdlib.h>
 
-Background::Background(int z) : GObject(Rect(0, 0, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT), Rect(0,0,0,0), z, "BACKGROUND")
+GameMap::GameMap(int z) : GObject(Rect(0, 0, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT), Rect(0,0,0,0), z, "BACKGROUND")
 {
 	//init mapinfo
 	mapinfo[0] = GRASS;
@@ -26,4 +26,8 @@ Background::Background(int z) : GObject(Rect(0, 0, COLUMN_WIDTH*MAPLENGTH, MAPHE
 
 	};
 	setFunc(drawFunc);
+}
+void GameMap::frameAction() {
+	//Maybe color flickering when invincible item obtained??
+	//Nothing to do for now.
 }

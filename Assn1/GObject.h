@@ -16,7 +16,14 @@ protected:
 public:
 	GObject(const Rect& obj, const Rect& hitbox, int z=0, std::string type="OBJECT");
 	void setFunc(const std::function<void(const Rect&,int,int,int)>& func);
+	void setPos(double x, double y);
+	int getR();
+	int getG();
+	int getB();
+	double getX();
+	double getY();
 	void draw();
+	virtual void frameAction()=0;
 	std::string getType();
 	void setColor(int r, int g, int b);
 	static bool isCollide(const GObject&, const GObject&);

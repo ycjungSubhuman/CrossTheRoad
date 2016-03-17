@@ -21,3 +21,12 @@ std::list<GObject*> GScene::getCollisions(GObject* obj) {
 	}
 	return result;
 }
+std::list<GObject*> GScene::getCollisionsOf(GObject* obj, std::string type) {
+	std::list<GObject*> result;
+	//check for collision.
+	for (std::list<GObject*>::iterator iter = objects.begin(); iter != objects.end(); iter++) {
+		if (GObject::isCollide(*(*iter), *obj) && (*iter)->getType()==type)
+			result.push_front(obj);
+	}
+	return result;
+}

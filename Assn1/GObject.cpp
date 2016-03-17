@@ -14,8 +14,27 @@ GObject::GObject(const Rect& obj, const Rect& hitbox, int z, std::string type) {
 void GObject::setFunc(const std::function<void(const Rect&,int,int,int)>& func) {
 	this->drawFunc = func;
 }
+void GObject::setPos(double x, double y) {
+	this->obj.setX(x);
+	this->obj.setY(y);
+}
 void GObject::draw() {
 	this->drawFunc(obj, r, g, b);
+}
+double GObject::getX() {
+	return this->obj.left();
+}
+double GObject::getY() {
+	return this->obj.top();
+}
+int GObject::getR() {
+	return r;
+}
+int GObject::getG() {
+	return g;
+}
+int GObject::getB() {
+	return b;
 }
 std::string GObject::getType() {
 	return this->type;
