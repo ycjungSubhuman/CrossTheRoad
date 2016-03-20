@@ -44,7 +44,7 @@ void GObject::setColor(int r, int g, int b) {
 	this->g = g;
 	this->b = b;
 }
-bool GObject::isCollide(const GObject& o1, const GObject& o2) {
+bool GObject::isCollide(GObject& o1, GObject& o2) {
 	if (Rect::isCollide(o1.hitbox, o2.hitbox)) 
 		return true;
 	else 

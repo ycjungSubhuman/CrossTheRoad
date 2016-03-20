@@ -26,5 +26,5 @@ public:
 	virtual void frameAction()=0;
 	std::string getType();
 	void setColor(int r, int g, int b);
-	static bool isCollide(const GObject&, const GObject&);
+	static bool isCollide(GObject&, GObject&);
 };

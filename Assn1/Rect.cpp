@@ -22,7 +22,7 @@ double  Rect::right() {
 	return this->_x + this->_width;
 }
 double Rect::bottom() {
-	return this->_y - this->height;
+	return this->_y - this->_height;
 }
 double Rect::x() {
 	return _x;
@@ -36,7 +36,7 @@ double Rect::width() {
 double Rect::height() {
 	return _height;
 }
-bool Rect::isPointInRect(const Rect& rect, double x, double y) {
+bool Rect::isPointInRect(Rect& rect, double x, double y) {
 	if (rect.left() <= x && x <= rect.right() && rect.bottom() <= y && y <= rect.top())
 		return true;
 	else 
@@ -54,9 +54,9 @@ void Rect::setWidth(int width) {
 void Rect::setHeight(int height) {
 	this->_height = height;
 }
-bool Rect::isCollide(const Rect& a, const Rect& b) {
-	if (isPointInRect(a, b._left, b._top) || isPointInRect(a, b._left, b._bottom)
-		|| isPointInRect(a, b._right, b._top) || isPointInRect(a, b._right, b._bottom))
+bool Rect::isCollide(Rect& a, Rect& b) {
+	if (isPointInRect(a, b._x, b._y) || isPointInRect(a, b._x, b._y-b._height)
+		|| isPointInRect(a, b._x+b._width, b._y) || isPointInRect(a, b._x+b._width, b._y-b._height))
 		return true;
 	else
 		return false;

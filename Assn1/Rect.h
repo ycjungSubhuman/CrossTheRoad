@@ -3,7 +3,7 @@
 class Rect {
 private:
 	double _x, _y, _width, _height;
-	static bool isPointInRect(const Rect& rect, double x, double y);
+	static bool isPointInRect(Rect& rect, double x, double y);
 public:
 	Rect();
 	Rect(double x, double y, double width, double height);
@@ -19,5 +19,5 @@ public:
 	void setY(int y);
 	void setWidth(int width);
 	void setHeight(int height);
-	static bool isCollide(const Rect& a, const Rect& b);
+	static bool isCollide(Rect& a, Rect& b);
 };
