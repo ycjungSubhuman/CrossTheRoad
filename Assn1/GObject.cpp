@@ -11,7 +11,7 @@ GObject::GObject(const Rect& obj, const Rect& hitbox, int z, std::string type) {
 	this->type = type;
 	this->drawFunc = [](const Rect&,int,int,int)->void {};
 }
-void GObject::setFunc(const std::function<void(const Rect&,int,int,int)>& func) {
+void GObject::setFunc(const std::function<void(Rect&,int,int,int)>& func) {
 	this->drawFunc = func;
 }
 void GObject::setPos(double x, double y) {

@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Player.h"
 #include "GameMap.h"
 
 Player::Player() : GObject(Rect(GameMap::COLUMN_WIDTH/2 - PLAYERWIDTH/2, GameMap::MAPHEIGHT/2 - PLAYERHEIGHT/2, PLAYERWIDTH, PLAYERHEIGHT), Rect(0, 0, PLAYERWIDTH, PLAYERHEIGHT), 1, "PLAYER")
@@ -28,6 +29,7 @@ void Player::frameAction() {
 int Player::getLinenum() {
 	return linenum;
 }
-int Player::incrLinenum(int num) {
-	this->linenum += num;
+int Player::incrLInenum(int num)
+{
+	return this->linenum += num;
 }
