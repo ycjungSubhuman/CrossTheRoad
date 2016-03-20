@@ -33,7 +33,7 @@
     <ClCompile Include="Gamestate.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Background.cpp">
+    <ClCompile Include="GameMap.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,14 +59,14 @@
     <ClInclude Include="Player.h">
       <Filter>헤더 파일\Obj</Filter>
     </ClInclude>
-    <ClInclude Include="Background.h">
-      <Filter>헤더 파일\Obj</Filter>
-    </ClInclude>
     <ClInclude Include="EndPoint.h">
       <Filter>헤더 파일\Obj</Filter>
     </ClInclude>
     <ClInclude Include="GCamera.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMap.h">
+      <Filter>헤더 파일\Obj</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

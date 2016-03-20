@@ -113,9 +113,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Background.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="Gamestate.cpp" />
     <ClCompile Include="GObject.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -125,9 +123,9 @@
     <ClCompile Include="Rect.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Background.h" />
     <ClInclude Include="Car.h" />
     <ClInclude Include="EndPoint.h" />
+    <ClInclude Include="GameMap.h" />
     <ClInclude Include="Gamestate.h" />
     <ClInclude Include="GCamera.h" />
     <ClInclude Include="GObject.h">
