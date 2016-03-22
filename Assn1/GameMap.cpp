@@ -3,6 +3,17 @@
 #include <stdexcept>
 #include <iostream>
 
+void DrawRoadLine(int x)
+{
+	double Linelength = MAPLENGTH / 20;
+	double Lineheight = MAPHEIGHT / 12;
+	glColor3f(1.0f, 1.0f, 1.0f);
+	for (int i = -1; i < 12; i + 4)
+	{
+		glRectf(x*MAPLENGTH - Linelength, i*Lineheight, x*MAPLENGTH + Linelength, (i + 2)Lineheight);
+	}
+}
+
 GameMap::GameMap(int z) : GObject(Rect(0, 0, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT), Rect(0,0,0,0), z, "BACKGROUND")
 {
 	/* 맵 전체를 그리는 함수
@@ -29,6 +40,26 @@ GameMap::GameMap(int z) : GObject(Rect(0, 0, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT),
 }
 void GameMap::draw() {
 	/* implement map drawing here */
+	glClear(GL_COLOR_BUFFER_BIT);
+	int roadlength = 0;
+	glColor3f(0.0f, 0.0f, 0.0f);
+	glRectf(0.0f, 0.0f, MAPLENGTH * COLUMN_WIDTH, MAPHEIGHT);
+	for (int i = 0; i < MAPLENGTH; i++)
+	{
+		switch (this.Getminfo(i))
+		{
+		case GRASS:
+			glColor3f(0.0f, 1.0f, 0.0f);
+			glRectf(i*COLUMN_WIDTH, 0.0f, (i + 1)*COLUMN_WIDTH, MAPHEIGHT);
+			roadlength = 0;
+			break;
+		case ROADUP:
+		case ROADDOWN:
+			if (roadlength != 0)
+				DrawRoadLine(i);
+		}
+		glutSwapBuffers();
+	};
 }
 GameMap::Linetype GameMap::getLine(int i) {
 	try {

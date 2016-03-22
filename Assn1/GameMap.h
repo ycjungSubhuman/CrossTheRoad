@@ -16,5 +16,4 @@ public:
 	Linetype getLine(int i);
 private:
 	std::vector<Linetype> mapinfo;
-
 };
