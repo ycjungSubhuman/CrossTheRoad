@@ -26,4 +26,7 @@ public:
 	std::string getType();
 	void setColor(int r, int g, int b);
 	static bool isCollide(GObject&, GObject&);
+
+	//for priority queue compare
+	int operator<(const GObject& obj);
 };
