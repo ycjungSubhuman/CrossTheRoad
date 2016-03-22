@@ -6,6 +6,7 @@ class GScene {
 private:
 	std::list<GObject*> objects;
 public:
+	~GScene();
 	void drawAll();
 	GObject* addObject(GObject* obj);
 	GObject* removeObject(GObject* obj);

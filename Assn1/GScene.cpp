@@ -1,6 +1,10 @@
 #include "GScene.h"
 #include <algorithm>
 
+GScene::~GScene() {
+	//delete all objects in the scene
+	std::for_each(objects.begin(), objects.end(), [](GObject* obj) {delete obj; });
+}
 void GScene::drawAll() {
 	std::for_each(objects.begin(), objects.end(), [](GObject* obj) { obj->draw(); });
 }

@@ -3,6 +3,10 @@
 #include<GL/glut.h>
 #include "stdlib.h"
 #include <time.h>
+#include "Game.h"
+#include "Car.h"
+
+Game game;
 
 void init(void) {
 	glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -14,6 +18,7 @@ void drawView(void) {
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	/* Implement view function*/
+	game.getScene()->drawAll();
 
 	glutSwapBuffers();
 }
@@ -29,10 +34,17 @@ void processUserInput(int key, int x, int y) {
 
 	/* process User Input*/
 }
+void genCar(int linenum) {
+
+}
 
 void updateScene(int value)
 {
 	/* Implement Scene Update */
+	//initiate timer call loop for car generation
+
+
+	//check for player collisions
 
 	glutTimerFunc(20, updateScene, 0);
 	glutPostRedisplay();
