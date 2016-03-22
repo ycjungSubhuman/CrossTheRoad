@@ -20,6 +20,9 @@ Car::Car(int line, GameMap::Linetype linetype, int z) : GObject(Rect(0,0,CARWIDT
 	x = line*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - CARWIDTH / 2;
 	setRect(Rect(x, y, CARWIDTH, CARHEIGHT));
 }
+void Car::draw() {
+	/* implement car drawing here */
+}
 void Car::frameAction() {
 	//move
 	setPos(getX(), getY() + dis_y);

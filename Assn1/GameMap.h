@@ -1,5 +1,6 @@
 #pragma once
 #include "GObject.h"
+#include <vector>
 
 class GameMap : public GObject {
 private:
@@ -11,7 +12,9 @@ public:
 	enum Linetype { GRASS, ROADUP, ROADDOWN };
 	GameMap(int z=-1);
 	virtual void frameAction();
+	virtual void draw();
+	Linetype getLine(int i);
 private:
-	Linetype mapinfo[MAPLENGTH];
+	std::vector<Linetype> mapinfo;
 
 };

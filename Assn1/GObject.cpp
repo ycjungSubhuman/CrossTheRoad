@@ -9,17 +9,10 @@ GObject::GObject(const Rect& obj, const Rect& hitbox, int z, std::string type) {
 	this->obj = obj;
 	this->hitbox = hitbox;
 	this->type = type;
-	this->drawFunc = [](const Rect&,int,int,int)->void {};
-}
-void GObject::setFunc(const std::function<void(Rect&,int,int,int)>& func) {
-	this->drawFunc = func;
 }
 void GObject::setPos(double x, double y) {
 	this->obj.setX(x);
 	this->obj.setY(y);
-}
-void GObject::draw() {
-	this->drawFunc(obj, r, g, b);
 }
 double GObject::getX() {
 	return this->obj.left();
@@ -35,6 +28,9 @@ int GObject::getG() {
 }
 int GObject::getB() {
 	return b;
+}
+int GObject::getZ() {
+	return z;
 }
 std::string GObject::getType() {
 	return this->type;

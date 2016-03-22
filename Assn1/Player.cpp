@@ -6,20 +6,19 @@ Player::Player() : GObject(Rect(GameMap::COLUMN_WIDTH/2 - PLAYERWIDTH/2, GameMap
 {
 	linenum = 0;
 	status = ALIVE;
-	//set draw function
-	setFunc([this](const Rect& rect, int r, int g, int b)->void {
-		switch (this->getPlayerStatus()) {
-		case Player::ALIVE:
-			/* write player graphics */
-			break;
-		case Player::DEAD:
-			/* show blank space */
-			break;
-		}
-	});
 }
 Player::Status Player::getPlayerStatus() {
 	return status;
+}
+void Player::draw() {
+	switch (getPlayerStatus()) {
+	case Player::ALIVE:
+		/* write player graphics */
+		break;
+	case Player::DEAD:
+		/* show blank space */
+		break;
+	}
 }
 void Player::frameAction() {
 	/*the controls will be processed in keyboard event callback.

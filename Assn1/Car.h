@@ -8,5 +8,6 @@ private:
 	double dis_y;
 public:
 	Car(int line, GameMap::Linetype linetype, int z=1);
+	virtual void draw();
 	virtual void frameAction();
 };

@@ -8,6 +8,7 @@ public:
 	enum Status { ALIVE, DEAD };
 	enum { PLAYERWIDTH=10, PLAYERHEIGHT=10 };
 	Player();
+	virtual void draw();
 	virtual void frameAction();
 	Status getPlayerStatus();
 	int getLinenum();
