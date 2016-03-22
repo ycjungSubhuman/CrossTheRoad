@@ -20,25 +20,17 @@ double GObject::getX() {
 double GObject::getY() {
 	return this->obj.top();
 }
-int GObject::getR() {
-	return r;
+Rect GObject::getobj() {
+	return this->obj;
 }
-int GObject::getG() {
-	return g;
-}
-int GObject::getB() {
-	return b;
+Rect GObject::gethitbox() {
+	return this->hitbox;
 }
 int GObject::getZ() {
 	return z;
 }
 std::string GObject::getType() {
 	return this->type;
-}
-void GObject::setColor(int r, int g, int b) {
-	this->r = r;
-	this->g = g;
-	this->b = b;
 }
 bool GObject::isCollide(GObject& o1, GObject& o2) {
 	if (Rect::isCollide(o1.hitbox, o2.hitbox)) 
