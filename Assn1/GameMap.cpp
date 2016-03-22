@@ -3,14 +3,14 @@
 #include <stdexcept>
 #include <iostream>
 
-void DrawRoadLine(int x)
+void DrawRoadLine(int Maplength, int Mapheight, int x)
 {
-	double Linelength = MAPLENGTH / 20;
-	double Lineheight = MAPHEIGHT / 12;
+	double Linelength = Maplength / 20;
+	double Lineheight = Mapheight / 12;
 	glColor3f(1.0f, 1.0f, 1.0f);
 	for (int i = -1; i < 12; i + 4)
 	{
-		glRectf(x*MAPLENGTH - Linelength, i*Lineheight, x*MAPLENGTH + Linelength, (i + 2)Lineheight);
+		glRectf(x*Maplength - Linelength, i*Lineheight, x*Maplength + Linelength, (i + 2)*Lineheight);
 	}
 }
 
@@ -46,7 +46,7 @@ void GameMap::draw() {
 	glRectf(0.0f, 0.0f, MAPLENGTH * COLUMN_WIDTH, MAPHEIGHT);
 	for (int i = 0; i < MAPLENGTH; i++)
 	{
-		switch (this.Getminfo(i))
+		switch (getLine(i))
 		{
 		case GRASS:
 			glColor3f(0.0f, 1.0f, 0.0f);
@@ -56,10 +56,9 @@ void GameMap::draw() {
 		case ROADUP:
 		case ROADDOWN:
 			if (roadlength != 0)
-				DrawRoadLine(i);
-		}
-		glutSwapBuffers();
-	};
+				DrawRoadLine(MAPLENGTH, MAPHEIGHT, i);
+		}		
+	}
 }
 GameMap::Linetype GameMap::getLine(int i) {
 	try {

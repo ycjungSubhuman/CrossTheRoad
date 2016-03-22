@@ -5,7 +5,9 @@ Tree::Tree(int linenum, int position) : GObject(Rect(linenum*GameMap::COLUMN_WID
 {
 }
 void Tree::draw() {
-
+	glColor3f(150.0f / 256.0f, 75.0f / 256.0f, 0.0f);
+	Rect treerect = getobj();
+	glRectf(treerect.left(), treerect.bottom(), treerect.right(), treerect.top());
 }
 void Tree::frameAction() {
 	/* do things like color changing */
