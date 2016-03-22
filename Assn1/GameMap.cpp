@@ -24,14 +24,25 @@ GameMap::GameMap(int z) : GObject(Rect(0, 0, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT),
 		}
 	}
 	//sets drawfunc
-	std::function<void(Rect& rect, int, int, int)> drawFunc = [](Rect& rect, int r, int g, int b)->void {
-		double x = rect.x();
-		double y = rect.y();
-		double w = rect.width();
-		double h = rect.height();
+	std::function<void(Rect& rect, int, int, int)> drawFunc = [this](Rect& rect, int r, int g, int b)->void {
 		glClear(GL_COLOR_BUFFER_BIT);
-		glColor3f(r,g,b);
-		glRectf(x,y,x+w,y+h);
+		int roadlength = 0;
+		glColor3f(0.0f, 0.0f, 0.0f);
+		glRectf(0.0f, 0.0f, MAPLENGTH * COLUMN_WIDTH, MAPHEIGHT);
+		for (int i = 0; i < MAPLENGTH; i++)
+		{
+			switch (this.Getminfo(i))
+			{
+			case GRASS:
+				glColor3f(0.0f, 1.0f, 0.0f);
+				glRectf(i*COLUMN_WIDTH, 0.0f, (i + 1)*COLUMN_WIDTH, MAPHEIGHT);
+				roadlength = 0;
+				break;
+			case ROADUP :
+			case ROADDOWN :
+				if (roadlength != 0)				
+					DrawRoadLine(i);
+		}		
 		glutSwapBuffers();
 	};
 	setFunc(drawFunc);
@@ -39,4 +50,18 @@ GameMap::GameMap(int z) : GObject(Rect(0, 0, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT),
 void GameMap::frameAction() {
 	//Maybe color flickering when invincible item obtained??
 	//Nothing to do for now.
+}
+Linetype GameMap::Getminfo(int i)
+{
+	return mapinfo[i];
+}
+void GameMap::DrawRoadLine(int x)
+{
+	double Linelength = MAPLENGTH / 20;
+	double Lineheight = MAPHEIGHT / 12;
+	glColor3f(1.0f, 1.0f, 1.0f);
+	for (int i = -1; i < 12; i+4)
+	{
+		glRectf(x*MAPLENGTH - Linelength, i*Lineheight, x*MAPLENGTH + Linelength, (i + 2)Lineheight);
+	}
 }

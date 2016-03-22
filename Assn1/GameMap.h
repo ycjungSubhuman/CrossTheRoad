@@ -11,7 +11,9 @@ public:
 	enum Linetype { GRASS, ROADUP, ROADDOWN };
 	GameMap(int z=-1);
 	virtual void frameAction();
+	Linetype Getminfo(int i);
 private:
 	Linetype mapinfo[MAPLENGTH];
+	void DrawRoadLine(int x)
 
 };
