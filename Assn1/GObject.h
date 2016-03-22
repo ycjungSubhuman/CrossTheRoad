@@ -23,7 +23,4 @@ public:
 	virtual void frameAction()=0;
 	std::string getType();
 	static bool isCollide(GObject&, GObject&);
-
-	//for priority queue compare
-	int operator<(const GObject& obj);
 };
