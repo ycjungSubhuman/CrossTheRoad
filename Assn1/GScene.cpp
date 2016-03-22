@@ -5,7 +5,18 @@ void GScene::drawAll() {
 	std::for_each(objects.begin(), objects.end(), [](GObject* obj) { obj->draw(); });
 }
 GObject* GScene::addObject(GObject* obj) {
-	objects.push_back(obj);
+	bool isAdded = false;
+	//keeps z index ordered ascending
+	for (std::list<GObject*>::iterator i = objects.begin(); i != objects.end(); i++) {
+		if (obj->getZ() < (*i)->getZ()) {
+			isAdded = true;
+			objects.insert(i, obj);
+			break;
+		}
+		if (std::next(i, 1) == objects.end()) {
+			objects.insert(std::next(i, 1), obj);
+		}
+	}
 	return obj;
 }
 GObject* GScene::removeObject(GObject* obj) {
