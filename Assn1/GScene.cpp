@@ -1,12 +1,18 @@
 #include "GScene.h"
 #include <algorithm>
+#include <iostream>
 
 GScene::~GScene() {
 	//delete all objects in the scene
 	std::for_each(objects.begin(), objects.end(), [](GObject* obj) {delete obj; });
 }
 void GScene::drawAll() {
-	std::for_each(objects.begin(), objects.end(), [](GObject* obj) { obj->draw(); });
+	std::cout << "---------drawing------------"<<std::endl;
+	std::cout << objects.size() << std::endl;
+	std::for_each(objects.begin(), objects.end(), [](GObject* obj) { 
+		std::cout << obj->getType() << " : " << obj->getX() << " " << obj->getY() << std::endl;
+		obj->draw(); 
+	});
 }
 GObject* GScene::addObject(GObject* obj) {
 	bool isAdded = false;
@@ -17,9 +23,9 @@ GObject* GScene::addObject(GObject* obj) {
 			objects.insert(i, obj);
 			break;
 		}
-		if (std::next(i, 1) == objects.end()) {
-			objects.insert(std::next(i, 1), obj);
-		}
+	}
+	if (!isAdded) {
+		objects.push_back(obj);
 	}
 	return obj;
 }

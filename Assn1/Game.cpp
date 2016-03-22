@@ -10,7 +10,7 @@ Game::Game()
 	scene = new GScene();
 
 	//GameMap
-	GameMap* map = new GameMap();
+	map = new GameMap();
 	scene->addObject(map);
 
 	//Player

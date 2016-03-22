@@ -40,7 +40,6 @@ GameMap::GameMap(int z) : GObject(Rect(0, 0, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT),
 }
 void GameMap::draw() {
 	/* implement map drawing here */
-	glClear(GL_COLOR_BUFFER_BIT);
 	int roadlength = 0;
 	glColor3f(0.0f, 0.0f, 0.0f);
 	glRectf(0.0f, 0.0f, MAPLENGTH * COLUMN_WIDTH, MAPHEIGHT);

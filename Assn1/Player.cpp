@@ -10,6 +10,7 @@ void drawcircle(double x, double y, double radius)
 	{
 		glVertex2f(x + sin(angle)*radius, y + cos(angle)*radius);
 	}
+	glEnd();
 }
 
 Player::Player() : GObject(Rect(GameMap::COLUMN_WIDTH/2 - PLAYERWIDTH/2, GameMap::MAPHEIGHT/2 - PLAYERHEIGHT/2, PLAYERWIDTH, PLAYERHEIGHT), Rect(0, 0, PLAYERWIDTH, PLAYERHEIGHT), 1, "PLAYER")
