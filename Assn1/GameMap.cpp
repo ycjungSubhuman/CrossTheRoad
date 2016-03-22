@@ -59,7 +59,6 @@ void GameMap::draw() {
 				DrawRoadLine(MAPLENGTH, MAPHEIGHT, i);
 		}		
 	}
-	glutSwapBuffers();
 }
 GameMap::Linetype GameMap::getLine(int i) {
 	try {
