@@ -20,6 +20,4 @@ public:
 	int incrGridnum(int num);
 private:
 	Status status;
-	Direction move;
-
 };
