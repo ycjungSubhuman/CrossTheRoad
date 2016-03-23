@@ -12,10 +12,39 @@ void drawcircle(double x, double y, double radius)
 	glEnd();
 }
 
-Player::Player(int z) : GObject(Rect(GameMap::COLUMN_WIDTH/2 - PLAYERWIDTH/2, GameMap::MAPHEIGHT/2 - PLAYERHEIGHT/2, PLAYERWIDTH, PLAYERHEIGHT), Rect(0, 0, PLAYERWIDTH, PLAYERHEIGHT), z, "PLAYER")
+Player::Player(int z) : GObject(Rect(GameMap::COLUMN_WIDTH/2 - PLAYERWIDTH/2, PLAYERHEIGHT*(GameMap::GRIDNUM/2+1), PLAYERWIDTH, PLAYERHEIGHT), Rect(0, 0, PLAYERWIDTH, PLAYERHEIGHT), z, "PLAYER")
 {
 	linenum = 0;
+	gridnum = GameMap::GRIDNUM / 2;
 	status = ALIVE;
+}
+void Player::move(Player::Direction dir) {
+	switch (dir) {
+	case RIGHT:
+		if (linenum < GameMap::MAPLENGTH - 1) {
+			setPos(getX() + GameMap::COLUMN_WIDTH, getY());
+			incrLInenum(1);
+			prevdir = RIGHT;
+		}
+		break;
+	case UP:
+		if (gridnum < GameMap::GRIDNUM - 1) {
+			setPos(getX(), getY() + PLAYERHEIGHT);
+			incrGridnum(1);
+			prevdir = UP;
+		}
+		break;
+	case DOWN:
+		if (gridnum > 0) {
+			setPos(getX(), getY() - PLAYERHEIGHT);
+			incrGridnum(-1);
+			prevdir = DOWN;
+		}
+		break;
+	}
+}
+Player::Direction  Player::getPrevDir() {
+	return prevdir;
 }
 Player::Status Player::getPlayerStatus() {
 	return status;
@@ -41,9 +70,15 @@ void Player::frameAction() {
 	ex) flickering colors*/
 }
 int Player::getLinenum() {
-	return linenum;
+	return linenum; //horizontal position
+}
+int Player::getGridnum() {
+	return gridnum; //vertical position
 }
 int Player::incrLInenum(int num)
 {
 	return this->linenum += num;
+}
+int Player::incrGridnum(int num) {
+	return this->gridnum += num;
 }

@@ -34,7 +34,10 @@ std::string GObject::getType() {
 	return this->type;
 }
 bool GObject::isCollide(GObject& o1, GObject& o2) {
-	if (Rect::isCollide(o1.hitbox, o2.hitbox)) 
+	Rect a = Rect(o1.getobj().x() + o1.gethitbox().x(), o1.getobj().y() + o1.gethitbox().y(), o1.gethitbox().width(), o1.gethitbox().height());
+	Rect b = Rect(o2.getobj().x() + o2.gethitbox().x(), o2.getobj().y() + o2.gethitbox().y(), o2.gethitbox().width(), o2.gethitbox().height());
+
+	if (Rect::isCollide(a, b)) 
 		return true;
 	else 
 		return false;

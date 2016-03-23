@@ -27,13 +27,18 @@ GameMap::GameMap(int z) : GObject(Rect(0, 0, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT),
 	int prevroad = 0;
 	std::cout << "MAPINFO: [";
 	for (int i = 2; i < MAPLENGTH-2; i++) {
-		if (prevroad < 3)
+		if (prevroad < 3) {
 			mapinfo[i] = rand() % 2 ? ROADUP : ROADDOWN;
+			prevroad++;
+		}
 		else {
 			switch (rand() % 3) {
 				case 0: mapinfo[i] = ROADUP;
+					break;
 				case 1: mapinfo[i] = ROADDOWN;
+					break;
 				case 2: mapinfo[i] = GRASS;
+					break;
 			}
 			if(mapinfo[i]==GRASS) prevroad = 0;
 		}

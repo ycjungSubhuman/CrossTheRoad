@@ -1,6 +1,7 @@
 #include<Windows.h>
 #include<GL/GL.h>
 #include<GL/glut.h>
+#include<iostream>
 #include "stdlib.h"
 #include <time.h>
 #include "Game.h"
@@ -11,7 +12,6 @@ Game game;
 void init(void) {
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glShadeModel(GL_FLAT);
-	srand((unsigned int)time(NULL));
 	/* Initiallize Objects */
 }
 void drawView(void) {
@@ -26,13 +26,23 @@ void reshape(int w, int h) {
 	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluOrtho2D(0, GameMap::MAPHEIGHT, 0, GameMap::MAPHEIGHT);
+	gluOrtho2D(0, GameMap::COLUMN_WIDTH*GameMap::MAPLENGTH, 0, GameMap::MAPHEIGHT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
 void processUserInput(int key, int x, int y) {
-
 	/* process User Input*/
+	switch (key) {
+	case GLUT_KEY_UP:
+		game.getPlayer()->move(Player::UP);
+		break;
+	case GLUT_KEY_DOWN:
+		game.getPlayer()->move(Player::DOWN);
+		break;
+	case GLUT_KEY_RIGHT:
+		game.getPlayer()->move(Player::RIGHT);
+		break;
+	}
 }
 void genCar(int linenum) {
 
@@ -45,9 +55,14 @@ void updateScene(int value)
 
 
 	//check for player collisions
+	std::list<GObject*> tree_col = game.getScene()->getCollisionsOf(game.getPlayer(), "TREE");
+	if (!tree_col.empty()) {
+		std::cout << "treecollist : " << tree_col.size() << std::endl;
+		game.getPlayer()->move(game.getPlayer()->getPrevDir());
+	}
 
 	glutTimerFunc(20, updateScene, 0);
-	//glutPostRedisplay();
+	glutPostRedisplay();
 }
 
 int main(int argc, char** argv) {
