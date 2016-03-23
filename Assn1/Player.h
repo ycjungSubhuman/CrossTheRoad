@@ -9,7 +9,7 @@ public:
 	Player(int z=1);
 	enum Status { ALIVE, DEAD };
 	enum { PLAYERWIDTH=10, PLAYERHEIGHT=GameMap::MAPHEIGHT/GameMap::GRIDNUM };
-	enum Direction { RIGHT, UP, DOWN, LEFT };
+	enum Direction { NONE, RIGHT, UP, DOWN, LEFT };
 	virtual void draw();
 	virtual void frameAction();
 	void move(Direction dir);
@@ -20,6 +20,6 @@ public:
 	int incrGridnum(int num);
 private:
 	Status status;
-	Direction prevdir;
+	Direction move;
 
 };

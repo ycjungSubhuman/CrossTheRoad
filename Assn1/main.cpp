@@ -79,13 +79,22 @@ void processUserInput(int key, int x, int y) {
 void updateScene()
 {
 	/* Implement Scene Update */
+	//clear cars out of the map
 	game.getScene()->updateAll();
 	game.getScene()->clearOutOfRect(Rect(-20, GameMap::MAPHEIGHT+20, 1600, 1200));
 
-	//clear cars out of the map
-	
+	//check for death
+	std::list<GObject*> car_col = game.getScene()->getCollisionsOf(game.getPlayer(), "CAR");
+	if (!car_col.empty()) {
+		//game over
+		game.newPlayer();
+	}
 
-	//check for player collisions
+	//check for goal
+	if (game.getPlayer()->getLinenum() == GameMap::MAPLENGTH - 1) {
+		std::cout << "WIN" << std::endl;
+		exit(0);
+	}
 
 
 	//glutTimerFunc(20, updateScene, 0);
