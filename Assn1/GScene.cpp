@@ -17,6 +17,7 @@ void GScene::drawAll() {
 GObject* GScene::addObject(GObject* obj) {
 	bool isAdded = false;
 	//keeps z index ordered ascending
+	std::cout << "ADDING " << obj->getType() << " z=" << obj->getZ() << std::endl;
 	for (std::list<GObject*>::iterator i = objects.begin(); i != objects.end(); i++) {
 		if (obj->getZ() < (*i)->getZ()) {
 			isAdded = true;

@@ -1,5 +1,4 @@
 #include "Player.h"
-#include "Player.h"
 #include "GameMap.h"
 
 void drawcircle(double x, double y, double radius)
@@ -13,7 +12,7 @@ void drawcircle(double x, double y, double radius)
 	glEnd();
 }
 
-Player::Player() : GObject(Rect(GameMap::COLUMN_WIDTH/2 - PLAYERWIDTH/2, GameMap::MAPHEIGHT/2 - PLAYERHEIGHT/2, PLAYERWIDTH, PLAYERHEIGHT), Rect(0, 0, PLAYERWIDTH, PLAYERHEIGHT), 1, "PLAYER")
+Player::Player(int z) : GObject(Rect(GameMap::COLUMN_WIDTH/2 - PLAYERWIDTH/2, GameMap::MAPHEIGHT/2 - PLAYERHEIGHT/2, PLAYERWIDTH, PLAYERHEIGHT), Rect(0, 0, PLAYERWIDTH, PLAYERHEIGHT), z, "PLAYER")
 {
 	linenum = 0;
 	status = ALIVE;

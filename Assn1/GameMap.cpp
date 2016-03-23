@@ -25,6 +25,7 @@ GameMap::GameMap(int z) : GObject(Rect(0, 0, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT),
 	mapinfo[MAPLENGTH - 2] = rand()%2 ? ROADUP : ROADDOWN;
 	mapinfo[MAPLENGTH - 1] = GRASS; //the first and the last should be GRASS
 	int prevroad = 0;
+	std::cout << "MAPINFO: [";
 	for (int i = 2; i < MAPLENGTH-2; i++) {
 		if (prevroad < 3)
 			mapinfo[i] = rand() % 2 ? ROADUP : ROADDOWN;
@@ -36,7 +37,9 @@ GameMap::GameMap(int z) : GObject(Rect(0, 0, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT),
 			}
 			if(mapinfo[i]==GRASS) prevroad = 0;
 		}
+		std::cout << mapinfo[i] << ", ";
 	}
+	std::cout << "]" << std::endl;
 }
 void GameMap::draw() {
 	/* implement map drawing here */

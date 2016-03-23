@@ -9,6 +9,7 @@ GObject::GObject(const Rect& obj, const Rect& hitbox, int z, std::string type) {
 	this->obj = obj;
 	this->hitbox = hitbox;
 	this->type = type;
+	this->z = z;
 }
 void GObject::setPos(double x, double y) {
 	this->obj.setX(x);

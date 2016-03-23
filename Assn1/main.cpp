@@ -26,7 +26,7 @@ void reshape(int w, int h) {
 	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluOrtho2D(0, 1, 0, 1);
+	gluOrtho2D(0, GameMap::MAPHEIGHT, 0, GameMap::MAPHEIGHT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
@@ -47,7 +47,7 @@ void updateScene(int value)
 	//check for player collisions
 
 	glutTimerFunc(20, updateScene, 0);
-	glutPostRedisplay();
+	//glutPostRedisplay();
 }
 
 int main(int argc, char** argv) {

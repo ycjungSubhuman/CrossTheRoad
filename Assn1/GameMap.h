@@ -8,7 +8,7 @@ private:
 	for example, 
 		[GRASS, ROAD, ROAD, ROAD, GRASS, ROAD, ROAD, ROAD, ROAD]  */
 public:
-	enum { MAPLENGTH=20, COLUMN_WIDTH=20, MAPHEIGHT=50 };
+	enum { MAPLENGTH=20, COLUMN_WIDTH=20, MAPHEIGHT=80 };
 	enum Linetype { GRASS, ROADUP, ROADDOWN };
 	GameMap(int z=-1);
 	virtual void frameAction();
