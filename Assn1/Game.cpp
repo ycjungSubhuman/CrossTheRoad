@@ -62,6 +62,11 @@ GScene* Game::getScene() {
 Player* Game::getPlayer() {
 	return player;
 }
+void Game::newPlayer() {
+	getScene()->removeObject(player);
+	player = new Player();
+	getScene()->addObject(player);
+}
 Game::~Game() {
 	delete scene;
 }

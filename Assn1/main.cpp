@@ -73,8 +73,6 @@ void processUserInput(int key, int x, int y) {
 			break;
 		}	
 	}
-	std::cout << "PlayerPos : " << game.getPlayer()->getX() << ", " << game.getPlayer()->getY()<< std::endl;
-
 }
 
 
@@ -82,9 +80,10 @@ void updateScene()
 {
 	/* Implement Scene Update */
 	game.getScene()->updateAll();
-	//game.getScene()->clearOutOfRect(Rect(-20, GameMap::MAPHEIGHT+20, GameMap::MAPLENGTH*GameMap::COLUMN_WIDTH+40, GameMap::MAPHEIGHT+40));
+	game.getScene()->clearOutOfRect(Rect(-20, GameMap::MAPHEIGHT+20, 1600, 1200));
 
 	//clear cars out of the map
+	
 
 	//check for player collisions
 

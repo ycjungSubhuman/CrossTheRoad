@@ -19,6 +19,7 @@ void GScene::updateAll() {
 void GScene::clearOutOfRect(Rect& rect) {
 	for (std::list<GObject*>::iterator it = objects.begin(); it != objects.end();) {
 		if (!Rect::isCollide(rect, (*it)->getobj())) {
+			delete (*it);
 			it = objects.erase(it);
 		}
 		else {
@@ -42,6 +43,7 @@ GObject* GScene::addObject(GObject* obj) {
 	return obj;
 }
 GObject* GScene::removeObject(GObject* obj) {
+	delete obj;
 	objects.erase(std::find(objects.begin(), objects.end(), obj));
 	return obj;
 }

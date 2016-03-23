@@ -13,5 +13,6 @@ public:
 	GameMap* getMap();
 	GScene* getScene();
 	Player* getPlayer();
+	void newPlayer();
 	~Game();
 };
