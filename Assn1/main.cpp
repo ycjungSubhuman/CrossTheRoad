@@ -48,6 +48,8 @@ void reshape(int w, int h) {
 }
 void processUserInput(int key, int x, int y) {
 	/* process User Input*/
+	double goalloc;
+	double portion = 0.5;
 	switch (key) {
 	case GLUT_KEY_UP:
 		game.getPlayer()->move(Player::UP);
@@ -57,16 +59,11 @@ void processUserInput(int key, int x, int y) {
 		break;
 	case GLUT_KEY_RIGHT:
 		game.getPlayer()->move(Player::RIGHT);
-		camloc = game.getPlayer()->getX()-5;
-			
+		goalloc = (game.getPlayer()->getX() - 5);
+		camloc = goalloc * portion + camloc * (1 - portion);
 		std::cout << "player : " << camloc << std::endl;		
 		break;
 	}	
-	glLoadIdentity();
-	gluLookAt(
-		camloc, 0, 0,
-		camloc, 0, -1,
-		0, 1, 0);
 }
 
 
@@ -97,6 +94,11 @@ void updateScene(int val)
 		game.getPlayer()->undoMove();
 	}
 
+	glLoadIdentity();
+	gluLookAt(
+		camloc, 0, 0,
+		camloc, 0, -1,
+		0, 1, 0);
 
 	glutTimerFunc(20, updateScene, 0);
 	glutPostRedisplay();
