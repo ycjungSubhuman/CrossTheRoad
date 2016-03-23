@@ -27,7 +27,7 @@ void init(void) {
 	for (int i = 0; i < GameMap::MAPLENGTH; i++) {
 		int line = game.getMap()->getLine(i);
 		if (line == GameMap::ROADDOWN || line == GameMap::ROADUP) {
-			glutTimerFunc(Car::GENTIME+rand()%200, genCar, i);
+			glutTimerFunc(Car::GENTIME+rand()%1000, genCar, i);
 		}
 	}
 }
