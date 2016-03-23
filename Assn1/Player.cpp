@@ -68,7 +68,8 @@ void Player::draw() {
 	double playerY = (playerobj.top() + playerobj.bottom()) / 2;
 	double radius = (playerobj.right() - playerobj.left()) / 2;
 	switch (getPlayerStatus()) {
-	case Player::ALIVE:		
+	case Player::ALIVE:
+		/* show red circle */
 		drawcircle(playerX, playerY, radius);
 		break;
 	case Player::DEAD:
