@@ -42,7 +42,24 @@ void processUserInput(int key, int x, int y) {
 	case GLUT_KEY_RIGHT:
 		game.getPlayer()->move(Player::RIGHT);
 		break;
+	}	
+	std::list<GObject*> tree_col = game.getScene()->getCollisionsOf(game.getPlayer(), "TREE");
+	if (!tree_col.empty()) {
+		std::cout << "treecollist : " << tree_col.size() << std::endl;
+		switch (key){
+		case GLUT_KEY_UP:
+			game.getPlayer()->move(Player::DOWN);
+			break;
+		case GLUT_KEY_DOWN:
+			game.getPlayer()->move(Player::UP);
+			break;
+		case GLUT_KEY_RIGHT:
+			game.getPlayer()->move(Player::LEFT);
+			break;
+		}	
 	}
+	std::cout << "PlayerPos : " << game.getPlayer()->getX() << ", " << game.getPlayer()->getY()<< std::endl;
+
 }
 void genCar(int linenum) {
 
@@ -55,11 +72,7 @@ void updateScene(int value)
 
 
 	//check for player collisions
-	std::list<GObject*> tree_col = game.getScene()->getCollisionsOf(game.getPlayer(), "TREE");
-	if (!tree_col.empty()) {
-		std::cout << "treecollist : " << tree_col.size() << std::endl;
-		game.getPlayer()->move(game.getPlayer()->getPrevDir());
-	}
+
 
 	glutTimerFunc(20, updateScene, 0);
 	glutPostRedisplay();

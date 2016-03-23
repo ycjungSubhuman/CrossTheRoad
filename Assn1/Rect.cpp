@@ -1,4 +1,5 @@
 #include "Rect.h"
+#include <stdlib.h>
 
 Rect::Rect() {
 	this->_x = 0;
@@ -55,9 +56,6 @@ void Rect::setHeight(int height) {
 	this->_height = height;
 }
 bool Rect::isCollide(Rect& a, Rect& b) {
-	if (isPointInRect(a, b._x, b._y) || isPointInRect(a, b._x, b._y-b._height)
-		|| isPointInRect(a, b._x+b._width, b._y) || isPointInRect(a, b._x+b._width, b._y-b._height))
-		return true;
-	else
-		return false;
+	return abs((long long)(a._x - b._x)) * 2 < a._width + b._width &&
+		abs((long long)(a._y - b._y)) < a._height + b._height;
 }

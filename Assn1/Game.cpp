@@ -29,7 +29,7 @@ Game::Game()
 			for (int j = 0; j < GameMap::GRIDNUM; j++) {
 				if (tree_cnt > 2) break;
 				else {
-					if (rand() % 2) {
+					if (rand() % 3==0) {
 						pos = pos | 0x01;
 						tree_cnt++;
 					}

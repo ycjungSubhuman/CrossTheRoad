@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "GameMap.h"
+#include <list>
 
 void drawcircle(double x, double y, double radius)
 {
@@ -12,7 +13,7 @@ void drawcircle(double x, double y, double radius)
 	glEnd();
 }
 
-Player::Player(int z) : GObject(Rect(GameMap::COLUMN_WIDTH/2 - PLAYERWIDTH/2, PLAYERHEIGHT*(GameMap::GRIDNUM/2+1), PLAYERWIDTH, PLAYERHEIGHT), Rect(0, 0, PLAYERWIDTH, PLAYERHEIGHT), z, "PLAYER")
+Player::Player(int z) : GObject(Rect(GameMap::COLUMN_WIDTH/2 - PLAYERWIDTH/2, PLAYERHEIGHT*(GameMap::GRIDNUM/2+1), PLAYERWIDTH, PLAYERHEIGHT), Rect(PLAYERWIDTH*0.25, PLAYERWIDTH*0.25, PLAYERWIDTH*0.5, PLAYERHEIGHT*0.5), z, "PLAYER")
 {
 	linenum = 0;
 	gridnum = GameMap::GRIDNUM / 2;
@@ -24,27 +25,28 @@ void Player::move(Player::Direction dir) {
 		if (linenum < GameMap::MAPLENGTH - 1) {
 			setPos(getX() + GameMap::COLUMN_WIDTH, getY());
 			incrLInenum(1);
-			prevdir = RIGHT;
 		}
 		break;
 	case UP:
 		if (gridnum < GameMap::GRIDNUM - 1) {
 			setPos(getX(), getY() + PLAYERHEIGHT);
 			incrGridnum(1);
-			prevdir = UP;
 		}
 		break;
 	case DOWN:
 		if (gridnum > 0) {
 			setPos(getX(), getY() - PLAYERHEIGHT);
 			incrGridnum(-1);
-			prevdir = DOWN;
+		}
+		break;
+	case LEFT:
+		if (linenum > 0) {
+			setPos(getX() - GameMap::COLUMN_WIDTH, getY());
+			incrLInenum(-1);
 		}
 		break;
 	}
-}
-Player::Direction  Player::getPrevDir() {
-	return prevdir;
+	//check for tree collisions
 }
 Player::Status Player::getPlayerStatus() {
 	return status;
