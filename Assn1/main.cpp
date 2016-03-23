@@ -58,21 +58,6 @@ void processUserInput(int key, int x, int y) {
 		game.getPlayer()->move(Player::RIGHT);
 		break;
 	}	
-	std::list<GObject*> tree_col = game.getScene()->getCollisionsOf(game.getPlayer(), "TREE");
-	if (!tree_col.empty()) {
-		std::cout << "treecollist : " << tree_col.size() << std::endl;
-		switch (key){
-		case GLUT_KEY_UP:
-			game.getPlayer()->move(Player::DOWN);
-			break;
-		case GLUT_KEY_DOWN:
-			game.getPlayer()->move(Player::UP);
-			break;
-		case GLUT_KEY_RIGHT:
-			game.getPlayer()->move(Player::LEFT);
-			break;
-		}	
-	}
 }
 
 
@@ -94,6 +79,12 @@ void updateScene()
 	if (game.getPlayer()->getLinenum() == GameMap::MAPLENGTH - 1) {
 		std::cout << "WIN" << std::endl;
 		exit(0);
+	}
+
+	//check for tree collision
+	std::list<GObject*> tree_col = game.getScene()->getCollisionsOf(game.getPlayer(), "TREE");
+	if (!tree_col.empty()) {
+		game.getPlayer()->undoMove();
 	}
 
 

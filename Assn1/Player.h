@@ -13,6 +13,8 @@ public:
 	virtual void draw();
 	virtual void frameAction();
 	void move(Direction dir);
+	void undoMove();
+	Direction getMoveDir();
 	Status getPlayerStatus();
 	int getLinenum();
 	int getGridnum();
@@ -20,6 +22,6 @@ public:
 	int incrGridnum(int num);
 private:
 	Status status;
-	Direction move;
+	Direction movedir;
 
 };
