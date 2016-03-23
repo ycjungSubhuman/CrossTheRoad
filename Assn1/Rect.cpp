@@ -56,6 +56,6 @@ void Rect::setHeight(int height) {
 	this->_height = height;
 }
 bool Rect::isCollide(Rect& a, Rect& b) {
-	return abs((long long)(a._x - b._x)) * 2 < a._width + b._width &&
-		abs((long long)(a._y - b._y)) < a._height + b._height;
+	return abs((long long)(a._x - b._x)) * 2 <= a._width + b._width &&
+		abs((long long)(a._y - b._y))*2 <= a._height + b._height;
 }

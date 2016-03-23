@@ -53,6 +53,9 @@ Game::Game()
 	}
 	//Cars are placed with timer events.
 }
+GameMap* Game::getMap() {
+	return map;
+}
 GScene* Game::getScene() {
 	return scene;
 }

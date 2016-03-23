@@ -14,7 +14,7 @@ void DrawRoadLine(int Maplength, int Mapheight, int x)
 	}
 }
 
-GameMap::GameMap(int z) : GObject(Rect(0, 0, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT), Rect(0,0,0,0), z, "BACKGROUND")
+GameMap::GameMap(int z) : GObject(Rect(0, MAPHEIGHT, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT), Rect(0,0,0,0), z, "BACKGROUND")
 {
 	/* 맵 전체를 그리는 함수
 	 mapinfo의 배열에 따라서 다른 맵을 그려야 한다*/

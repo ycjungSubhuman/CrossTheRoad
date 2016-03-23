@@ -4,17 +4,17 @@
 Car::Car(int line, GameMap::Linetype linetype, int z) : GObject(Rect(0,0,CARWIDTH,CARHEIGHT), Rect(0,0,CARWIDTH,CARHEIGHT), z, "CAR")
 {
 	//set car speed
-	dis_y = 0.01;
+	dis_y = SPEED;
 
 	//set initial position
 	int x, y;
 	//start from up or down
-	if (linetype = GameMap::ROADDOWN) {
-		dis_y = -dis_y;//goes left
-		y = 0 - CARHEIGHT;
+	if (linetype == GameMap::ROADDOWN) {
+		dis_y = -dis_y;//goes down
+		y = GameMap::MAPHEIGHT + CARHEIGHT;
 	}
 	else {
-		y = GameMap::MAPHEIGHT;
+		y = 0;
 	}
 	//line number
 	x = line*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - CARWIDTH / 2;

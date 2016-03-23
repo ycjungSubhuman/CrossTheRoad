@@ -10,6 +10,7 @@ private:
 	Player* player;
 public:
 	Game();
+	GameMap* getMap();
 	GScene* getScene();
 	Player* getPlayer();
 	~Game();

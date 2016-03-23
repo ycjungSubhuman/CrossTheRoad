@@ -4,9 +4,9 @@
 
 class Car : public GObject {
 private:
-	enum { CARWIDTH=10, CARHEIGHT=30, GENTIME=1000, SPEED=5 };//SPEED: per frame GENTIME:millisec
 	double dis_y;
 public:
+	enum { CARWIDTH=5, CARHEIGHT=10, GENTIME=500, SPEED=2 };//SPEED: per frame GENTIME:millisec
 	Car(int line, GameMap::Linetype linetype, int z=1);
 	virtual void draw();
 	virtual void frameAction();

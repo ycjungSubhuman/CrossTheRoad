@@ -7,20 +7,28 @@ GScene::~GScene() {
 	std::for_each(objects.begin(), objects.end(), [](GObject* obj) {delete obj; });
 }
 void GScene::drawAll() {
-	//std::cout << "---------drawing------------"<<std::endl;
-	//std::cout << objects.size() << std::endl;
 	std::for_each(objects.begin(), objects.end(), [](GObject* obj) { 
-		//std::cout << obj->getType() << " : " << obj->getX() << " " << obj->getY() << std::endl;
 		obj->draw(); 
 	});
+}
+void GScene::updateAll() {
+	std::for_each(objects.begin(), objects.end(), [](GObject* obj) {
+		obj->frameAction();
+	});
+}
+void GScene::clearOutOfRect(Rect& rect) {
+	for (std::list<GObject*>::iterator it = objects.begin(); it != objects.end();) {
+		if (!Rect::isCollide(rect, (*it)->getobj())) {
+			it = objects.erase(it);
+		}
+		else {
+			it++;
+		}
+	}
 }
 GObject* GScene::addObject(GObject* obj) {
 	bool isAdded = false;
 	//keeps z index ordered ascending
-	std::cout << "ADDING " << obj->getType() << " z=" << obj->getZ() << std::endl;
-	std::cout << "HITBOX" << "(" << obj->getobj().x() + obj->gethitbox().x() << ", "
-		<< obj->getobj().y() + obj->gethitbox().y() << ", " << obj->gethitbox().width() << ", " << obj->gethitbox().height() << ")" << std::endl;
-
 	for (std::list<GObject*>::iterator i = objects.begin(); i != objects.end(); i++) {
 		if (obj->getZ() < (*i)->getZ()) {
 			isAdded = true;

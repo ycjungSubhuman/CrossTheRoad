@@ -8,6 +8,8 @@ private:
 public:
 	~GScene();
 	void drawAll();
+	void updateAll();
+	void clearOutOfRect(Rect& rect);
 	GObject* addObject(GObject* obj);
 	GObject* removeObject(GObject* obj);
 	std::list<GObject*> getCollisions(GObject* obj); //get all colliding GObjects of obj
