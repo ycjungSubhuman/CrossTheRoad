@@ -8,10 +8,11 @@ void DrawRoadLine(int Maplength, int Mapheight, int x)
 	double Linelength = Maplength / 20;
 	double Lineheight = Mapheight / 12;
 	glColor3f(1.0f, 1.0f, 1.0f);
-	for (int i = -1; i < 12; i + 4)
-	{
-		glRectf(x*Maplength - Linelength, i*Lineheight, x*Maplength + Linelength, (i + 2)*Lineheight);
-	}
+	
+	glRectf(x*Maplength - Linelength, 0, x*Maplength + Linelength, Lineheight);
+	glRectf(x*Maplength - Linelength, 3 * Lineheight, x*Maplength + Linelength, 5 * Lineheight);
+	glRectf(x*Maplength - Linelength, 7 * Lineheight, x*Maplength + Linelength, 9 * Lineheight);
+	glRectf(x*Maplength - Linelength, 11 * Lineheight, x*Maplength + Linelength, 112 * Lineheight);
 }
 
 GameMap::GameMap(int z) : GObject(Rect(0, MAPHEIGHT, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT), Rect(0,0,0,0), z, "BACKGROUND")
@@ -48,22 +49,19 @@ GameMap::GameMap(int z) : GObject(Rect(0, MAPHEIGHT, COLUMN_WIDTH*MAPLENGTH, MAP
 }
 void GameMap::draw() {
 	/* implement map drawing here */
-	int roadlength = 0;
-	glColor3f(0.0f, 0.0f, 0.0f);
+	glColor3f(51.0f/256.0f, 51.0f / 256.0f, 51.0f / 256.0f);
 	glRectf(0.0f, 0.0f, MAPLENGTH * COLUMN_WIDTH, MAPHEIGHT);
 	for (int i = 0; i < MAPLENGTH; i++)
 	{
-		switch (getLine(i))
+		if (getLine(i) == GRASS)
 		{
-		case GRASS:
-			glColor3f(0.0f, 1.0f, 0.0f);
+			glColor3f(83.0f/256.0f, 255.0f/256.0f, 26.0f/256.0f);
 			glRectf(i*COLUMN_WIDTH, 0.0f, (i + 1)*COLUMN_WIDTH, MAPHEIGHT);
-			roadlength = 0;
-			break;
-		case ROADUP:
-		case ROADDOWN:
-			if (roadlength != 0)
-				DrawRoadLine(MAPLENGTH, MAPHEIGHT, i);
+		}
+		else
+		{
+			if (getLine(i-1) != GRASS)
+				DrawRoadLine(COLUMN_WIDTH, MAPHEIGHT, i);
 		}		
 	}
 }
