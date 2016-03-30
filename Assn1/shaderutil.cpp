@@ -2,7 +2,7 @@
 #include <iostream>
 #include <stdlib.h>
 
-char* readShaderSource(const char* shaderFile) {
+static char* readShaderSource(const char* shaderFile) {
 	/* reads glsl file and returns string of the source code */
 	FILE* fp;
 	fopen_s(&fp, shaderFile, "r");
@@ -20,11 +20,27 @@ char* readShaderSource(const char* shaderFile) {
 	fclose(fp);
 	return buf;
 }
-void checkError(GLint status, const char* msg) {
+static void checkError(GLint status, const char* msg) {
 	if (status != GL_TRUE) {
 		std::cout << msg << std::endl;
+		system("PAUSE");
 		exit(EXIT_FAILURE);
 	}
+}
+static void validateShader(GLint shader) {
+	/* Checks if the shader is successfully compiled */
+	/* if not, print error messages */
+	//get compilation results
+	GLint status;
+	GLint logSize = 0;
+	GLchar* infoLog;
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
+	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logSize);
+	infoLog = (GLchar*)malloc(logSize*sizeof(GLchar));
+	glGetShaderInfoLog(shader, 1024, &logSize, infoLog);
+	printf("%s", infoLog);
+	free(infoLog);
+	checkError(status, "Failed to compile the vertex shader.");
 }
 void loadShadersFromFile(const char* vShaderFile, const char* fShaderFile) {
 	GLcharARB *vSource, *fSource;
@@ -32,11 +48,13 @@ void loadShadersFromFile(const char* vShaderFile, const char* fShaderFile) {
 	vSource = readShaderSource(vShaderFile);
 	if (vSource == NULL) {
 		std::cout << "failed to read default vertex shader" << std::endl;
+		system("PAUSE");
 		exit(EXIT_FAILURE);
 	}
 	fSource = readShaderSource(fShaderFile);
 	if (fSource == NULL) {
 		std::cout << "failed to read default fragment shader" << std::endl;
+		system("PAUSE");
 		exit(EXIT_FAILURE);
 	}
 
@@ -56,15 +74,13 @@ void loadShadersFromFile(const char* vShaderFile, const char* fShaderFile) {
 	glCompileShader(vShader);
 	glCompileShader(fShader);
 
-	GLint status;
-	glGetShaderiv(vShader, GL_COMPILE_STATUS, &status);
-	checkError(status, "Failed to compile the vertex shader.");
-	glGetShaderiv(fShader, GL_COMPILE_STATUS, &status);
-	checkError(status, "Failed to compile the fragment shader.");
+	validateShader(vShader);
+	validateShader(fShader); 
 
 	glLinkProgram(program);
 	glUseProgram(program);
 
+	GLint status;
 	glGetProgramiv(program, GL_LINK_STATUS, &status);
 	checkError(status, "Failed to link the shader program object.");
 	std::cout << "Successfully Loaded " << vShaderFile << " " << fShaderFile << std::endl;

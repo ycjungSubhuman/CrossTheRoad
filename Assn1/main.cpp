@@ -114,40 +114,14 @@ void updateScene(int val)
 	glutTimerFunc(20, updateScene, 0);
 	glutPostRedisplay();
 }
-bool initGL()
-{
-	PIXELFORMATDESCRIPTOR pfd;
-	HWND hwnd; HDC hdc; int pixelFormat;
-	memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR));
-	pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-	pfd.nVersion = 1;
-	pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-	pfd.iPixelType = PFD_TYPE_RGBA;
-	pfd.cColorBits = 32;
-	pfd.cDepthBits = 16;
-	pfd.iLayerType = PFD_MAIN_PLANE;
-
-	hwnd = CreateWindowEx(WS_EX_TOOLWINDOW, "STATIC", "glctx",
-		WS_POPUP | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
-		0, 0, 640, 480, 0, 0, GetModuleHandle(NULL), 0);
-	if (!hwnd) return false;
-	ShowWindow(hwnd, SW_HIDE);
-
-	hdc = GetDC(hwnd);
-	pixelFormat = ChoosePixelFormat(hdc, &pfd);
-	SetPixelFormat(hdc, pixelFormat, &pfd);
-	wglMakeCurrent(hdc, wglCreateContext(hdc));
-	return wglGetCurrentContext() != NULL;
-}
 
 int main(int argc, char** argv) {
 	glutInit(&argc, argv);
-	initGL();
-	glewInit();
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	glutInitWindowSize(1000, 500);
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow(argv[0]);
+	glewInit();
 	init();
 
 	glutDisplayFunc(drawView);
