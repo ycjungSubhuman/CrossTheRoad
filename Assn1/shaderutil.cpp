@@ -43,7 +43,8 @@ static void validateShader(GLint shader) {
 	checkError(status, "Failed to compile the vertex shader.");
 }
 void loadShadersFromFile(const char* vShaderFile, const char* fShaderFile) {
-	GLcharARB *vSource, *fSource;
+	/* loads shader from given file name. */
+	GLchar *vSource, *fSource;
 
 	vSource = readShaderSource(vShaderFile);
 	if (vSource == NULL) {
@@ -68,8 +69,8 @@ void loadShadersFromFile(const char* vShaderFile, const char* fShaderFile) {
 	glAttachShader(program, vShader);
 	glAttachShader(program, fShader);
 
-	glShaderSource(vShader, 1, (const GLcharARB**)&vSource, NULL);
-	glShaderSource(fShader, 1, (const GLcharARB**)&fSource, NULL);
+	glShaderSource(vShader, 1, (const GLchar**)&vSource, NULL);
+	glShaderSource(fShader, 1, (const GLchar**)&fSource, NULL);
 
 	glCompileShader(vShader);
 	glCompileShader(fShader);
