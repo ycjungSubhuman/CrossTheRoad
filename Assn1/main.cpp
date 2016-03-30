@@ -1,11 +1,13 @@
 #include<Windows.h>
 #include<GL/GL.h>
 #include<GL/glut.h>
+#include<GL/glew.h>
 #include<iostream>
 #include "stdlib.h"
 #include <time.h>
 #include "Game.h"
 #include "Car.h"
+#include "shaderutil.h"
 
 Game game;
 double camloc = 0.0f;
@@ -20,6 +22,15 @@ void genCar(int linenum) {
 	glutTimerFunc(Car::GENTIME, genCar, linenum);
 }
 void init(void) {
+	/* load default shaders */
+	char vShaderFile[] = "VertexShader1.glsl";
+	char fShaderFile[] = "FragmentShader1.glsl";
+	char *vSource, *fSource;
+
+	vSource = readShaderSource(vShaderFile);
+	fSource = readShaderSource(fShaderFile);
+
+	/* init screen */
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glShadeModel(GL_FLAT);
 

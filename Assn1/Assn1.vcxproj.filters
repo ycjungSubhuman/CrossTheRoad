@@ -16,6 +16,12 @@
     <Filter Include="헤더 파일\Obj">
       <UniqueIdentifier>{a5241221-ddd9-4d7c-ad35-75658de6e3db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="리소스 파일\VertexShader">
+      <UniqueIdentifier>{67beb209-5dc5-47bf-a25e-0537fcddd686}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="리소스 파일\FragShader">
+      <UniqueIdentifier>{042e6041-a218-4d2c-a8e2-a689c9a70ab0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -71,5 +77,10 @@
     <ClInclude Include="Game.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="VertexShader1.glsl">
+      <Filter>리소스 파일\VertexShader</Filter>
+    </None>
   </ItemGroup>
 </Project>

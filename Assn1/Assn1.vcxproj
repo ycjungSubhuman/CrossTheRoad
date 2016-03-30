@@ -138,6 +138,9 @@
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Tree.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="VertexShader1.glsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
