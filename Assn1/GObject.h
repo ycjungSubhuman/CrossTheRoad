@@ -7,13 +7,16 @@
 class GObject {
 protected:
 	void setRect(const Rect& rect);
-	void onTrasverseDo(std::function<void(GObject*)> fun);
+	void onTrasverseDo(const std::function<void(GObject*)>& fun);
 private:
 	int z;
 	Rect obj;
 	Rect hitbox;
+	double rotx, roty;
+	double rotation;
 	std::string type;
 	std::list<GObject*> children;
+	Rect getGlobalobj();
 public:
 	GObject(const Rect& obj, const Rect& hitbox, int z=0, std::string type="OBJECT");
 	void setPos(double x, double y);

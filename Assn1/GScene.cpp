@@ -1,31 +1,36 @@
 #include "GScene.h"
 #include <algorithm>
 #include <iostream>
+#include <functional>
 
-GScene::~GScene() {
-	//delete all objects in the scene
-	std::for_each(objects.begin(), objects.end(), [](GObject* obj) {delete obj; });
-}
-void GScene::drawAll() {
-	std::for_each(objects.begin(), objects.end(), [](GObject* obj) { 
-		obj->draw(); 
+
+void GScene::drawScene() {
+	/* Draws all elements in the scene. trasversing down to the leaf
+	in the left->right BFS trasversing*/
+	onTrasverseDo([](GObject* obj)->void { 
+		obj->draw();
 	});
 }
-void GScene::updateAll() {
-	std::for_each(objects.begin(), objects.end(), [](GObject* obj) {
+void GScene::updateScene() {
+	/* Updates all elements in the scene. trasversing down to the leaf
+	in the left->right BFS trasversing*/
+	onTrasverseDo([](GObject* obj)->void {
 		obj->frameAction();
 	});
 }
 void GScene::clearOutOfRect(Rect& rect) {
-	for (std::list<GObject*>::iterator it = objects.begin(); it != objects.end();) {
-		if (!Rect::isCollide(rect, (*it)->getobj())) {
-			delete (*it);
-			it = objects.erase(it);
-		}
-		else {
-			it++;
-		}
-	}
+	/* Checks if there are nodes outside of specified Rect.
+	If there are, delete them from the Scene Graph */
+	onTrasverseDo([&rect](GObject* obj)->void {
+		//callbacks for all the childnodes
+		std::function<void(GObject*)> fun = [&rect](GObject* obj)->void {
+			if (!Rect::isCollide(obj->getobj(), rect)) {
+				//if the object is not colliding with the given rect
+
+			}
+		};
+
+	});
 }
 GObject* GScene::addObject(GObject* obj) {
 	/* Adds a GObject to the root of the Scene Graph */
@@ -70,4 +75,8 @@ std::list<GObject*> GScene::getCollisionsOf(GObject* obj, std::string type) {
 			result.push_front(obj);
 	}
 	return result;
+}
+GScene::~GScene() {
+	//delete all objects in the scene
+	onTrasverseDo([](GObject* obj)->void { delete obj; });
 }
