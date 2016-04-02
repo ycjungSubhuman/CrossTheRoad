@@ -5,7 +5,7 @@
 static char* readShaderSource(const char* shaderFile) {
 	/* reads glsl file and returns string of the source code */
 	FILE* fp;
-	fopen_s(&fp, shaderFile, "r");
+	fopen_s(&fp, shaderFile, "rb");
 	char* buf;
 	long size;
 
