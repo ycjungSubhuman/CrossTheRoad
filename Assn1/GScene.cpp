@@ -28,6 +28,7 @@ void GScene::clearOutOfRect(Rect& rect) {
 	}
 }
 GObject* GScene::addObject(GObject* obj) {
+	/* Adds a GObject to the root of the Scene Graph */
 	bool isAdded = false;
 	//keeps z index ordered ascending
 	for (std::list<GObject*>::iterator i = objects.begin(); i != objects.end(); i++) {
@@ -43,11 +44,14 @@ GObject* GScene::addObject(GObject* obj) {
 	return obj;
 }
 GObject* GScene::removeObject(GObject* obj) {
+	/* remove specified GObject from the root of Scene Graph */
 	delete obj;
 	objects.erase(std::find(objects.begin(), objects.end(), obj));
 	return obj;
 }
 std::list<GObject*> GScene::getCollisions(GObject* obj) {
+	/* Trasverse Down to the Scene graph using left-side BFS. 
+	If found any collisions, returns the list of objects*/
 	std::list<GObject*> result;
 	//check for collision.
 	for (std::list<GObject*>::iterator iter = objects.begin(); iter != objects.end(); iter++) {
@@ -57,6 +61,8 @@ std::list<GObject*> GScene::getCollisions(GObject* obj) {
 	return result;
 }
 std::list<GObject*> GScene::getCollisionsOf(GObject* obj, std::string type) {
+	/* The same method as getCollisions. The only difference if that
+	it returns only the GObjects of certain types */
 	std::list<GObject*> result;
 	//check for collision.
 	for (std::list<GObject*>::iterator iter = objects.begin(); iter != objects.end(); iter++) {

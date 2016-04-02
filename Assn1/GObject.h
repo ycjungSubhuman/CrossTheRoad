@@ -1,16 +1,19 @@
 #pragma once
 #include "Rect.h"
 #include <string>
+#include <list>
 #include <functional>
 
 class GObject {
+protected:
+	void setRect(const Rect& rect);
+	void onTrasverseDo(std::function<void(GObject*)> fun);
 private:
 	int z;
 	Rect obj;
 	Rect hitbox;
 	std::string type;
-protected:
-	void setRect(const Rect& rect);
+	std::list<GObject*> children;
 public:
 	GObject(const Rect& obj, const Rect& hitbox, int z=0, std::string type="OBJECT");
 	void setPos(double x, double y);
@@ -22,5 +25,10 @@ public:
 	virtual void draw()=0;
 	virtual void frameAction()=0;
 	std::string getType();
+
 	static bool isCollide(GObject&, GObject&);
+	GObject* addObject(GObject* obj);
+	GObject* removeObject(GObject* obj);
+
+	~GObject();
 };
