@@ -140,6 +140,10 @@
     <ClInclude Include="shaderutil.h" />
     <ClInclude Include="Tree.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="FragmentShader1.glsl" />
+    <None Include="VertexShader1.glsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
