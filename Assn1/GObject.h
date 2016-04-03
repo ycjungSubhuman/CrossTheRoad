@@ -10,13 +10,14 @@ protected:
 	void onTrasverseDo(const std::function<void(GObject*)>& fun);
 	Rect getGlobalobj();
 private:
-	int z;
-	Rect obj;
-	Rect hitbox;
-	double rotx, roty;
-	double rotation;
-	std::string type;
-	std::list<GObject*> children;
+	int z; //z-index
+	GObject* parent; //pointer to the parent node
+	Rect obj; //local boundbox(relative to parent's position)
+	Rect hitbox; //collision box
+	double rotx, roty; //position of rotation center (reletive to obj)
+	double rotation; //amount of rotation
+	std::string type; //type of this object(for RTTS with convenience)
+	std::list<GObject*> children; //list of children
 public:
 	GObject(const Rect& obj, const Rect& hitbox, int z=0, std::string type="OBJECT");
 	void setPos(double x, double y);

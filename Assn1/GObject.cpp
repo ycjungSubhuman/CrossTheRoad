@@ -3,7 +3,18 @@
 #include <string>
 
 void GObject::setRect(const Rect& rect) {
+	/* sets the obj boundbox */
 	this->obj = rect;
+}
+void GObject::onTrasverseDo(const std::function<void(GObject*)>& fun) {
+	/* for all the child nodes, call fun */
+	for (std::list<GObject*>::iterator it = children.begin(); it != children.end(); it++) {
+		fun(*it);
+	}
+}
+Rect GObject::getGlobalobj() {
+	/* get global bounding box */
+	return gloobj;
 }
 GObject::GObject(const Rect& obj, const Rect& hitbox, int z, std::string type) {
 	this->obj = obj;
@@ -41,4 +52,42 @@ bool GObject::isCollide(GObject& o1, GObject& o2) {
 		return true;
 	else 
 		return false;
+}
+GObject* GObject::addObject(GObject* obj) {
+	/* adds a node to the child of this node
+	keeping the order of z-index left to right */
+
+	bool isAdded = false;
+	for (std::list<GObject*>::iterator i = children.begin(); i != children.end(); i++) {
+		if (obj->getZ() < (*i)->getZ()) {
+			isAdded = true;
+			children.insert(i, obj);
+			break;
+		}
+	}
+	if (!isAdded) {
+		//the end of this list
+		children.push_back(obj);
+	}
+	return obj;
+}
+GObject* GObject::removeObject(GObject* obj) {
+	/* remove specified GObject from the root of Scene Graph */
+	delete obj;
+	children.erase(std::find(children.begin(), children.end(), obj));
+	return obj;
+}
+
+GObject::~GObject() {
+	//delete all the children.
+	if (children.empty()) { //Leaf Node
+		//Nothing to do. just return
+		return;
+	}
+	else {
+		//delete objects iteratively(recursive call actually)
+		for (std::list<GObject*>::iterator it = children.begin(); it != children.end(); it++) {
+			delete (*it);
+		}
+	}
 }
