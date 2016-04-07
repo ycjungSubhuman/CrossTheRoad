@@ -4,7 +4,6 @@
 
 class GScene : public GObject{
 public:
-	~GScene();
 	void drawScene();
 	void updateScene();
 	void clearOutOfRect(Rect& rect);

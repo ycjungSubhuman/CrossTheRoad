@@ -83,6 +83,15 @@
     <ClInclude Include="shaderutil.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="mat.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="vec.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Angel.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="FragmentShader1.glsl">

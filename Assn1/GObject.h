@@ -3,12 +3,13 @@
 #include <string>
 #include <list>
 #include <functional>
+#include "mat.h"
 
 class GObject {
 protected:
 	void setRect(const Rect& rect);
-	void onTrasverseDo(const std::function<void(GObject*)>& fun);
-	Rect getGlobalobj();
+	void onTraverseDraw(mat4 stack);
+	void onTraverseUpdate();
 private:
 	int z; //z-index
 	GObject* parent; //pointer to the parent node
@@ -33,6 +34,7 @@ public:
 	static bool isCollide(GObject&, GObject&);
 	GObject* addObject(GObject* obj);
 	GObject* removeObject(GObject* obj);
+	GObject* getParent();
 
 	~GObject();
 };

@@ -22,37 +22,13 @@ void GScene::clearOutOfRect(Rect& rect) {
 	/* Checks if there are nodes outside of specified Rect.
 	If there are, delete them from the Scene Graph */
 	onTrasverseDo([&rect](GObject* obj)->void {
-		//callbacks for all the childnodes
-		std::function<void(GObject*)> fun = [&rect](GObject* obj)->void {
-			if (!Rect::isCollide(obj->getobj(), rect)) {
-				//if the object is not colliding with the given rect
-
-			}
-		};
-
-	});
-}
-GObject* GScene::addObject(GObject* obj) {
-	/* Adds a GObject to the root of the Scene Graph */
-	bool isAdded = false;
-	//keeps z index ordered ascending
-	for (std::list<GObject*>::iterator i = objects.begin(); i != objects.end(); i++) {
-		if (obj->getZ() < (*i)->getZ()) {
-			isAdded = true;
-			objects.insert(i, obj);
-			break;
+		//callbacks for all the 1st child nodes
+		if (!Rect::isCollide(obj->getobj(), rect)) {
+			//if the object is not colliding with the given rect
+			//remove this node from this tree 
+			obj->getParent()->removeObject(obj);
 		}
-	}
-	if (!isAdded) {
-		objects.push_back(obj);
-	}
-	return obj;
-}
-GObject* GScene::removeObject(GObject* obj) {
-	/* remove specified GObject from the root of Scene Graph */
-	delete obj;
-	objects.erase(std::find(objects.begin(), objects.end(), obj));
-	return obj;
+	});
 }
 std::list<GObject*> GScene::getCollisions(GObject* obj) {
 	/* Trasverse Down to the Scene graph using left-side BFS. 
@@ -75,8 +51,4 @@ std::list<GObject*> GScene::getCollisionsOf(GObject* obj, std::string type) {
 			result.push_front(obj);
 	}
 	return result;
-}
-GScene::~GScene() {
-	//delete all objects in the scene
-	onTrasverseDo([](GObject* obj)->void { delete obj; });
 }

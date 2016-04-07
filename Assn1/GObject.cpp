@@ -6,15 +6,16 @@ void GObject::setRect(const Rect& rect) {
 	/* sets the obj boundbox */
 	this->obj = rect;
 }
-void GObject::onTrasverseDo(const std::function<void(GObject*)>& fun) {
-	/* for all the child nodes, call fun */
+void GObject::onTraverseDraw(mat4 stack) {
+	std::list<GObject*>::iterator nonnegstart; //the children with the first non-negative z-index
 	for (std::list<GObject*>::iterator it = children.begin(); it != children.end(); it++) {
-		fun(*it);
+
 	}
-}
-Rect GObject::getGlobalobj() {
-	/* get global bounding box */
-	return gloobj;
+	//minus indexes
+
+	//this
+
+	//next indexes
 }
 GObject::GObject(const Rect& obj, const Rect& hitbox, int z, std::string type) {
 	this->obj = obj;
@@ -76,6 +77,9 @@ GObject* GObject::removeObject(GObject* obj) {
 	delete obj;
 	children.erase(std::find(children.begin(), children.end(), obj));
 	return obj;
+}
+GObject* GObject::getParent() {
+	return parent;
 }
 
 GObject::~GObject() {
