@@ -8,10 +8,10 @@
 class GObject {
 protected:
 	void setRect(const Rect& rect);
-	void onTraverseDraw(mat4 stack);
+	void onTraverseDraw(mat4 MVMatrix);
 	void onTraverseUpdate();
 private:
-	int z; //z-index
+	int z; //z-index(relative to the parent)
 	GObject* parent; //pointer to the parent node
 	Rect obj; //local boundbox(relative to parent's position)
 	Rect hitbox; //collision box
@@ -27,7 +27,7 @@ public:
 	double getY();
 	Rect getobj();
 	Rect gethitbox();
-	virtual void draw()=0;
+	virtual void draw(mat4 MVMatrix)=0;
 	virtual void frameAction()=0;
 	std::string getType();
 

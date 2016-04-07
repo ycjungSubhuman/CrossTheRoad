@@ -6,16 +6,43 @@ void GObject::setRect(const Rect& rect) {
 	/* sets the obj boundbox */
 	this->obj = rect;
 }
-void GObject::onTraverseDraw(mat4 stack) {
-	std::list<GObject*>::iterator nonnegstart; //the children with the first non-negative z-index
-	for (std::list<GObject*>::iterator it = children.begin(); it != children.end(); it++) {
-
+void GObject::onTraverseDraw(mat4 MVMatrix) {
+	std::list<GObject*>::iterator nonnegstart = children.begin(); //the children with the first non-negative z-index
+	//negative indices
+	if ((*nonnegstart)->getZ() < 0) {
+		for (std::list<GObject*>::iterator it = children.begin(); it != children.end(); it++) {
+			if ((*it)->getZ() >= 0) {
+				nonnegstart = it;
+				break;
+			}
+			else {
+				(*it)->onTraverseDraw(MVMatrix);
+			}
+		}
 	}
-	//minus indexes
+	//draw this node
+	mat4 MVMatrixLocal = MVMatrix;
 
-	//this
+	/* ------------------------------- */
+	/* implement stack computation here(according to current obj, rotation)*/
+	/* ------------------------------- */
 
-	//next indexes
+	draw(MVMatrixLocal);
+
+	//positive indexes
+	if (nonnegstart != children.end()) {
+		for (std::list<GObject*>::iterator it = nonnegstart; it != children.end(); it++) {
+			(*it)->onTraverseDraw(MVMatrix);
+		}
+	}
+}
+void GObject::onTraverseUpdate() {
+	//preorder traverse
+	frameAction();//do this node's update
+	//update children
+	for (std::list<GObject*>::iterator it = children.begin(); it != children.end(); it++) {
+		(*it)->onTraverseUpdate();
+	}
 }
 GObject::GObject(const Rect& obj, const Rect& hitbox, int z, std::string type) {
 	this->obj = obj;

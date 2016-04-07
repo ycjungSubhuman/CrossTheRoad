@@ -20,10 +20,8 @@ Car::Car(int line, GameMap::Linetype linetype, int z) : GObject(Rect(0,0,CARWIDT
 	x = line*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - CARWIDTH / 2;
 	setRect(Rect(x, y, CARWIDTH, CARHEIGHT));
 }
-void Car::draw() {
-	glColor3f(161.0f / 256.0f, 153.0f / 256.0f, 153.0f / 256.0f);
-	Rect carobj = getobj();
-	glRectf(carobj.left(), carobj.bottom(), carobj.right(), carobj.top());
+void Car::draw(mat4 MVMatrix) {
+
 }
 void Car::frameAction() {
 	//move
