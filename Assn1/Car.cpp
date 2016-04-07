@@ -21,7 +21,9 @@ Car::Car(int line, GameMap::Linetype linetype, int z) : GObject(Rect(0,0,CARWIDT
 	setRect(Rect(x, y, CARWIDTH, CARHEIGHT));
 }
 void Car::draw(mat4 MVMatrix) {
-
+	/* ------------------------------------- */
+	/* implement drawing using MVMatrix here */
+	/* ------------------------------------- */
 }
 void Car::frameAction() {
 	//move

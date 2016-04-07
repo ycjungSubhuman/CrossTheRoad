@@ -1,6 +1,7 @@
 #pragma once
 #include "GObject.h"
 #include "GameMap.h"
+#include "mat.h"
 
 class Player : public GObject {
 private:
@@ -10,7 +11,7 @@ public:
 	enum Status { ALIVE, DEAD };
 	enum { PLAYERWIDTH=10, PLAYERHEIGHT=GameMap::MAPHEIGHT/GameMap::GRIDNUM };
 	enum Direction { NONE, RIGHT, UP, DOWN, LEFT };
-	virtual void draw();
+	virtual void draw(mat4 MVMatrix);
 	virtual void frameAction();
 	void move(Direction dir);
 	void undoMove();

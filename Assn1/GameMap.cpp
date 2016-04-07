@@ -47,9 +47,12 @@ GameMap::GameMap(int z) : GObject(Rect(0, MAPHEIGHT, COLUMN_WIDTH*MAPLENGTH, MAP
 	}
 	std::cout << "]" << std::endl;
 }
-void GameMap::draw() {
-	/* implement map drawing here */
-	glColor3f(51.0f/256.0f, 51.0f / 256.0f, 51.0f / 256.0f);
+void GameMap::draw(mat4 MVMatrix) {
+	/* ------------------------------------- */
+	/* implement drawing using MVMatrix here */
+	/* ------------------------------------- */
+
+	/* glColor3f(51.0f/256.0f, 51.0f / 256.0f, 51.0f / 256.0f);
 	glRectf(0.0f, 0.0f, MAPLENGTH * COLUMN_WIDTH, MAPHEIGHT);
 	for (int i = 0; i < MAPLENGTH; i++)
 	{
@@ -63,7 +66,7 @@ void GameMap::draw() {
 			if (getLine(i-1) != GRASS)
 				DrawRoadLine(COLUMN_WIDTH, MAPHEIGHT, i);
 		}		
-	}
+	} */
 }
 GameMap::Linetype GameMap::getLine(int i) {
 	try {
