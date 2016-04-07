@@ -62,20 +62,25 @@ Player::Status Player::getPlayerStatus() {
 	return status;
 }
 void Player::draw() {
-	glColor3f(1.0f, 0.0f, 0.0f);
+	/* draw player pelvis... or just draw nothing (if you have implemented 
+	a pelvis node) */
+
+	/* ----------------------------- */
+	/* Implement player drawing here */
+	/* ----------------------------- */
+
+	/* glColor3f(1.0f, 0.0f, 0.0f);
 	Rect playerobj = getobj();
 	double playerX = (playerobj.left() + playerobj.right()) / 2;
 	double playerY = (playerobj.top() + playerobj.bottom()) / 2;
 	double radius = (playerobj.right() - playerobj.left()) / 2;
 	switch (getPlayerStatus()) {
 	case Player::ALIVE:
-		/* show red circle */
 		drawcircle(playerX, playerY, radius);
 		break;
 	case Player::DEAD:
-		/* show blank space */
 		break;
-	}
+	} */
 }
 void Player::frameAction() {
 	/*the controls will be processed in keyboard event callback.

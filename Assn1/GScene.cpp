@@ -17,6 +17,10 @@ void GScene::updateScene() {
 	/* Updates all elements in the scene. */
 	onTraverseUpdate();
 }
+void GScene::setCamDest(double x, double y) {
+	camdest_x = x;
+	camdest_y = y;
+}
 void GScene::draw(mat4 MVMatrix) {
 	// nothing to draw
 }
