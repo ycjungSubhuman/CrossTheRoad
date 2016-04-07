@@ -3,7 +3,7 @@
 #include <list>
 #include <iostream>
 
-void drawcircle(double x, double y, double radius)
+/*void drawcircle(double x, double y, double radius)
 {
 	glBegin(GL_TRIANGLE_FAN);
 	glVertex2f(x, y);
@@ -12,7 +12,7 @@ void drawcircle(double x, double y, double radius)
 		glVertex2f(x + sin(angle)*radius, y + cos(angle)*radius);
 	}
 	glEnd();
-}
+}*/
 
 Player::Player(int z) : GObject(Rect(GameMap::COLUMN_WIDTH/2 - PLAYERWIDTH/2, PLAYERHEIGHT*(GameMap::GRIDNUM/2+1), PLAYERWIDTH, PLAYERHEIGHT), Rect(PLAYERWIDTH*0.25, -PLAYERWIDTH*0.25, PLAYERWIDTH*0.5, PLAYERHEIGHT*0.5), z, "PLAYER")
 {
@@ -20,6 +20,19 @@ Player::Player(int z) : GObject(Rect(GameMap::COLUMN_WIDTH/2 - PLAYERWIDTH/2, PL
 	gridnum = GameMap::GRIDNUM / 2;
 	status = ALIVE;
 	movedir = NONE;
+
+	/* making doll */
+	//x, y, a, b, rotcnt, rot, r, g, b
+	//x, y, width, height, rotcnt, rot
+	pelvis = new OEllipse(0, 0, PELVISSIZE, PELVISSIZE, 4, 0, 255, 0, 0);
+	leg_left_upper = new ORect((double)PELVISSIZE / 2, -(double)PELVISSIZE / 2, LEGWIDTH, LEGHEIGHT, 1, -0.2);
+	leg_left_lower = new ORect(0, -LEGHEIGHT, LEGWIDTH, LEGHEIGHT, 1, 0);
+	foot_left = new ORect(0, -LEGHEIGHT, FOOTWIDTH, FOOTHEIGHT, 0, 0);
+	leg_right_upper = new ORect((double)PELVISSIZE / 2, -(double)PELVISSIZE / 2, LEGWIDTH, LEGHEIGHT, 1, 0.2);
+	leg_right_lower = new ORect(0, -LEGHEIGHT, LEGWIDTH, LEGHEIGHT, 1, 0);
+	foot_right = new ORect(0, -LEGHEIGHT, FOOTWIDTH, FOOTHEIGHT, 0, 0);
+
+	
 }
 void Player::move(Player::Direction dir) {
 	switch (dir) {

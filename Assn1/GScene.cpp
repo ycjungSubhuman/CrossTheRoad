@@ -3,7 +3,10 @@
 #include <iostream>
 #include <functional>
 
-
+GScene::GScene() {
+	cam_x = 0;
+	cam_y = 0;
+}
 void GScene::drawScene() {
 	/* Draws all elements in the scene */
 
@@ -16,10 +19,6 @@ void GScene::drawScene() {
 void GScene::updateScene() {
 	/* Updates all elements in the scene. */
 	onTraverseUpdate();
-}
-void GScene::setCamDest(double x, double y) {
-	camdest_x = x;
-	camdest_y = y;
 }
 void GScene::draw(mat4 MVMatrix) {
 	// nothing to draw
