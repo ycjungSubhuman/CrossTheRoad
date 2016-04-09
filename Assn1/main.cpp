@@ -55,17 +55,17 @@ void init(void) {
 
 	//Set projection matrix by ortho2D
 	mat4 projection = mat4();
-	//projection = Ortho2D(0, GameMap::MAPHEIGHT * 2, 0, GameMap::MAPHEIGHT);
+	projection = Ortho2D(0, GameMap::MAPHEIGHT * 2, 0, GameMap::MAPHEIGHT);
 	glUniformMatrix4fv(u_Projection, 1, false, projection);
 }
 void drawView(void) {
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	/* Implement view function*/
-	//game.getScene()->drawScene();
-	ORect rec = ORect(0.0, 0.0, 1.0, 1.0, ORect::TOPLEFT, 0.0, "");
+	game.getScene()->drawScene();
+	/*ORect rec = ORect(0.0, 0.0, 1.0, 1.0, ORect::TOPLEFT, 0.0, "");
 	mat4 mats = mat4();
-	rec.draw(mats);
+	rec.draw(mats);*/
 
 	glutSwapBuffers();
 }
