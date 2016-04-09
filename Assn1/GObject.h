@@ -10,7 +10,6 @@ protected:
 	void setRect(const Rect& rect);
 	void onTraverseDraw(mat4 MVMatrix);
 	void onTraverseUpdate();
-	std::list<GObject*>& getChildren();
 private:
 	int z; //z-index(relative to the parent)
 	GObject* parent; //pointer to the parent node
@@ -34,6 +33,7 @@ public:
 	virtual void frameAction()=0;
 	std::string getType();
 	GObject* getChildOfType(std::string type);
+	std::list<GObject*> getChildren();
 
 	static bool isCollide(GObject&, GObject&);
 	GObject* addObject(GObject* obj, int z=0);

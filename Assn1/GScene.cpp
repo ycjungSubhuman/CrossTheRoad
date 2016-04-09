@@ -2,6 +2,7 @@
 #include "mat.h"
 #include <algorithm>
 #include <iostream>
+#include <queue>
 
 float camloc;
 float PlayerX;
@@ -33,5 +34,23 @@ void GScene::frameAction() {
 	camloc = 0.1 * cam_dest + 0.9 * camloc;
 }
 std::list<GObject*> GScene::getCollisionsOf(GObject* obj, std::string type) {
-	std::list<GObject*>& current_children = getChildren();
+	/* I'll go with iterative traverse because returning copy of list in recursion is possibly too
+	expensive. Traverse using BFS */
+	std::queue<GObject*> travq;
+	std::list<GObject*> current_children;
+	std::list<GObject*> result;
+
+	travq.push(this);
+
+	while(!travq.empty()){
+		current_children = travq.front()->getChildren();
+		travq.pop();
+		for (std::list<GObject*>::iterator it = current_children.begin(); it != current_children.end(); it++) {
+			if (GObject::isCollide(*(*it), *obj) && (*it)->getType() == type) {
+				result.push_front((*it));
+			}
+			travq.push((*it));
+		}
+	}
+	return result;
 }
