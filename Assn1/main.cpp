@@ -1,6 +1,6 @@
-#include<Windows.h>
-#include<GL/glew.h>
-#include<GL/glut.h>
+#include <Windows.h>
+#include <GL/glew.h>
+#include <GL/glut.h>
 #include "stdlib.h"
 #include <time.h>
 #include "Game.h"
@@ -8,6 +8,9 @@
 #include "LogOnWater.h"
 #include<iostream>
 #include "shaderutil.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 Game game;
 double camloc = 0.0f;
@@ -54,18 +57,20 @@ void init(void) {
 	}
 
 	//Set projection matrix by ortho2D
-	mat4 projection = mat4();
-	projection = Ortho2D(0, GameMap::MAPHEIGHT * 2, 0, GameMap::MAPHEIGHT);
-	glUniformMatrix4fv(u_Projection, 1, false, projection);
+	glm::mat4 m_projMat;
+	//projection = Ortho2D(0, GameMap::MAPHEIGHT * 2, 0, GameMap::MAPHEIGHT);
+	//glUniformMatrix4fv(u_Projection, 1, false, projection);
+	m_projMat = glm::ortho(0.0f, 180.0f, 90.0f, 0.0f, -1.0f, 1.0f);
+	glUniformMatrix4fv(u_Projection, 1, GL_FALSE, glm::value_ptr(m_projMat));
 }
 void drawView(void) {
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	/* Implement view function*/
-	game.getScene()->drawScene();
-	/*ORect rec = ORect(0.0, 0.0, 1.0, 1.0, ORect::TOPLEFT, 0.0, "");
+	//game.getScene()->drawScene();
+	ORect rec = ORect(0.0, 0.0, 1.0, 1.0, ORect::TOPLEFT, 0.0, "");
 	mat4 mats = mat4();
-	rec.draw(mats);*/
+	rec.draw(mats);
 
 	glutSwapBuffers();
 }
@@ -167,6 +172,7 @@ int main(int argc, char** argv) {
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow(argv[0]);
 	glewInit();
+	glDisable(GL_CULL_FACE);
 	init();
 
 	glutDisplayFunc(drawView);

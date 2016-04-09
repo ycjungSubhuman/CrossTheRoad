@@ -17,7 +17,7 @@ void GScene::drawScene() {
 
 	mat4 MVMatrix = mat4();
 	MVMatrix = Angel::LookAt(
-		vec4(camloc, 0, 0, 1),
+		vec4(camloc, 0, 1, 1),
 		vec4(camloc, 0, -1, 1),
 		vec4(0, 1, 0, 1));
 	onTraverseDraw(MVMatrix);
