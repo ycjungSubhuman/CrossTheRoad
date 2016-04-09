@@ -9,5 +9,4 @@ class Car : public CarLikeObject {
 public:
 	enum { CARWIDTH = 10, CARHEIGHT = 15, GENTIME = 1000, SPEED = 3 };//SPEED: per frame GENTIME:millisec
 	Car(int line, GameMap::Linetype linetype);
-	virtual void draw(mat4 MVMatrix);
 };
