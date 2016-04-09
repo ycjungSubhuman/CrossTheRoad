@@ -10,6 +10,7 @@ protected:
 	void setRect(const Rect& rect);
 	void onTraverseDraw(mat4 MVMatrix);
 	void onTraverseUpdate();
+	std::list<GObject*>& getChildren();
 private:
 	int z; //z-index(relative to the parent)
 	GObject* parent; //pointer to the parent node

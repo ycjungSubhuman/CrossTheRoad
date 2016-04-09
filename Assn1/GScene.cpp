@@ -1,9 +1,9 @@
 #include "GScene.h"
 #include <algorithm>
 #include <iostream>
-#include <functional>
 
-GScene::GScene() {
+GScene::GScene()
+: GObject(Rect(0,0,0,0), Rect(0,0,0,0), "SCENE") {
 	cam_x = 0;
 	cam_y = 0;
 }
@@ -28,9 +28,6 @@ void GScene::frameAction() {
 	/* implement camera moving here */
 	/* ---------------------------- */
 }
-std::list<GObject*> GScene::getCollisions(GObject* obj) {
-
-}
 std::list<GObject*> GScene::getCollisionsOf(GObject* obj, std::string type) {
-
+	std::list<GObject*>& current_children = getChildren();
 }
