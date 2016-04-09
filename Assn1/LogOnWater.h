@@ -1,6 +1,7 @@
 #pragma once
 #include "CarLikeObject.h"
 
+/* LogOnWater : Logs floating on the water field. */
 class LogOnWater : public CarLikeObject {
 public:
 	enum { LOGWIDTH = 10, LOGHEIGHT=15, GENTIME = 500, SPEED = 1 };
