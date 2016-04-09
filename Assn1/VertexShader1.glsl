@@ -1,5 +1,5 @@
 const vec4 red = vec4(1.0, 0.0, 0.0, 1.0);
-varying vec4 color_out;
+out vec4 color_out;
 uniform mat4 u_Projection;
 uniform mat4 u_Model;
 in vec3 position;

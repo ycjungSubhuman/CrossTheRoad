@@ -89,9 +89,6 @@
     <ClInclude Include="shaderutil.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="mat.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="vec.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -109,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="ORect.h">
       <Filter>헤더 파일\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="mat.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

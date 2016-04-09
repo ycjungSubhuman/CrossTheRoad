@@ -2,6 +2,12 @@
 #include <iostream>
 #include <stdlib.h>
 
+#define BUFFER_OFFSET( offset ) ((GLvoid*)(offset))
+
+GLuint program;
+GLint u_Model, u_Projection;
+GLuint buffer;
+
 static char* readShaderSource(const char* shaderFile) {
 	/* reads glsl file and returns string of the source code */
 	FILE* fp;
@@ -39,6 +45,7 @@ static void validateShader(GLint shader) {
 	infoLog = (GLchar*)malloc(logSize*sizeof(GLchar));
 	glGetShaderInfoLog(shader, 1024, &logSize, infoLog);
 	printf("%s", infoLog);
+	printf("%s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 	free(infoLog);
 	checkError(status, "Failed to compile the vertex shader.");
 }
@@ -59,7 +66,7 @@ void loadShadersFromFile(const char* vShaderFile, const char* fShaderFile) {
 		exit(EXIT_FAILURE);
 	}
 
-	GLuint program;
+	/*GLuint program;*/
 	program = glCreateProgram();
 
 	GLuint vShader, fShader;
@@ -80,6 +87,20 @@ void loadShadersFromFile(const char* vShaderFile, const char* fShaderFile) {
 
 	glLinkProgram(program);
 	glUseProgram(program);
+
+	glGenBuffers(1, &buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, buffer);
+
+	GLuint location = glGetAttribLocation(program, "position");
+	glEnableVertexAttribArray(location);
+	glVertexAttribPointer(location, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+
+	location = glGetAttribLocation(program, "color_out");
+	glEnableVertexAttribArray(location);
+	glVertexAttribPointer(location, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+
+	u_Model = glGetUniformLocation(program, "u_Model");
+	u_Projection = glGetUniformLocation(program, "u_Projection");
 
 	GLint status;
 	glGetProgramiv(program, GL_LINK_STATUS, &status);
