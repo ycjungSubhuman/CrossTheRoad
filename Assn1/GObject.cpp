@@ -133,9 +133,15 @@ GObject* GObject::addObject(GObject* obj, int z) {
 }
 GObject* GObject::removeObject(GObject* obj) {
 	/* remove specified GObject from the root of Scene Graph */
-	children.erase(std::find(children.begin(), children.end(), obj));
-	delete obj;
-	return obj;
+	std::list<GObject*>::iterator target = std::find(children.begin(), children.end(), obj);
+	if (target != children.end()) {// target found
+		children.erase(target);
+		delete obj;
+		return obj;
+	}
+	else {
+		return nullptr;
+	}
 }
 GObject* GObject::getParent() {
 	return parent;

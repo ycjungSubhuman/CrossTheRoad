@@ -228,7 +228,6 @@ void Player::frameAction() {
 	in this function. do things the player have to do frame by frame
 	ex) flickering colors*/
 	//moves player according to movedir
-	std::cout << linenum << " " << gridnum << std::endl;
 	switch (movedir) {
 	case UP:
 		if (getY() + 2 < (gridnum + 2)*GameMap::MAPHEIGHT / GameMap::GRIDNUM) {

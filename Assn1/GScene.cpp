@@ -15,7 +15,7 @@ GScene::GScene()
 void GScene::drawScene() {
 	/* Draws all elements in the scene */
 
-	mat4 MVMatrix = identity();
+	mat4 MVMatrix = Angel::mat4();
 	MVMatrix = Angel::LookAt(
 		vec4(camloc, 0, 0, 1),
 		vec4(camloc, 0, -1, 1),
