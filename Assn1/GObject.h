@@ -35,7 +35,7 @@ public:
 	std::string getType();
 	GObject* getChildOfType(std::string type);
 	std::list<GObject*>* getChildren();
-	void killThisIfOutOfMap(double width, double height);
+	//void killThisIfOutOfMap(double width, double height);
 
 	static bool isCollide(GObject&, GObject&);
 	GObject* addObject(GObject* obj, int z=0);
