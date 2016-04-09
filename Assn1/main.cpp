@@ -143,12 +143,12 @@ void updateScene(int val)
 		game.getPlayer()->undoMove();
 	}
 
-	//check for maximum camera location
+	/* check for maximum camera location
 	if (goalloc > (GameMap::MAPLENGTH - 9)*GameMap::COLUMN_WIDTH)
 		goalloc = (GameMap::MAPLENGTH - 9)*GameMap::COLUMN_WIDTH;
 
 	//camera move
-	/* camloc = goalloc * portion + camloc * (1 - portion);
+	camloc = goalloc * portion + camloc * (1 - portion);
 	glLoadIdentity();
 	gluLookAt(
 		camloc, 0, 0,
