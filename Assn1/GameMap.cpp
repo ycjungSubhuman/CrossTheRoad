@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <iostream>
 
-void DrawRoadLine(int Maplength, int Mapheight, int x)
+/*void DrawRoadLine(int Maplength, int Mapheight, int x)
 {
 	double Linelength = Maplength / 20;
 	double Lineheight = Mapheight / 12;
@@ -13,9 +13,9 @@ void DrawRoadLine(int Maplength, int Mapheight, int x)
 	glRectf(x*Maplength - Linelength, 3 * Lineheight, x*Maplength + Linelength, 5 * Lineheight);
 	glRectf(x*Maplength - Linelength, 7 * Lineheight, x*Maplength + Linelength, 9 * Lineheight);
 	glRectf(x*Maplength - Linelength, 11 * Lineheight, x*Maplength + Linelength, 112 * Lineheight);
-}
+}*/
 
-GameMap::GameMap(int z) : GObject(Rect(0, MAPHEIGHT, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT), Rect(0,0,0,0), z, "BACKGROUND")
+GameMap::GameMap() : GObject(Rect(0, MAPHEIGHT, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT), Rect(0,0,0,0), "BACKGROUND")
 {
 	/* 맵 전체를 그리는 함수
 	 mapinfo의 배열에 따라서 다른 맵을 그려야 한다*/
@@ -33,13 +33,16 @@ GameMap::GameMap(int z) : GObject(Rect(0, MAPHEIGHT, COLUMN_WIDTH*MAPLENGTH, MAP
 			prevroad++;
 		}
 		else {
-			switch (rand() % 3) {
+			switch (rand() % 5) {
 				case 0: mapinfo[i] = ROADUP;
 					break;
 				case 1: mapinfo[i] = ROADDOWN;
 					break;
 				case 2: mapinfo[i] = GRASS;
 					break;
+				case 3: mapinfo[i] = WATERUP;
+					break;
+				case 4: mapinfo[i] = WATERDOWN;
 			}
 			if(mapinfo[i]==GRASS) prevroad = 0;
 		}
@@ -47,9 +50,12 @@ GameMap::GameMap(int z) : GObject(Rect(0, MAPHEIGHT, COLUMN_WIDTH*MAPLENGTH, MAP
 	}
 	std::cout << "]" << std::endl;
 }
-void GameMap::draw() {
-	/* implement map drawing here */
-	glColor3f(51.0f/256.0f, 51.0f / 256.0f, 51.0f / 256.0f);
+void GameMap::draw(mat4 MVMatrix) {
+	/* ------------------------------------- */
+	/* implement drawing using MVMatrix here */
+	/* ------------------------------------- */
+
+	/* glColor3f(51.0f/256.0f, 51.0f / 256.0f, 51.0f / 256.0f);
 	glRectf(0.0f, 0.0f, MAPLENGTH * COLUMN_WIDTH, MAPHEIGHT);
 	for (int i = 0; i < MAPLENGTH; i++)
 	{
@@ -63,7 +69,7 @@ void GameMap::draw() {
 			if (getLine(i-1) != GRASS)
 				DrawRoadLine(COLUMN_WIDTH, MAPHEIGHT, i);
 		}		
-	}
+	} */
 }
 GameMap::Linetype GameMap::getLine(int i) {
 	try {

@@ -3,7 +3,7 @@
 #include <list>
 #include <iostream>
 
-void drawcircle(double x, double y, double radius)
+/* void drawcircle(double x, double y, double radius)
 {
 	glBegin(GL_TRIANGLE_FAN);
 	glVertex2f(x, y);
@@ -12,14 +12,125 @@ void drawcircle(double x, double y, double radius)
 		glVertex2f(x + sin(angle)*radius, y + cos(angle)*radius);
 	}
 	glEnd();
-}
+} */
 
-Player::Player(int z) : GObject(Rect(GameMap::COLUMN_WIDTH/2 - PLAYERWIDTH/2, PLAYERHEIGHT*(GameMap::GRIDNUM/2+1), PLAYERWIDTH, PLAYERHEIGHT), Rect(PLAYERWIDTH*0.25, -PLAYERWIDTH*0.25, PLAYERWIDTH*0.5, PLAYERHEIGHT*0.5), z, "PLAYER")
+Player::Player() 
+	: GObject(Rect(GameMap::COLUMN_WIDTH/2 - PLAYERWIDTH/2, PLAYERHEIGHT*(GameMap::GRIDNUM/2+1), PLAYERWIDTH, PLAYERHEIGHT), Rect(PLAYERWIDTH*0.25, -PLAYERWIDTH*0.25, PLAYERWIDTH*0.5, PLAYERHEIGHT*0.5), "PLAYER")
 {
 	linenum = -1;
 	gridnum = GameMap::GRIDNUM / 2;
 	status = ALIVE;
 	movedir = NONE;
+
+	/* making doll */
+	//x, y, a, b, rotcnt, rot
+	//x, y, width, height, rotcnt, rot
+
+	//because they are all children of this Player, delete will not be called in this
+	//class' destructor. when delete for Player is called, the destructor of GObject will delete these limbs.
+	pelvis = new ORect(
+		0, 0, 
+		PELVISWIDTH, PELVISHEIGHT, 
+		ORect::CENTER, 0, 
+		"PELVIS");
+	leg_left_upper = new ORect(
+		(double)PELVISWIDTH/2-LEGWIDTH, -(double)PELVISHEIGHT/2,
+		LEGWIDTH, LEGHEIGHT, 
+		ORect::TOPMIDDLE, -0.2, 
+		"LEG_LEFT_UPPER");
+	leg_left_lower = new ORect(
+		0, -LEGHEIGHT, 
+		LEGWIDTH, LEGHEIGHT, 
+		ORect::TOPMIDDLE, 0, 
+		"LEG_LEFT_LOWER");
+	foot_left = new ORect(
+		0, -LEGHEIGHT, 
+		FOOTWIDTH, FOOTHEIGHT, 
+		ORect::TOPLEFT, 0, 
+		"FOOT_LEFT");
+	leg_right_upper = new ORect(
+		(double)PELVISWIDTH/2-LEGWIDTH, -(double)PELVISHEIGHT/2, 
+		LEGWIDTH, LEGHEIGHT,
+		ORect::TOPMIDDLE, 0.2,
+		"LEG_RIGHT_UPPER");
+	leg_right_lower = new ORect(
+		0, -LEGHEIGHT, 
+		LEGWIDTH, LEGHEIGHT,
+		ORect::TOPMIDDLE, 0,
+		"LEG_RIGHT_LOWER");
+	foot_right = new ORect(
+		0, -LEGHEIGHT,
+		FOOTWIDTH, FOOTHEIGHT,
+		ORect::TOPLEFT, 0,
+		"FOOT_RIGHT");
+	torso = new ORect(
+		(double)PELVISWIDTH/2 - (double)TORSOWIDTH / 2, TORSOHEIGHT-(double)PELVISHEIGHT/2*0.3,
+		TORSOWIDTH, TORSOHEIGHT,
+		ORect::BOTTOMMIDDLE, 0,
+		"TORSO");
+	neck = new ORect(
+		(double)TORSOWIDTH / 2 - (double)NECKWIDTH/2, NECKHEIGHT*0.8,
+		NECKWIDTH, NECKHEIGHT,
+		ORect::CENTER, 0, 
+		"NECK");
+	head = new ORect(
+		(double)NECKWIDTH/2 - (double)HEADWIDTH/2, HEADHEIGHT,
+		HEADWIDTH, HEADHEIGHT,
+		ORect::BOTTOMMIDDLE, 0, 
+		"HEAD");
+	arm_left_upper = new ORect(
+		(double)TORSOWIDTH/2-(double)ARMWIDTH/2, 0,
+		ARMWIDTH, ARMHEIGHT,
+		ORect::TOPMIDDLE, 0.8,
+		"ARM_LEFT_UPPER");
+	arm_left_lower = new ORect(
+		0, -ARMHEIGHT,
+		ARMWIDTH, ARMHEIGHT,
+		ORect::TOPMIDDLE, 0.2,
+		"ARM_LEFT_LOWER");
+	hand_left = new ORect(
+		0, -ARMHEIGHT,
+		HANDWIDTH, HANDHEIGHT,
+		ORect::TOPLEFT, 0.4,
+		"HAND_LEFT");
+	arm_right_upper = new ORect(
+		(double)TORSOWIDTH / 2 - (double)ARMWIDTH / 2, 0,
+		ARMWIDTH, ARMHEIGHT,
+		ORect::TOPMIDDLE, -0.8,
+		"ARM_RIGHT_UPPER");
+	arm_right_lower = new ORect(
+		0, -ARMHEIGHT,
+		ARMWIDTH, ARMHEIGHT,
+		ORect::TOPMIDDLE, 0.2,
+		"ARM_RIGHT_LOWER");
+	hand_right = new ORect(
+		0, -ARMHEIGHT,
+		HANDWIDTH, HANDHEIGHT,
+		ORect::TOPLEFT, 0.2,
+		"HAND_RIGHT");
+
+	//set colors for each part... or if you have implemented UV Mapping(Texture), unnecessary.
+
+	/* ------------------------------------------------------------ */
+	/* implement calling setColor for each part! (COLOR TIME! YAY!) */
+	/* ------------------------------------------------------------ */
+
+	//making hierarchy of player graph
+	pelvis->addObject(leg_left_upper, 0);
+		leg_left_upper->addObject(leg_left_lower);
+			leg_left_lower->addObject(foot_left);
+	pelvis->addObject(leg_right_upper, -1);
+		leg_right_upper->addObject(leg_right_lower);
+			leg_right_lower->addObject(foot_right);
+	pelvis->addObject(torso, 2);
+		torso->addObject(neck, -3);
+			neck->addObject(head);
+		torso->addObject(arm_left_upper, -1);
+			arm_left_upper->addObject(arm_left_lower);
+				arm_left_lower->addObject(hand_left);
+		torso->addObject(arm_right_upper, 1);
+			arm_right_upper->addObject(arm_right_lower);
+				arm_left_lower->addObject(hand_right);
 }
 void Player::move(Player::Direction dir) {
 	switch (dir) {
@@ -51,7 +162,7 @@ void Player::move(Player::Direction dir) {
 	//check for tree collisions
 }
 void Player::undoMove() {
-	std::cout << "woiefjwoiejf" << std::endl;
+	std::cout << "Move Cancelled" << std::endl;
 	movedir = NONE;
 	setPos((linenum + 1)*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - Player::PLAYERWIDTH / 2, (gridnum + 1)*GameMap::MAPHEIGHT / GameMap::GRIDNUM);
 }
@@ -61,22 +172,27 @@ Player::Direction Player::getMoveDir() {
 Player::Status Player::getPlayerStatus() {
 	return status;
 }
-void Player::draw() {
-	glColor3f(1.0f, 0.0f, 0.0f);
+/*void Player::draw() {
+	/* draw player pelvis... or just draw nothing (if you have implemented 
+	a pelvis node) */
+
+	/* -------------------------------------------------- */
+	/* Implement player drawing here...well, draw nothing */
+	/* -------------------------------------------------- */
+
+	/* glColor3f(1.0f, 0.0f, 0.0f);
 	Rect playerobj = getobj();
 	double playerX = (playerobj.left() + playerobj.right()) / 2;
 	double playerY = (playerobj.top() + playerobj.bottom()) / 2;
 	double radius = (playerobj.right() - playerobj.left()) / 2;
 	switch (getPlayerStatus()) {
 	case Player::ALIVE:
-		/* show red circle */
 		drawcircle(playerX, playerY, radius);
 		break;
 	case Player::DEAD:
-		/* show blank space */
 		break;
 	}
-}
+}*/
 void Player::frameAction() {
 	/*the controls will be processed in keyboard event callback.
 	in this function. do things the player have to do frame by frame

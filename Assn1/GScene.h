@@ -7,6 +7,7 @@ class GScene : public GObject{
 private:
 	double cam_x, cam_y;
 public:
+	GScene();
 	void drawScene();
 	void updateScene();
 	virtual void draw(mat4 MVMatrix);

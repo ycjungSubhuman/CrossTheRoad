@@ -10,18 +10,21 @@ protected:
 	void setRect(const Rect& rect);
 	void onTraverseDraw(mat4 MVMatrix);
 	void onTraverseUpdate();
+	std::list<GObject*>& getChildren();
 private:
 	int z; //z-index(relative to the parent)
 	GObject* parent; //pointer to the parent node
 	Rect obj; //local boundbox(relative to parent's position)
-	Rect hitbox; //collision box
+	Rect hitbox; //collision box(relative to obj)
 	double rotx, roty; //position of rotation center (reletive to obj)
 	double rotation; //amount of rotation
 	std::string type; //type of this object(for RTTS with convenience)
 	std::list<GObject*> children; //list of children
 public:
-	GObject(const Rect& obj, const Rect& hitbox, int z=0, std::string type="OBJECT");
+	GObject(const Rect& obj, const Rect& hitbox, std::string type="OBJECT");
 	void setPos(double x, double y);
+	void setRotCenter(double x, double y);
+	void setRotation(double rot);
 	int getZ();
 	double getX();
 	double getY();
@@ -30,9 +33,10 @@ public:
 	virtual void draw(mat4 MVMatrix)=0;
 	virtual void frameAction()=0;
 	std::string getType();
+	GObject* getChildOfType(std::string type);
 
 	static bool isCollide(GObject&, GObject&);
-	GObject* addObject(GObject* obj);
+	GObject* addObject(GObject* obj, int z=0);
 	GObject* removeObject(GObject* obj);
 	GObject* getParent();
 
