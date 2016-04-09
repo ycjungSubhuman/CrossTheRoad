@@ -1,9 +1,9 @@
 #pragma once
-#include "GObject.h"
+#include "ORect.h"
 #include "GameMap.h"
 #include "mat.h"
 
-class CarLikeObject : public GObject {
+class CarLikeObject : public ORect {
 protected:
 	double dis_y;
 public:

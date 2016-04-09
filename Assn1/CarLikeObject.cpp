@@ -3,7 +3,7 @@
 #include <cmath>
 
 CarLikeObject::CarLikeObject(int line, GameMap::Linetype linetype, double width, double height, std::string type) 
-	: GObject(Rect(0,0,0,0), Rect(0,0,width,height), type)
+	: ORect(0, 0, width, height, ORect::CENTER, 0, type)
 {
 	//init obj speed
 	dis_y = 1;

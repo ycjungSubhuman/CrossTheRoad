@@ -1,7 +1,7 @@
 #include "ORect.h"
 
-ORect::ORect(double x, double y, double width, double height, RotPoint rotcnt, double rot)
-: GObject(Rect(x, y, width, height), Rect(0, 0, width, height), "ORect"){
+ORect::ORect(double x, double y, double width, double height, RotPoint rotcnt, double rot, std::string type)
+: GObject(Rect(x, y, width, height), Rect(0, 0, width, height), type){
 	/* ---------------------------------------------------------------------- */
 	/* implement color initiallizing(maybe blue?) and setting rotx, roty, rot */
 	/* ---------------------------------------------------------------------- */

@@ -28,24 +28,94 @@ Player::Player()
 
 	//because they are all children of this Player, delete will not be called in this
 	//class' destructor. when delete for Player is called, the destructor of GObject will delete these limbs.
-	pelvis = new ORect(0, 0, PELVISWIDTH, PELVISHEIGHT, ORect::CENTER, 0);
-	leg_left_upper = new ORect((double)PELVISWIDTH/2-LEGWIDTH, -(double)PELVISHEIGHT/2, LEGWIDTH, LEGHEIGHT, ORect::TOPMIDDLE, -0.2);
-	leg_left_lower = new ORect(0, -LEGHEIGHT, LEGWIDTH, LEGHEIGHT, ORect::TOPMIDDLE, 0);
-	foot_left = new ORect(0, -LEGHEIGHT, FOOTWIDTH, FOOTHEIGHT, ORect::TOPLEFT, 0);
-	leg_right_upper = new ORect((double)PELVISWIDTH/2-LEGWIDTH, -(double)PELVISHEIGHT/2, LEGWIDTH, LEGHEIGHT, ORect::TOPMIDDLE, 0.2);
-	leg_right_lower = new ORect(0, -LEGHEIGHT, LEGWIDTH, LEGHEIGHT, ORect::TOPMIDDLE, 0);
-	foot_right = new ORect(0, -LEGHEIGHT, FOOTWIDTH, FOOTHEIGHT, ORect::TOPLEFT, 0);
-	torso = new ORect((double)PELVISWIDTH/2 - (double)TORSOWIDTH / 2, TORSOHEIGHT-(double)PELVISHEIGHT/2*0.3, TORSOWIDTH, TORSOHEIGHT, ORect::BOTTOMMIDDLE, 0);
-	neck = new ORect((double)TORSOWIDTH / 2 - (double)NECKWIDTH/2, NECKHEIGHT*0.8, NECKWIDTH, NECKHEIGHT, ORect::CENTER, 0);
-	head = new ORect((double)NECKWIDTH/2 - (double)HEADWIDTH/2, HEADHEIGHT, HEADWIDTH, HEADHEIGHT, ORect::BOTTOMMIDDLE, 0);
-	arm_left_upper = new ORect((double)TORSOWIDTH/2-(double)ARMWIDTH/2, 0, ARMWIDTH, ARMHEIGHT, ORect::TOPMIDDLE, 0.8);
-	arm_left_lower = new ORect(0, -ARMHEIGHT, ARMWIDTH, ARMHEIGHT, ORect::TOPMIDDLE, 0.2);
-	hand_left = new ORect(0, -ARMHEIGHT, HANDWIDTH, HANDHEIGHT, ORect::TOPLEFT, 0.4);
-	arm_right_upper = new ORect((double)TORSOWIDTH / 2 - (double)ARMWIDTH / 2, 0, ARMWIDTH, ARMHEIGHT, ORect::TOPMIDDLE, -0.8);
-	arm_right_lower = new ORect(0, -ARMHEIGHT, ARMWIDTH, ARMHEIGHT, ORect::TOPMIDDLE, 0.2);
-	hand_right = new ORect(0, -ARMHEIGHT, HANDWIDTH, HANDHEIGHT, ORect::TOPLEFT, 0.2);
+	pelvis = new ORect(
+		0, 0, 
+		PELVISWIDTH, PELVISHEIGHT, 
+		ORect::CENTER, 0, 
+		"PELVIS");
+	leg_left_upper = new ORect(
+		(double)PELVISWIDTH/2-LEGWIDTH, -(double)PELVISHEIGHT/2,
+		LEGWIDTH, LEGHEIGHT, 
+		ORect::TOPMIDDLE, -0.2, 
+		"LEG_LEFT_UPPER");
+	leg_left_lower = new ORect(
+		0, -LEGHEIGHT, 
+		LEGWIDTH, LEGHEIGHT, 
+		ORect::TOPMIDDLE, 0, 
+		"LEG_LEFT_LOWER");
+	foot_left = new ORect(
+		0, -LEGHEIGHT, 
+		FOOTWIDTH, FOOTHEIGHT, 
+		ORect::TOPLEFT, 0, 
+		"FOOT_LEFT");
+	leg_right_upper = new ORect(
+		(double)PELVISWIDTH/2-LEGWIDTH, -(double)PELVISHEIGHT/2, 
+		LEGWIDTH, LEGHEIGHT,
+		ORect::TOPMIDDLE, 0.2,
+		"LEG_RIGHT_UPPER");
+	leg_right_lower = new ORect(
+		0, -LEGHEIGHT, 
+		LEGWIDTH, LEGHEIGHT,
+		ORect::TOPMIDDLE, 0,
+		"LEG_RIGHT_LOWER");
+	foot_right = new ORect(
+		0, -LEGHEIGHT,
+		FOOTWIDTH, FOOTHEIGHT,
+		ORect::TOPLEFT, 0,
+		"FOOT_RIGHT");
+	torso = new ORect(
+		(double)PELVISWIDTH/2 - (double)TORSOWIDTH / 2, TORSOHEIGHT-(double)PELVISHEIGHT/2*0.3,
+		TORSOWIDTH, TORSOHEIGHT,
+		ORect::BOTTOMMIDDLE, 0,
+		"TORSO");
+	neck = new ORect(
+		(double)TORSOWIDTH / 2 - (double)NECKWIDTH/2, NECKHEIGHT*0.8,
+		NECKWIDTH, NECKHEIGHT,
+		ORect::CENTER, 0, 
+		"NECK");
+	head = new ORect(
+		(double)NECKWIDTH/2 - (double)HEADWIDTH/2, HEADHEIGHT,
+		HEADWIDTH, HEADHEIGHT,
+		ORect::BOTTOMMIDDLE, 0, 
+		"HEAD");
+	arm_left_upper = new ORect(
+		(double)TORSOWIDTH/2-(double)ARMWIDTH/2, 0,
+		ARMWIDTH, ARMHEIGHT,
+		ORect::TOPMIDDLE, 0.8,
+		"ARM_LEFT_UPPER");
+	arm_left_lower = new ORect(
+		0, -ARMHEIGHT,
+		ARMWIDTH, ARMHEIGHT,
+		ORect::TOPMIDDLE, 0.2,
+		"ARM_LEFT_LOWER");
+	hand_left = new ORect(
+		0, -ARMHEIGHT,
+		HANDWIDTH, HANDHEIGHT,
+		ORect::TOPLEFT, 0.4,
+		"HAND_LEFT");
+	arm_right_upper = new ORect(
+		(double)TORSOWIDTH / 2 - (double)ARMWIDTH / 2, 0,
+		ARMWIDTH, ARMHEIGHT,
+		ORect::TOPMIDDLE, -0.8,
+		"ARM_RIGHT_UPPER");
+	arm_right_lower = new ORect(
+		0, -ARMHEIGHT,
+		ARMWIDTH, ARMHEIGHT,
+		ORect::TOPMIDDLE, 0.2,
+		"ARM_RIGHT_LOWER");
+	hand_right = new ORect(
+		0, -ARMHEIGHT,
+		HANDWIDTH, HANDHEIGHT,
+		ORect::TOPLEFT, 0.2,
+		"HAND_RIGHT");
 
-	//making graph
+	//set colors for each part... or if you have implemented UV Mapping(Texture), unnecessary.
+
+	/* ------------------------------------------------------------ */
+	/* implement calling setColor for each part! (COLOR TIME! YAY!) */
+	/* ------------------------------------------------------------ */
+
+	//making hierarchy of player graph
 	pelvis->addObject(leg_left_upper, 0);
 		leg_left_upper->addObject(leg_left_lower);
 			leg_left_lower->addObject(foot_left);
@@ -92,7 +162,7 @@ void Player::move(Player::Direction dir) {
 	//check for tree collisions
 }
 void Player::undoMove() {
-	std::cout << "woiefjwoiejf" << std::endl;
+	std::cout << "Move Cancelled" << std::endl;
 	movedir = NONE;
 	setPos((linenum + 1)*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - Player::PLAYERWIDTH / 2, (gridnum + 1)*GameMap::MAPHEIGHT / GameMap::GRIDNUM);
 }
