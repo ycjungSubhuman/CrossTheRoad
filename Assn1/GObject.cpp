@@ -59,6 +59,13 @@ void GObject::setPos(double x, double y) {
 	this->obj.setX(x);
 	this->obj.setY(y);
 }
+void GObject::setRotCenter(double x, double y) {
+	this->rotx = x;
+	this->roty = y;
+}
+void GObject::setRotation(double rot) {
+	this->rotation = rot;
+}
 double GObject::getX() {
 	return this->obj.left();
 }
@@ -88,6 +95,9 @@ GObject* GObject::getChildOfType(std::string type) {
 		}
 	}
 	return result;
+}
+const std::list<GObject*>* GObject::getChildren() const {
+	return &children;
 }
 bool GObject::isCollide(GObject& o1, GObject& o2) {
 	Rect a = Rect(o1.getobj().x() + o1.gethitbox().x(), o1.getobj().y() + o1.gethitbox().y(), o1.gethitbox().width(), o1.gethitbox().height());

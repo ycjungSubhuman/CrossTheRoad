@@ -37,7 +37,7 @@ std::list<GObject*> GScene::getCollisionsOf(GObject* obj, std::string type) {
 	/* I'll go with iterative traverse because returning copy of list in recursion is possibly too
 	expensive. Traverse using BFS */
 	std::queue<GObject*> travq;
-	std::list<GObject*> current_children;
+	std::list<GObject*>* current_children;
 	std::list<GObject*> result;
 
 	travq.push(this);
@@ -45,7 +45,7 @@ std::list<GObject*> GScene::getCollisionsOf(GObject* obj, std::string type) {
 	while(!travq.empty()){
 		current_children = travq.front()->getChildren();
 		travq.pop();
-		for (std::list<GObject*>::iterator it = current_children.begin(); it != current_children.end(); it++) {
+		for (std::list<GObject*>::iterator it = current_children->begin(); it != current_children->end(); it++) {
 			if (GObject::isCollide(*(*it), *obj) && (*it)->getType() == type) {
 				result.push_front((*it));
 			}
