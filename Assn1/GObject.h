@@ -33,7 +33,7 @@ public:
 	virtual void frameAction()=0;
 	std::string getType();
 	GObject* getChildOfType(std::string type);
-	std::list<GObject*>* getChildren() const;
+	std::list<GObject*>* getChildren();
 
 	static bool isCollide(GObject&, GObject&);
 	GObject* addObject(GObject* obj, int z=0);

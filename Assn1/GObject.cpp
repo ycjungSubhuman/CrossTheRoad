@@ -96,7 +96,7 @@ GObject* GObject::getChildOfType(std::string type) {
 	}
 	return result;
 }
-const std::list<GObject*>* GObject::getChildren() const {
+std::list<GObject*>* GObject::getChildren() {
 	return &children;
 }
 bool GObject::isCollide(GObject& o1, GObject& o2) {
@@ -108,7 +108,7 @@ bool GObject::isCollide(GObject& o1, GObject& o2) {
 	else 
 		return false;
 }
-GObject* GObject::addObject(GObject* obj, int z = 0) {
+GObject* GObject::addObject(GObject* obj, int z) {
 	/* adds a node to the child of this node
 	keeping the order of z-index left to right */
 	bool isAdded = false;
@@ -132,8 +132,8 @@ GObject* GObject::addObject(GObject* obj, int z = 0) {
 }
 GObject* GObject::removeObject(GObject* obj) {
 	/* remove specified GObject from the root of Scene Graph */
-	delete obj;
 	children.erase(std::find(children.begin(), children.end(), obj));
+	delete obj;
 	return obj;
 }
 GObject* GObject::getParent() {

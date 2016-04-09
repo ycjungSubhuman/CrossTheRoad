@@ -7,6 +7,7 @@
 class Player : public GObject {
 private:
 	int linenum, gridnum;
+	GObject* bound;
 	//these pointes are referenced only from inside. a change in the 'status' can be
 	//done to manipulate player limbs
 	ORect *pelvis, *neck, *head;
@@ -17,7 +18,7 @@ private:
 	ORect *hand_left, *hand_right;
 public:
 	Player();
-	enum Status { ALIVE, WALKING, DEAD };
+	enum Status { ALIVE, WALKING, BOUND, DEAD };
 	enum { PLAYERWIDTH=10, PLAYERHEIGHT=GameMap::MAPHEIGHT/GameMap::GRIDNUM };
 	enum {
 		PELVISWIDTH = 3,
@@ -38,11 +39,14 @@ public:
 		HANDHEIGHT = 3,
 	};
 	enum Direction { NONE, RIGHT, UP, DOWN, LEFT };
+	virtual void draw(mat4 MVMatrix);
 	virtual void frameAction();
 	void move(Direction dir);
 	void undoMove();
+	void finishMove();
 	Direction getMoveDir();
 	Status getPlayerStatus();
+	void bindPlayerToCenter(GObject* obj);
 	int getLinenum();
 	int getGridnum();
 	int incrLInenum(int num=1);

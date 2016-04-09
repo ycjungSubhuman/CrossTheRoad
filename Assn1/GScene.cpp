@@ -16,7 +16,7 @@ void GScene::drawScene() {
 	/* Draws all elements in the scene */
 
 	mat4 MVMatrix = identity();
-	MVMatrix = LootAt(
+	MVMatrix = Angel::LookAt(
 		vec4(camloc, 0, 0, 1),
 		vec4(camloc, 0, -1, 1),
 		vec4(0, 1, 0, 1));
@@ -42,7 +42,7 @@ std::list<GObject*> GScene::getCollisionsOf(GObject* obj, std::string type) {
 
 	travq.push(this);
 
-	while(!travq.empty()){
+	/*while(!travq.empty()){
 		current_children = travq.front()->getChildren();
 		travq.pop();
 		for (std::list<GObject*>::iterator it = current_children->begin(); it != current_children->end(); it++) {
@@ -51,6 +51,6 @@ std::list<GObject*> GScene::getCollisionsOf(GObject* obj, std::string type) {
 			}
 			travq.push((*it));
 		}
-	}
+	} */
 	return result;
 }

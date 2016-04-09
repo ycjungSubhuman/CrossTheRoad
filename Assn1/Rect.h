@@ -1,6 +1,4 @@
 #pragma once
-#include <gl/glut.h>
-#include <gl/gl.h>
 
 class Rect {
 private:

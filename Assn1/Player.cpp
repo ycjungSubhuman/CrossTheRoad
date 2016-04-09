@@ -116,21 +116,22 @@ Player::Player()
 	/* ------------------------------------------------------------ */
 
 	//making hierarchy of player graph
-	pelvis->addObject(leg_left_upper, 0);
-		leg_left_upper->addObject(leg_left_lower);
-			leg_left_lower->addObject(foot_left);
-	pelvis->addObject(leg_right_upper, -1);
-		leg_right_upper->addObject(leg_right_lower);
-			leg_right_lower->addObject(foot_right);
-	pelvis->addObject(torso, 2);
-		torso->addObject(neck, -3);
-			neck->addObject(head);
-		torso->addObject(arm_left_upper, -1);
-			arm_left_upper->addObject(arm_left_lower);
-				arm_left_lower->addObject(hand_left);
-		torso->addObject(arm_right_upper, 1);
-			arm_right_upper->addObject(arm_right_lower);
-				arm_left_lower->addObject(hand_right);
+	this->addObject(pelvis);
+		pelvis->addObject(leg_left_upper, 0);
+			leg_left_upper->addObject(leg_left_lower);
+				leg_left_lower->addObject(foot_left);
+		pelvis->addObject(leg_right_upper, -1);
+			leg_right_upper->addObject(leg_right_lower);
+				leg_right_lower->addObject(foot_right);
+		pelvis->addObject(torso, 2);
+			torso->addObject(neck, -3);
+				neck->addObject(head);
+			torso->addObject(arm_left_upper, -1);
+				arm_left_upper->addObject(arm_left_lower);
+					arm_left_lower->addObject(hand_left);
+			torso->addObject(arm_right_upper, 1);
+				arm_right_upper->addObject(arm_right_lower);
+					arm_left_lower->addObject(hand_right);
 }
 void Player::move(Player::Direction dir) {
 	switch (dir) {
@@ -164,13 +165,39 @@ void Player::move(Player::Direction dir) {
 void Player::undoMove() {
 	std::cout << "Move Cancelled" << std::endl;
 	movedir = NONE;
-	setPos((linenum + 1)*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - Player::PLAYERWIDTH / 2, (gridnum + 1)*GameMap::MAPHEIGHT / GameMap::GRIDNUM);
+	setPos((linenum + 1)*GameMap::COLUMN_WIDTH + (double)GameMap::COLUMN_WIDTH / 2 - (double)Player::PLAYERWIDTH / 2, (double)(gridnum + 1)*GameMap::MAPHEIGHT / GameMap::GRIDNUM);
+}
+void Player::finishMove() {
+	std::cout << "Move ended early" << std::endl;
+
+	switch (movedir) {
+	case UP:
+		gridnum--;
+		undoMove();
+		break;
+	case DOWN:
+		gridnum++;
+		undoMove();
+		break;
+	case LEFT:
+		linenum--;
+		undoMove();
+		break;
+	case RIGHT:
+		linenum++;
+		undoMove();
+		break;
+	}
 }
 Player::Direction Player::getMoveDir() {
 	return movedir;
 }
 Player::Status Player::getPlayerStatus() {
 	return status;
+}
+void Player::bindPlayerToCenter(GObject* obj) {
+	this->status = BOUND;
+	bound = obj;
 }
 /*void Player::draw() {
 	/* draw player pelvis... or just draw nothing (if you have implemented 
@@ -193,6 +220,9 @@ Player::Status Player::getPlayerStatus() {
 		break;
 	}
 }*/
+void Player::draw(mat4 MVMatrix) {
+
+}
 void Player::frameAction() {
 	/*the controls will be processed in keyboard event callback.
 	in this function. do things the player have to do frame by frame

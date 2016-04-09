@@ -72,6 +72,7 @@ void GameMap::draw(mat4 MVMatrix) {
 	} */
 }
 GameMap::Linetype GameMap::getLine(int i) {
+	if (i < 0) i = 0;
 	try {
 		return mapinfo.at(i);
 	}

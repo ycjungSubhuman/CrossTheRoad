@@ -78,25 +78,57 @@ void processUserInput(int key, int x, int y) {
 		break;
 	case GLUT_KEY_RIGHT:
 		game.getPlayer()->move(Player::RIGHT);
-		goalloc = (game.getPlayer()->getX() - 5);		
-		std::cout << "player : " << camloc << std::endl;		
 		break;
-	}	
+	case GLUT_KEY_LEFT:
+		game.getPlayer()->move(Player::LEFT);
+		break;
+	}
 }
 
 
 void updateScene(int val)
 {
 	/* Implement Scene Update */
+
 	//clear cars out of the map
 	game.getScene()->updateScene();
 
-	//check for death
+	//check for collisions of car
 	std::list<GObject*> car_col = game.getScene()->getCollisionsOf(game.getPlayer(), "CAR");
-	if (!car_col.empty()) {
+
+	//check for collisions of water
+	std::list<GObject*> log_col = game.getScene()->getCollisionsOf(game.getPlayer(), "LOG");
+
+	//check if the player is in water
+	GameMap::Linetype current_coltype = game.getMap()->getLine(game.getPlayer()->getLinenum());
+
+	//check for player death
+	if (!car_col.empty() ||  //collision with car
+		(log_col.empty() && (current_coltype==GameMap::WATERDOWN || current_coltype==GameMap::WATERUP))) {
+		//^ no collisions with LogOnWater but in the water
 		//game over
 		game.newPlayer();
-		goalloc = 0.0f;
+	}
+
+	//check for log riding
+	if (!log_col.empty()) {
+		GameMap::Linetype linetype_of_next;
+		switch (game.getPlayer()->getMoveDir()) {
+		case Player::RIGHT:
+			linetype_of_next = game.getMap()->getLine(game.getPlayer()->getLinenum()+1);
+			break;
+		case Player::LEFT:
+			linetype_of_next = game.getMap()->getLine(game.getPlayer()->getLinenum()-1);
+			break;
+		default:
+			linetype_of_next = game.getMap()->getLine(game.getPlayer()->getLinenum());
+			break;
+		}
+		if (linetype_of_next == GameMap::WATERDOWN || linetype_of_next == GameMap::WATERUP) {
+			//make the player ride the log
+			if (game.getPlayer()->getPlayerStatus() == Player::ALIVE)
+				game.getPlayer()->bindPlayerToCenter(log_col.front());
+		}
 	}
 
 	//check for goal
@@ -116,12 +148,12 @@ void updateScene(int val)
 		goalloc = (GameMap::MAPLENGTH - 9)*GameMap::COLUMN_WIDTH;
 
 	//camera move
-	camloc = goalloc * portion + camloc * (1 - portion);
+	/* camloc = goalloc * portion + camloc * (1 - portion);
 	glLoadIdentity();
 	gluLookAt(
 		camloc, 0, 0,
 		camloc, 0, -1,
-		0, 1, 0);	
+		0, 1, 0);	 */
 	glutTimerFunc(20, updateScene, 0);
 	glutPostRedisplay();
 }
