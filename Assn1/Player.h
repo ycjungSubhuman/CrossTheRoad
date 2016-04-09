@@ -38,7 +38,6 @@ public:
 		HANDHEIGHT = 3,
 	};
 	enum Direction { NONE, RIGHT, UP, DOWN, LEFT };
-	virtual void draw(mat4 MVMatrix);
 	virtual void frameAction();
 	void move(Direction dir);
 	void undoMove();
@@ -51,5 +50,4 @@ public:
 private:
 	Status status;
 	Direction movedir;
-
 };

@@ -60,6 +60,9 @@
     <ClCompile Include="LogOnWater.cpp">
       <Filter>소스 파일\Class</Filter>
     </ClCompile>
+    <ClCompile Include="ORect.cpp">
+      <Filter>소스 파일\Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameMap.h">
@@ -102,6 +105,9 @@
       <Filter>헤더 파일\Class</Filter>
     </ClInclude>
     <ClInclude Include="LogOnWater.h">
+      <Filter>헤더 파일\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="ORect.h">
       <Filter>헤더 파일\Class</Filter>
     </ClInclude>
   </ItemGroup>

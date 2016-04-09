@@ -124,6 +124,7 @@
     <ClCompile Include="GScene.cpp" />
     <ClCompile Include="LogOnWater.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ORect.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="shaderutil.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="shaderutil.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="vec.h" />
+    <ClInclude Include="ORect.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FragmentShader1.glsl" />

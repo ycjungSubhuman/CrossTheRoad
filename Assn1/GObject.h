@@ -22,6 +22,8 @@ private:
 public:
 	GObject(const Rect& obj, const Rect& hitbox, std::string type="OBJECT");
 	void setPos(double x, double y);
+	void setRotCenter(double x, double y);
+	void setRotation(double rot);
 	int getZ();
 	double getX();
 	double getY();
