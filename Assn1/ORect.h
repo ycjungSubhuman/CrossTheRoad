@@ -1,7 +1,7 @@
 #pragma once
 #include "GObject.h"
 
-/* ORect: A rectangular object that appears in the game. It has certain rgb values.
+/* ORect: Any rectangular object that appears in the game. It has certain rgb values.
 	when drawed, it draws a rectangle according to obj, rotx, roty, rot in GObject and 
 	rgb values. */
 
