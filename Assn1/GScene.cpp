@@ -21,7 +21,7 @@ void GScene::updateScene() {
 	onTraverseUpdate();
 }
 void GScene::draw(mat4 MVMatrix) {
-	// nothing to draw
+	// nothing to draw. blank
 }
 void GScene::frameAction() {
 	/* ---------------------------- */

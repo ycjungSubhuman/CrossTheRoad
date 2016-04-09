@@ -115,12 +115,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Car.cpp" />
+    <ClCompile Include="CarLikeObject.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="GObject.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GScene.cpp" />
+    <ClCompile Include="LogOnWater.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rect.cpp" />
@@ -130,12 +132,14 @@
   <ItemGroup>
     <ClInclude Include="Angel.h" />
     <ClInclude Include="Car.h" />
+    <ClInclude Include="CarLikeObject.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="GObject.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="GScene.h" />
+    <ClInclude Include="LogOnWater.h" />
     <ClInclude Include="mat.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rect.h" />

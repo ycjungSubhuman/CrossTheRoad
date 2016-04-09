@@ -47,7 +47,6 @@ public:
 	int getGridnum();
 	int incrLInenum(int num=1);
 	int incrGridnum(int num);
-	~Player();
 private:
 	Status status;
 	Direction movedir;

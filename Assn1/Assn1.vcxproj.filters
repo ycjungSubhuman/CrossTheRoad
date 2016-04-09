@@ -27,9 +27,6 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Car.cpp">
-      <Filter>소스 파일\Class</Filter>
-    </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>소스 파일\Class</Filter>
     </ClCompile>
@@ -54,11 +51,17 @@
     <ClCompile Include="shaderutil.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="CarLikeObject.cpp">
+      <Filter>소스 파일\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Car.cpp">
+      <Filter>소스 파일\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="LogOnWater.cpp">
+      <Filter>소스 파일\Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Car.h">
-      <Filter>헤더 파일\Class</Filter>
-    </ClInclude>
     <ClInclude Include="GameMap.h">
       <Filter>헤더 파일\Class</Filter>
     </ClInclude>
@@ -91,6 +94,15 @@
     </ClInclude>
     <ClInclude Include="Angel.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CarLikeObject.h">
+      <Filter>헤더 파일\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Car.h">
+      <Filter>헤더 파일\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="LogOnWater.h">
+      <Filter>헤더 파일\Class</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
