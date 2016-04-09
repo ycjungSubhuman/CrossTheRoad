@@ -134,6 +134,7 @@ Player::Player()
 					arm_left_lower->addObject(hand_right);
 }
 void Player::move(Player::Direction dir) {
+	status = ALIVE; //unbound from Log
 	switch (dir) {
 	case RIGHT:
 		if (linenum < GameMap::MAPLENGTH - 1) {
@@ -197,7 +198,7 @@ Player::Status Player::getPlayerStatus() {
 }
 void Player::bindPlayerToCenter(GObject* obj) {
 	this->status = BOUND;
-	bound = obj;
+	bound_object = obj;
 }
 /*void Player::draw() {
 	/* draw player pelvis... or just draw nothing (if you have implemented 
@@ -228,63 +229,75 @@ void Player::frameAction() {
 	in this function. do things the player have to do frame by frame
 	ex) flickering colors*/
 	//moves player according to movedir
-	switch (movedir) {
-	case UP:
-		if (getY() + 2 < (gridnum + 2)*GameMap::MAPHEIGHT / GameMap::GRIDNUM) {
-			double next = (gridnum + 2)*GameMap::MAPHEIGHT / GameMap::GRIDNUM - getY();
-			next = next*0.5;
-			setPos(getX(), getY() + next);
-			std::cout << "moving..." << std::endl;
+	if (status == ALIVE) {
+		switch (movedir) {
+		case UP:
+			if (getY() + 2 < (gridnum + 2)*GameMap::MAPHEIGHT / GameMap::GRIDNUM) {
+				double next = (gridnum + 2)*GameMap::MAPHEIGHT / GameMap::GRIDNUM - getY();
+				next = next*0.5;
+				setPos(getX(), getY() + next);
+				std::cout << "moving..." << std::endl;
+			}
+			else {
+				setPos(getX(), (gridnum + 2)*GameMap::MAPHEIGHT / GameMap::GRIDNUM);
+				movedir = NONE;
+				gridnum++;
+				std::cout << "moving...end" << std::endl;
+			}
+			break;
+		case DOWN:
+			if (getY() - 2 > (gridnum)*GameMap::MAPHEIGHT / GameMap::GRIDNUM) {
+				double next = (gridnum)*GameMap::MAPHEIGHT / GameMap::GRIDNUM - getY();
+				next = next*0.5;
+				setPos(getX(), getY() + next);
+				std::cout << "moving..." << std::endl;
+			}
+			else {
+				setPos(getX(), (gridnum)*GameMap::MAPHEIGHT / GameMap::GRIDNUM);
+				movedir = NONE;
+				gridnum--;
+				std::cout << "moving...end" << std::endl;
+			}
+			break;
+		case RIGHT:
+			if (getX() + 2 < (linenum + 2)*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - Player::PLAYERWIDTH / 2) {
+				double next = (linenum + 2)*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - Player::PLAYERWIDTH / 2 - getX();
+				next = next*0.5;
+				setPos(getX() + next, getY());
+				std::cout << "moving..." << std::endl;
+			}
+			else {
+				setPos((linenum + 2)*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - Player::PLAYERWIDTH / 2, getY());
+				movedir = NONE;
+				linenum++;
+				std::cout << "moving...end" << std::endl;
+			}
+			break;
+		case LEFT:
+			if (getX() - 2 > (linenum)*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - Player::PLAYERWIDTH / 2) {
+				double next = (linenum)*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - Player::PLAYERWIDTH / 2 - getX();
+				next = next*0.5;
+				setPos(getX() + next, getY());
+				std::cout << "moving..." << std::endl;
+			}
+			else {
+				setPos((linenum)*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - Player::PLAYERWIDTH / 2, getY());
+				movedir = NONE;
+				linenum--;
+				std::cout << "moving...end" << std::endl;
+			}
+			break;
 		}
-		else {
-			setPos(getX(), (gridnum + 2)*GameMap::MAPHEIGHT / GameMap::GRIDNUM);
-			movedir = NONE;
-			gridnum++;
-			std::cout << "moving...end" << std::endl;
-		}
-		break;
-	case DOWN:
-		if (getY() - 2 > (gridnum)*GameMap::MAPHEIGHT / GameMap::GRIDNUM) {
-			double next = (gridnum)*GameMap::MAPHEIGHT / GameMap::GRIDNUM - getY();
-			next = next*0.5;
-			setPos(getX(), getY() + next);
-			std::cout << "moving..." << std::endl;
-		}
-		else {
-			setPos(getX(), (gridnum)*GameMap::MAPHEIGHT / GameMap::GRIDNUM);
-			movedir = NONE;
-			gridnum--;
-			std::cout << "moving...end" << std::endl;
-		}
-		break;
-	case RIGHT:
-		if (getX() + 2 < (linenum+2)*GameMap::COLUMN_WIDTH+GameMap::COLUMN_WIDTH/2-Player::PLAYERWIDTH/2) {
-			double next = (linenum+2)*GameMap::COLUMN_WIDTH +GameMap::COLUMN_WIDTH/2-Player::PLAYERWIDTH/2- getX();
-			next = next*0.5;
-			setPos(getX()+next, getY());
-			std::cout << "moving..." << std::endl;
-		}
-		else {
-			setPos((linenum+2)*GameMap::COLUMN_WIDTH+GameMap::COLUMN_WIDTH/2-Player::PLAYERWIDTH/2, getY());
-			movedir = NONE;
-			linenum++;
-			std::cout << "moving...end" << std::endl;
-		}
-		break;
-	case LEFT:
-		if (getX() - 2 > (linenum)*GameMap::COLUMN_WIDTH+GameMap::COLUMN_WIDTH/2-Player::PLAYERWIDTH/2) {
-			double next = (linenum)*GameMap::COLUMN_WIDTH +GameMap::COLUMN_WIDTH/2-Player::PLAYERWIDTH/2- getX();
-			next = next*0.5;
-			setPos(getX()+next, getY());
-			std::cout << "moving..." << std::endl;
-		}
-		else {
-			setPos((linenum)*GameMap::COLUMN_WIDTH+GameMap::COLUMN_WIDTH/2-Player::PLAYERWIDTH/2, getY());
-			movedir = NONE;
-			linenum--;
-			std::cout << "moving...end" << std::endl;
-		}
-		break;
+	}
+	else if(status == BOUND) { //when bound to some object
+		//always set the position of this object to bound object
+		Rect rect_bound = bound_object->getgloobj();
+		this->setPos(
+			rect_bound.x() + rect_bound.width()/2 - getobj().width()/2, 
+			rect_bound.y() - rect_bound.height()/2 + getobj().height()/2);
+
+		//set gridnum according to current location
+		gridnum = floor(abs(getobj().y() / ((double)GameMap::MAPHEIGHT / GameMap::GRIDNUM)));
 	}
 }
 int Player::getLinenum() {

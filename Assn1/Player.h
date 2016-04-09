@@ -7,7 +7,7 @@
 class Player : public GObject {
 private:
 	int linenum, gridnum;
-	GObject* bound;
+	GObject* bound_object;
 	//these pointes are referenced only from inside. a change in the 'status' can be
 	//done to manipulate player limbs
 	ORect *pelvis, *neck, *head;
