@@ -7,6 +7,15 @@ void GObject::setRect(const Rect& rect) {
 	this->obj = rect;
 }
 void GObject::onTraverseDraw(mat4 MVMatrix) {
+
+	mat4 MVMatrixLocal = MVMatrix;
+
+	MVMatrixLocal = MVMatrixLocal
+		* Translate(vec3(obj.x(), obj.y(), 0))
+		* Translate(vec3(rotx, roty, 0))
+		* RotateZ((GLfloat)rotation)
+		* Translate(vec3(-rotx, -roty, 0));
+
 	std::list<GObject*>::iterator nonnegstart = children.begin(); //the children with the first non-negative z-index
 	//negative indices
 	if ((*nonnegstart)->getZ() < 0) {
@@ -16,23 +25,19 @@ void GObject::onTraverseDraw(mat4 MVMatrix) {
 				break;
 			}
 			else {
-				(*it)->onTraverseDraw(MVMatrix);
+				(*it)->onTraverseDraw(MVMatrixLocal);
 			}
 		}
 	}
 	//draw this node
-	mat4 MVMatrixLocal = MVMatrix;
-
-	/* ------------------------------- */
-	/* implement stack computation here(according to current obj, rotation)*/
-	/* ------------------------------- */
+	
 
 	draw(MVMatrixLocal);
 
 	//positive indexes
 	if (nonnegstart != children.end()) {
 		for (std::list<GObject*>::iterator it = nonnegstart; it != children.end(); it++) {
-			(*it)->onTraverseDraw(MVMatrix);
+			(*it)->onTraverseDraw(MVMatrixLocal);
 		}
 	}
 }
