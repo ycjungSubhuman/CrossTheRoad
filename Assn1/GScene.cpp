@@ -16,10 +16,11 @@ void GScene::drawScene() {
 	/* Draws all elements in the scene */
 
 	mat4 MVMatrix = mat4();
-	MVMatrix = Angel::LookAt(
-		vec4(camloc, 0, 0, 1),
-		vec4(camloc, 0, -1, 1),
-		vec4(0, 1, 0, 1));
+	MVMatrix *= Angel::LookAt(
+		vec4(PlayerX, 0, 1, 1),
+		vec4(PlayerX, 0, -1, 1),
+		vec4(0, 1, 0, 1)
+		); 
 	onTraverseDraw(MVMatrix);
 }
 void GScene::updateScene() {

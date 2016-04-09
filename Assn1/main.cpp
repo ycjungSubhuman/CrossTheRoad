@@ -10,9 +10,6 @@
 #include "shaderutil.h"
 
 Game game;
-double camloc = 0.0f;
-double goalloc = 0.0f;
-double portion = 0.5;
 
 extern GLint u_Projection;
 
@@ -39,11 +36,11 @@ void init(void) {
 	loadShadersFromFile(vShaderFile, fShaderFile);
 
 	/* init screen */
-	glClearColor(0.0, 0.0, 0.0, 0.0);
-	glShadeModel(GL_FLAT);
+	//glClearColor(0.0, 0.0, 0.0, 0.0);
+	//glShadeModel(GL_FLAT);
 
 	//initiate timer call loop for car and log generation
-	for (int i = 0; i < GameMap::MAPLENGTH; i++) {
+	/*for (int i = 0; i < GameMap::MAPLENGTH; i++) {
 		int line = game.getMap()->getLine(i);
 		if (line == GameMap::ROADDOWN || line == GameMap::ROADUP) {
 			glutTimerFunc(Car::GENTIME+rand()%1000, genCar, i);
@@ -51,11 +48,11 @@ void init(void) {
 		if (line == GameMap::WATERDOWN || line == GameMap::WATERUP) {
 			glutTimerFunc(LogOnWater::GENTIME + rand() % 1000, genLog, i);
 		}
-	}
+	}*/
 
 	//Set projection matrix by ortho2D
 	mat4 projection = mat4();
-	projection = Ortho2D(0, GameMap::MAPHEIGHT * 2, 0, GameMap::MAPHEIGHT);
+	projection *= Ortho2D(0, GameMap::MAPHEIGHT, 0, GameMap::MAPHEIGHT);
 	glUniformMatrix4fv(u_Projection, 1, false, projection);
 }
 void drawView(void) {

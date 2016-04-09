@@ -35,7 +35,7 @@ void ORect::draw(mat4 MVMatrix)
 	glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
 	glUniform4fv(color_in, 1, colors);
 	glUniformMatrix4fv(u_Model, 1, false, MVMatrix);
-	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
 void ORect::frameAction()
