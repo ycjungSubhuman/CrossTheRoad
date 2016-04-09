@@ -91,13 +91,11 @@ void loadShadersFromFile(const char* vShaderFile, const char* fShaderFile) {
 	glGenBuffers(1, &buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
 
-	GLuint location = glGetAttribLocation(program, "position");
-	glEnableVertexAttribArray(location);
-	glVertexAttribPointer(location, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, 0, 0, NULL);
 
-	location = glGetAttribLocation(program, "color_in");
-	glEnableVertexAttribArray(location);
-	glVertexAttribPointer(location, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 4, GL_FLOAT, 0, 0, NULL);
 
 	u_Model = glGetUniformLocation(program, "u_Model");
 	u_Projection = glGetUniformLocation(program, "u_Projection");

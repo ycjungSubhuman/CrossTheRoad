@@ -62,7 +62,10 @@ void drawView(void) {
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	/* Implement view function*/
-	game.getScene()->drawScene();
+	//game.getScene()->drawScene();
+	ORect rec = ORect(0.0, 0.0, 1.0, 1.0, ORect::TOPLEFT, 0.0, "");
+	mat4 mats = mat4();
+	rec.draw(mats);
 
 	glutSwapBuffers();
 }

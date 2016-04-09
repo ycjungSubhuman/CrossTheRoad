@@ -30,10 +30,13 @@ void ORect::draw(mat4 MVMatrix)
 	float height = this->getobj().height();
 	float width = this->getobj().width();
 	vec3 points[4] = { vec3(0, 0, 0), vec3(width, 0, 0), vec3(width, -height, 0), vec3(0, -height, 0) };
-	vec4 colors = vec4(r, g, b, 1);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
+	vec4 colors[4] = { vec4(1,0,0, 1), vec4(1,0,0, 1), vec4(1,0,0, 1), vec4(1,0,0, 1) };
+
+	glBufferData(GL_ARRAY_BUFFER, sizeof(points)+sizeof(colors), NULL, GL_STATIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(points), points);
+	glBufferSubData(GL_ARRAY_BUFFER, sizeof(points), sizeof(colors), colors);
+
 	glUniformMatrix4fv(u_Model, 1, false, MVMatrix);
-	glUniform4fv(color_in, 1, colors);
 	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
 
