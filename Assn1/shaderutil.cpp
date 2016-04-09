@@ -5,7 +5,7 @@
 #define BUFFER_OFFSET( offset ) ((GLvoid*)(offset))
 
 GLuint program;
-GLint u_Model, u_Projection;
+GLint u_Model, u_Projection, color_in;
 GLuint buffer;
 
 static char* readShaderSource(const char* shaderFile) {
@@ -95,12 +95,13 @@ void loadShadersFromFile(const char* vShaderFile, const char* fShaderFile) {
 	glEnableVertexAttribArray(location);
 	glVertexAttribPointer(location, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 
-	location = glGetAttribLocation(program, "color_out");
+	location = glGetAttribLocation(program, "color_in");
 	glEnableVertexAttribArray(location);
-	glVertexAttribPointer(location, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+	glVertexAttribPointer(location, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 
 	u_Model = glGetUniformLocation(program, "u_Model");
 	u_Projection = glGetUniformLocation(program, "u_Projection");
+	color_in = glGetUniformLocation(program, "color_in");
 
 	GLint status;
 	glGetProgramiv(program, GL_LINK_STATUS, &status);

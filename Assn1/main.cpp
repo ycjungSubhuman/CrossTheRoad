@@ -54,7 +54,8 @@ void init(void) {
 	}
 
 	//Set projection matrix by ortho2D
-	mat4 projection = Ortho2D(0, GameMap::MAPHEIGHT * 2, 0, GameMap::MAPHEIGHT);
+	mat4 projection = mat4();
+	//projection = Ortho2D(0, GameMap::MAPHEIGHT * 2, 0, GameMap::MAPHEIGHT);
 	glUniformMatrix4fv(u_Projection, 1, false, projection);
 }
 void drawView(void) {

@@ -16,10 +16,10 @@ void GScene::drawScene() {
 	/* Draws all elements in the scene */
 
 	mat4 MVMatrix = Angel::mat4();
-	MVMatrix = Angel::LookAt(
+	/*MVMatrix = Angel::LookAt(
 		vec4(camloc, 0, 0, 1),
 		vec4(camloc, 0, -1, 1),
-		vec4(0, 1, 0, 1));
+		vec4(0, 1, 0, 1));*/
 	onTraverseDraw(MVMatrix);
 }
 void GScene::updateScene() {
@@ -30,7 +30,7 @@ void GScene::draw(mat4 MVMatrix) {
 	// nothing to draw. blank
 }
 void GScene::frameAction() {
-	float cam_dest = PlayerX;
+	float cam_dest = getChildOfType("PLAYER")->getgloobj().x();
 	camloc = 0.1 * cam_dest + 0.9 * camloc;
 }
 std::list<GObject*> GScene::getCollisionsOf(GObject* obj, std::string type) {
