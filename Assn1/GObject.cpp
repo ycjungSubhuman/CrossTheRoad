@@ -1,6 +1,9 @@
 #include "GObject.h"
 #include "Rect.h"
+#include "Game.h"
 #include <string>
+
+extern Game game;
 
 void GObject::setRect(const Rect& rect) {
 	/* sets the obj boundbox */
@@ -51,6 +54,7 @@ void GObject::onTraverseUpdate() {
 	}
 }
 GObject::GObject(const Rect& obj, const Rect& hitbox, std::string type) {
+	this->parent = nullptr;
 	this->obj = obj;
 	this->hitbox = hitbox;
 	this->type = type;
@@ -75,6 +79,21 @@ double GObject::getY() {
 }
 Rect GObject::getobj() {
 	return this->obj;
+}
+Rect GObject::getgloobj() {
+	//get object of global location 
+	GObject* curr_node = this; 
+	double x = 0, y = 0;
+	Rect original_rect = this->getobj();
+
+	while (curr_node != nullptr) {
+		Rect curr_rect = getobj();
+		x += curr_rect.x();
+		y += curr_rect.y();
+		
+		curr_node = curr_node->getParent();
+	}
+	return Rect(x, y, original_rect.width(), original_rect.height());
 }
 Rect GObject::gethitbox() {
 	return this->hitbox;
@@ -101,8 +120,8 @@ std::list<GObject*>* GObject::getChildren() {
 	return &children;
 }
 bool GObject::isCollide(GObject& o1, GObject& o2) {
-	Rect a = Rect(o1.getobj().x() + o1.gethitbox().x(), o1.getobj().y() + o1.gethitbox().y(), o1.gethitbox().width(), o1.gethitbox().height());
-	Rect b = Rect(o2.getobj().x() + o2.gethitbox().x(), o2.getobj().y() + o2.gethitbox().y(), o2.gethitbox().width(), o2.gethitbox().height());
+	Rect a = Rect(o1.getgloobj().x() + o1.gethitbox().x(), o1.getgloobj().y() + o1.gethitbox().y(), o1.gethitbox().width(), o1.gethitbox().height());
+	Rect b = Rect(o2.getgloobj().x() + o2.gethitbox().x(), o2.getgloobj().y() + o2.gethitbox().y(), o2.gethitbox().width(), o2.gethitbox().height());
 
 	if (Rect::isCollide(a, b)) 
 		return true;

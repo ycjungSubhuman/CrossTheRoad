@@ -28,12 +28,14 @@ public:
 	double getX();
 	double getY();
 	Rect getobj();
+	Rect getgloobj(); //get obj with global location
 	Rect gethitbox();
 	virtual void draw(mat4 MVMatrix)=0;
 	virtual void frameAction()=0;
 	std::string getType();
 	GObject* getChildOfType(std::string type);
 	std::list<GObject*>* getChildren();
+	void killThisIfOutOfMap(double width, double height);
 
 	static bool isCollide(GObject&, GObject&);
 	GObject* addObject(GObject* obj, int z=0);
