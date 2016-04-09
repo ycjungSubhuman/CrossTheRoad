@@ -18,19 +18,20 @@ void GObject::onTraverseDraw(mat4 MVMatrix) {
 
 	std::list<GObject*>::iterator nonnegstart = children.begin(); //the children with the first non-negative z-index
 	//negative indices
-	if ((*nonnegstart)->getZ() < 0) {
-		for (std::list<GObject*>::iterator it = children.begin(); it != children.end(); it++) {
-			if ((*it)->getZ() >= 0) {
-				nonnegstart = it;
-				break;
-			}
-			else {
-				(*it)->onTraverseDraw(MVMatrixLocal);
+	if (nonnegstart != children.end()) {
+		if ((*nonnegstart)->getZ() < 0) {
+			for (std::list<GObject*>::iterator it = children.begin(); it != children.end(); it++) {
+				if ((*it)->getZ() >= 0) {
+					nonnegstart = it;
+					break;
+				}
+				else {
+					(*it)->onTraverseDraw(MVMatrixLocal);
+				}
 			}
 		}
 	}
 	//draw this node
-	
 
 	draw(MVMatrixLocal);
 
