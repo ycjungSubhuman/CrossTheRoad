@@ -44,11 +44,11 @@ void GObject::onTraverseUpdate() {
 		(*it)->onTraverseUpdate();
 	}
 }
-GObject::GObject(const Rect& obj, const Rect& hitbox, int z, std::string type) {
+GObject::GObject(const Rect& obj, const Rect& hitbox, std::string type) {
 	this->obj = obj;
 	this->hitbox = hitbox;
 	this->type = type;
-	this->z = z;
+	this->z = 0;
 }
 void GObject::setPos(double x, double y) {
 	this->obj.setX(x);
@@ -72,6 +72,18 @@ int GObject::getZ() {
 std::string GObject::getType() {
 	return this->type;
 }
+GObject* GObject::getChildOfType(std::string type) {
+	/* returns the most closest -in hierachial sense- child with given type */
+	GObject* result = (type==this->type) ? this : nullptr;
+	GObject* tmp = nullptr;
+	if (result == nullptr) {
+		for (std::list<GObject*>::iterator it = children.begin(); it != children.end(); it++) {
+			tmp = (*it)->getChildOfType(type);
+			if (tmp != nullptr) result = tmp;
+		}
+	}
+	return result;
+}
 bool GObject::isCollide(GObject& o1, GObject& o2) {
 	Rect a = Rect(o1.getobj().x() + o1.gethitbox().x(), o1.getobj().y() + o1.gethitbox().y(), o1.gethitbox().width(), o1.gethitbox().height());
 	Rect b = Rect(o2.getobj().x() + o2.gethitbox().x(), o2.getobj().y() + o2.gethitbox().y(), o2.gethitbox().width(), o2.gethitbox().height());
@@ -81,11 +93,15 @@ bool GObject::isCollide(GObject& o1, GObject& o2) {
 	else 
 		return false;
 }
-GObject* GObject::addObject(GObject* obj) {
+GObject* GObject::addObject(GObject* obj, int z = 0) {
 	/* adds a node to the child of this node
 	keeping the order of z-index left to right */
-
 	bool isAdded = false;
+
+	//sets the z-index of this object to the given z
+	obj->z = z;
+
+	//order to z-index
 	for (std::list<GObject*>::iterator i = children.begin(); i != children.end(); i++) {
 		if (obj->getZ() < (*i)->getZ()) {
 			isAdded = true;

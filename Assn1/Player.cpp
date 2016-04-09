@@ -22,17 +22,44 @@ Player::Player(int z) : GObject(Rect(GameMap::COLUMN_WIDTH/2 - PLAYERWIDTH/2, PL
 	movedir = NONE;
 
 	/* making doll */
-	//x, y, a, b, rotcnt, rot, r, g, b
+	//x, y, a, b, rotcnt, rot
 	//x, y, width, height, rotcnt, rot
-	pelvis = new OEllipse(0, 0, PELVISSIZE, PELVISSIZE, 4, 0, 255, 0, 0);
-	leg_left_upper = new ORect((double)PELVISSIZE / 2, -(double)PELVISSIZE / 2, LEGWIDTH, LEGHEIGHT, 1, -0.2);
+
+	//because they are all children of this Player, delete will not be called in this
+	//class' destructor. the destructor of GObject will delete these limbs.
+	pelvis = new OEllipse(0, 0, PELVISRADIUS, PELVISRADIUS, 4, 0, 255, 0, 0);
+	leg_left_upper = new ORect(PELVISRADIUS, -PELVISRADIUS, LEGWIDTH, LEGHEIGHT, 1, -0.2);
 	leg_left_lower = new ORect(0, -LEGHEIGHT, LEGWIDTH, LEGHEIGHT, 1, 0);
 	foot_left = new ORect(0, -LEGHEIGHT, FOOTWIDTH, FOOTHEIGHT, 0, 0);
-	leg_right_upper = new ORect((double)PELVISSIZE / 2, -(double)PELVISSIZE / 2, LEGWIDTH, LEGHEIGHT, 1, 0.2);
+	leg_right_upper = new ORect(PELVISRADIUS, -PELVISRADIUS, LEGWIDTH, LEGHEIGHT, 1, 0.2);
 	leg_right_lower = new ORect(0, -LEGHEIGHT, LEGWIDTH, LEGHEIGHT, 1, 0);
 	foot_right = new ORect(0, -LEGHEIGHT, FOOTWIDTH, FOOTHEIGHT, 0, 0);
+	torso = new ORect(PELVISRADIUS - (double)TORSOWIDTH / 2, TORSOHEIGHT-(double)PELVISSIZE*0.3, TORSOWIDTH, TORSOHEIGHT, 7, 0);
+	neck = new OEllipse((double)TORSOWIDTH / 2 - NECKRADIUS, NECKRADIUS, NECKRADIUS, NECKRADIUS, 4, 0);
+	head = new OEllipse(NECKRADIUS - HEADMINOR, HEADMAJOR, HEADMINOR, HEADMAJOR, 7, 0);
+	arm_left_upper = new ORect((double)TORSOWIDTH/2-(double)ARMWIDTH/2, 0, ARMWIDTH, ARMHEIGHT, 1, 0.8);
+	arm_left_lower = = new ORect(0, -ARMHEIGHT, ARMWIDTH, ARMHEIGHT, 1, 0.2);
+	hand_left = new ORect(0, -ARMHEIGHT, HANDWIDTH, HANDHEIGHT, 0, 0.4);
+	arm_right_upper = new ORect((double)TORSOWIDTH / 2 - (double)ARMWIDTH / 2, 0, ARMWIDTH, ARMHEIGHT, 1, -0.8);
+	arm_right_lower = new ORect(0, -ARMHEIGHT, ARMWIDTH, ARMHEIGHT, 1, 0.2);
+	hand_right = new ORect(0, -ARMHEIGHT, HANDWIDTH, HANDHEIGHT, 0, 0.2);
 
-	
+	//making graph
+	pelvis->addObject(leg_left_upper, 0);
+		leg_left_upper->addObject(leg_left_lower);
+			leg_left_lower->addObject(foot_left);
+	pelvis->addObject(leg_right_upper, -1);
+		leg_right_upper->addObject(leg_right_lower);
+			leg_right_lower->addObject(foot_right);
+	pelvis->addObject(torso, 2);
+		torso->addObject(neck, -3);
+			neck->addObject(head);
+		torso->addObject(arm_left_upper, -1);
+			arm_left_upper->addObject(arm_left_lower);
+				arm_left_lower->addObject(hand_left);
+		torso->addObject(arm_right_upper, 1);
+			arm_right_upper->addObject(arm_right_lower);
+				arm_left_lower->addObject(hand_right);
 }
 void Player::move(Player::Direction dir) {
 	switch (dir) {
@@ -78,9 +105,9 @@ void Player::draw() {
 	/* draw player pelvis... or just draw nothing (if you have implemented 
 	a pelvis node) */
 
-	/* ----------------------------- */
-	/* Implement player drawing here */
-	/* ----------------------------- */
+	/* -------------------------------------------------- */
+	/* Implement player drawing here...well, draw nothing */
+	/* -------------------------------------------------- */
 
 	/* glColor3f(1.0f, 0.0f, 0.0f);
 	Rect playerobj = getobj();

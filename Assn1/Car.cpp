@@ -1,7 +1,7 @@
 #include "Car.h"
 #include "GameMap.h"
 
-Car::Car(int line, GameMap::Linetype linetype, int z) : GObject(Rect(0,0,CARWIDTH,CARHEIGHT), Rect(0,0,CARWIDTH,CARHEIGHT), z, "CAR")
+Car::Car(int line, GameMap::Linetype linetype, int z) : GObject(Rect(0,0,CARWIDTH,CARHEIGHT), Rect(0,0,CARWIDTH,CARHEIGHT), "CAR")
 {
 	//set car speed
 	dis_y = SPEED;

@@ -20,7 +20,7 @@ private:
 	std::string type; //type of this object(for RTTS with convenience)
 	std::list<GObject*> children; //list of children
 public:
-	GObject(const Rect& obj, const Rect& hitbox, int z=0, std::string type="OBJECT");
+	GObject(const Rect& obj, const Rect& hitbox, std::string type="OBJECT");
 	void setPos(double x, double y);
 	int getZ();
 	double getX();
@@ -30,9 +30,10 @@ public:
 	virtual void draw(mat4 MVMatrix)=0;
 	virtual void frameAction()=0;
 	std::string getType();
+	GObject* getChildOfType(std::string type);
 
 	static bool isCollide(GObject&, GObject&);
-	GObject* addObject(GObject* obj);
+	GObject* addObject(GObject* obj, int z=0);
 	GObject* removeObject(GObject* obj);
 	GObject* getParent();
 
