@@ -14,7 +14,7 @@ private:
 	int z; //z-index(relative to the parent)
 	GObject* parent; //pointer to the parent node
 	Rect obj; //local boundbox(relative to parent's position)
-	Rect hitbox; //collision box
+	Rect hitbox; //collision box(relative to obj)
 	double rotx, roty; //position of rotation center (reletive to obj)
 	double rotation; //amount of rotation
 	std::string type; //type of this object(for RTTS with convenience)
