@@ -28,22 +28,22 @@ Player::Player()
 
 	//because they are all children of this Player, delete will not be called in this
 	//class' destructor. when delete for Player is called, the destructor of GObject will delete these limbs.
-	pelvis = new ORect(0, 0, PELVISWIDTH, PELVISHEIGHT, 4, 0);
-	leg_left_upper = new ORect((double)PELVISWIDTH/2-LEGWIDTH, -(double)PELVISHEIGHT/2, LEGWIDTH, LEGHEIGHT, 1, -0.2);
-	leg_left_lower = new ORect(0, -LEGHEIGHT, LEGWIDTH, LEGHEIGHT, 1, 0);
-	foot_left = new ORect(0, -LEGHEIGHT, FOOTWIDTH, FOOTHEIGHT, 0, 0);
-	leg_right_upper = new ORect((double)PELVISWIDTH/2-LEGWIDTH, -(double)PELVISHEIGHT/2, LEGWIDTH, LEGHEIGHT, 1, 0.2);
-	leg_right_lower = new ORect(0, -LEGHEIGHT, LEGWIDTH, LEGHEIGHT, 1, 0);
-	foot_right = new ORect(0, -LEGHEIGHT, FOOTWIDTH, FOOTHEIGHT, 0, 0);
-	torso = new ORect((double)PELVISWIDTH/2 - (double)TORSOWIDTH / 2, TORSOHEIGHT-(double)PELVISHEIGHT/2*0.3, TORSOWIDTH, TORSOHEIGHT, 7, 0);
-	neck = new ORect((double)TORSOWIDTH / 2 - (double)NECKWIDHT/2, NECKHEIGHT*0.8, NECKWIDTH, NECKHEIGHT, 4, 0);
-	head = new ORect((double)NECKWIDTH/2 - (double)HEADWIDTH/2, HEADHEIGHT, HEADWIDTH, HEADHEIGHT, 7, 0);
-	arm_left_upper = new ORect((double)TORSOWIDTH/2-(double)ARMWIDTH/2, 0, ARMWIDTH, ARMHEIGHT, 1, 0.8);
-	arm_left_lower = = new ORect(0, -ARMHEIGHT, ARMWIDTH, ARMHEIGHT, 1, 0.2);
-	hand_left = new ORect(0, -ARMHEIGHT, HANDWIDTH, HANDHEIGHT, 0, 0.4);
-	arm_right_upper = new ORect((double)TORSOWIDTH / 2 - (double)ARMWIDTH / 2, 0, ARMWIDTH, ARMHEIGHT, 1, -0.8);
-	arm_right_lower = new ORect(0, -ARMHEIGHT, ARMWIDTH, ARMHEIGHT, 1, 0.2);
-	hand_right = new ORect(0, -ARMHEIGHT, HANDWIDTH, HANDHEIGHT, 0, 0.2);
+	pelvis = new ORect(0, 0, PELVISWIDTH, PELVISHEIGHT, ORect::CENTER, 0);
+	leg_left_upper = new ORect((double)PELVISWIDTH/2-LEGWIDTH, -(double)PELVISHEIGHT/2, LEGWIDTH, LEGHEIGHT, ORect::TOPMIDDLE, -0.2);
+	leg_left_lower = new ORect(0, -LEGHEIGHT, LEGWIDTH, LEGHEIGHT, ORect::TOPMIDDLE, 0);
+	foot_left = new ORect(0, -LEGHEIGHT, FOOTWIDTH, FOOTHEIGHT, ORect::TOPLEFT, 0);
+	leg_right_upper = new ORect((double)PELVISWIDTH/2-LEGWIDTH, -(double)PELVISHEIGHT/2, LEGWIDTH, LEGHEIGHT, ORect::TOPMIDDLE, 0.2);
+	leg_right_lower = new ORect(0, -LEGHEIGHT, LEGWIDTH, LEGHEIGHT, ORect::TOPMIDDLE, 0);
+	foot_right = new ORect(0, -LEGHEIGHT, FOOTWIDTH, FOOTHEIGHT, ORect::TOPLEFT, 0);
+	torso = new ORect((double)PELVISWIDTH/2 - (double)TORSOWIDTH / 2, TORSOHEIGHT-(double)PELVISHEIGHT/2*0.3, TORSOWIDTH, TORSOHEIGHT, ORect::BOTTOMMIDDLE, 0);
+	neck = new ORect((double)TORSOWIDTH / 2 - (double)NECKWIDTH/2, NECKHEIGHT*0.8, NECKWIDTH, NECKHEIGHT, ORect::CENTER, 0);
+	head = new ORect((double)NECKWIDTH/2 - (double)HEADWIDTH/2, HEADHEIGHT, HEADWIDTH, HEADHEIGHT, ORect::BOTTOMMIDDLE, 0);
+	arm_left_upper = new ORect((double)TORSOWIDTH/2-(double)ARMWIDTH/2, 0, ARMWIDTH, ARMHEIGHT, ORect::TOPMIDDLE, 0.8);
+	arm_left_lower = new ORect(0, -ARMHEIGHT, ARMWIDTH, ARMHEIGHT, ORect::TOPMIDDLE, 0.2);
+	hand_left = new ORect(0, -ARMHEIGHT, HANDWIDTH, HANDHEIGHT, ORect::TOPLEFT, 0.4);
+	arm_right_upper = new ORect((double)TORSOWIDTH / 2 - (double)ARMWIDTH / 2, 0, ARMWIDTH, ARMHEIGHT, ORect::TOPMIDDLE, -0.8);
+	arm_right_lower = new ORect(0, -ARMHEIGHT, ARMWIDTH, ARMHEIGHT, ORect::TOPMIDDLE, 0.2);
+	hand_right = new ORect(0, -ARMHEIGHT, HANDWIDTH, HANDHEIGHT, ORect::TOPLEFT, 0.2);
 
 	//making graph
 	pelvis->addObject(leg_left_upper, 0);
@@ -102,7 +102,7 @@ Player::Direction Player::getMoveDir() {
 Player::Status Player::getPlayerStatus() {
 	return status;
 }
-void Player::draw() {
+/*void Player::draw() {
 	/* draw player pelvis... or just draw nothing (if you have implemented 
 	a pelvis node) */
 
@@ -121,8 +121,8 @@ void Player::draw() {
 		break;
 	case Player::DEAD:
 		break;
-	} */
-}
+	}
+}*/
 void Player::frameAction() {
 	/*the controls will be processed in keyboard event callback.
 	in this function. do things the player have to do frame by frame
