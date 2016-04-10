@@ -1,3 +1,5 @@
+#version 400
+
 out vec4 color_out;
 uniform mat4 u_Projection;
 uniform mat4 u_Model;
@@ -8,10 +10,5 @@ const vec4 goo = vec4(0, 1.0, 0, 1.0);
 void main(void)
 {
 	gl_Position = u_Projection * u_Model * vec4(position, 1.0);
-	if(gl_Position.x == 0 && gl_Position.y == 0 && gl_Position.z ==0 && gl_Position.w==1) {
-		color_out = err;
-	}
-	else {
-		color_out = goo;
-	}
+	color_out = color_in;
 }

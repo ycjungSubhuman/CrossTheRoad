@@ -1,3 +1,5 @@
+#version 400
+
 in vec4 color_out;
 
 void main()

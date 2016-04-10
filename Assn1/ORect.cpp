@@ -2,6 +2,7 @@
 
 extern GLint u_Model;
 extern GLint color_in;
+extern GLuint rectbuffer;
 
 ORect::ORect(double x, double y, double width, double height, RotPoint rotcnt, double rot, std::string type)
 : GObject(Rect(x, y, width, height), Rect(0, 0, width, height), type){
@@ -29,13 +30,23 @@ void ORect::draw(mat4 MVMatrix)
 	/* ------------------------------------------------------- */
 	float height = this->getobj().height();
 	float width = this->getobj().width();
-	vec3 points[4] = { vec3(0, 0, 0), vec3(width, 0, 0), vec3(width, -height, 0), vec3(0, -height, 0) };
-	vec4 colors = vec4(r, g, b, 1);
+	GLint error;
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
+	MVMatrix = MVMatrix * Scale(width, height, 1);
+	
+	vec4 colors = vec4(r, g, b, 1);
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, rectbuffer);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	
 	glUniform4fv(color_in, 1, colors);
-	glUniformMatrix4fv(u_Model, 1, false, MVMatrix);
+	glUniformMatrix4fv(u_Model, 1, false, transpose(MVMatrix));
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDisableVertexAttribArray(0);
+	error = glGetError();
+	if (error != GL_NO_ERROR) {
+		printf("%x\n", error);
+	}
 }
 
 void ORect::frameAction()

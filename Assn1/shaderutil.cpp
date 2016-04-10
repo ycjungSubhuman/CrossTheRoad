@@ -6,7 +6,7 @@
 
 GLuint program;
 GLint u_Model, u_Projection, color_in;
-GLuint buffer;
+GLuint rectbuffer;
 
 static char* readShaderSource(const char* shaderFile) {
 	/* reads glsl file and returns string of the source code */
@@ -88,14 +88,13 @@ void loadShadersFromFile(const char* vShaderFile, const char* fShaderFile) {
 	glLinkProgram(program);
 	glUseProgram(program);
 
-	glGenBuffers(1, &buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);
 
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, 0, 0, NULL);
 
-	/*glEnableVertexAttribArray(1);
-	glertexAttribPointer(1, 4, GL_FLOAT, 0, 0, NULL);*/
+	//glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, 0, 0, NULL);
+
+	//glEnableVertexAttribArray(1);
+	//glVertexAttribPointer(1, 4, GL_FLOAT, 0, 0, NULL);
 
 	u_Model = glGetUniformLocation(program, "u_Model");
 	u_Projection = glGetUniformLocation(program, "u_Projection");
