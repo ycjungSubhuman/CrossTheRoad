@@ -17,7 +17,7 @@
 Player::Player() 
 	: GObject(Rect(GameMap::COLUMN_WIDTH/2 - PLAYERWIDTH/2, PLAYERHEIGHT*(GameMap::GRIDNUM/2+1), PLAYERWIDTH, PLAYERHEIGHT), Rect(PLAYERWIDTH*0.25, -PLAYERWIDTH*0.25, PLAYERWIDTH*0.5, PLAYERHEIGHT*0.5), "PLAYER")
 {
-	linenum = -1;
+	linenum = 0;
 	gridnum = GameMap::GRIDNUM / 2;
 	status = ALIVE;
 	movedir = NONE;
@@ -36,7 +36,7 @@ Player::Player()
 	leg_left_upper = new ORect(
 		(double)PELVISWIDTH/2-LEGWIDTH, -(double)PELVISHEIGHT/2,
 		LEGWIDTH, LEGHEIGHT, 
-		ORect::TOPMIDDLE, -0.2, 
+		ORect::TOPMIDDLE, -20, 
 		"LEG_LEFT_UPPER");
 	leg_left_lower = new ORect(
 		0, -LEGHEIGHT, 
@@ -51,7 +51,7 @@ Player::Player()
 	leg_right_upper = new ORect(
 		(double)PELVISWIDTH/2-LEGWIDTH, -(double)PELVISHEIGHT/2, 
 		LEGWIDTH, LEGHEIGHT,
-		ORect::TOPMIDDLE, 0.2,
+		ORect::TOPMIDDLE, 20,
 		"LEG_RIGHT_UPPER");
 	leg_right_lower = new ORect(
 		0, -LEGHEIGHT, 
@@ -81,7 +81,7 @@ Player::Player()
 	arm_left_upper = new ORect(
 		(double)TORSOWIDTH/2-(double)ARMWIDTH/2, 0,
 		ARMWIDTH, ARMHEIGHT,
-		ORect::TOPMIDDLE, 0.8,
+		ORect::TOPMIDDLE, 20,
 		"ARM_LEFT_UPPER");
 	arm_left_lower = new ORect(
 		0, -ARMHEIGHT,
@@ -96,7 +96,7 @@ Player::Player()
 	arm_right_upper = new ORect(
 		(double)TORSOWIDTH / 2 - (double)ARMWIDTH / 2, 0,
 		ARMWIDTH, ARMHEIGHT,
-		ORect::TOPMIDDLE, -0.8,
+		ORect::TOPMIDDLE, -20,
 		"ARM_RIGHT_UPPER");
 	arm_right_lower = new ORect(
 		0, -ARMHEIGHT,
@@ -117,10 +117,10 @@ Player::Player()
 
 	//making hierarchy of player graph
 	this->addObject(pelvis);
-		//pelvis->addObject(leg_left_upper, 0);
+		pelvis->addObject(leg_left_upper, 0);
 			leg_left_upper->addObject(leg_left_lower);
 				leg_left_lower->addObject(foot_left);
-		//pelvis->addObject(leg_right_upper, -1);
+		pelvis->addObject(leg_right_upper, -1);
 			leg_right_upper->addObject(leg_right_lower);
 				leg_right_lower->addObject(foot_right);
 		pelvis->addObject(torso, 2);
@@ -131,7 +131,7 @@ Player::Player()
 					arm_left_lower->addObject(hand_left);
 			torso->addObject(arm_right_upper, 1);
 				arm_right_upper->addObject(arm_right_lower);
-					arm_left_lower->addObject(hand_right);
+					arm_right_lower->addObject(hand_right);
 }
 void Player::move(Player::Direction dir) {
 	status = ALIVE; //unbound from Log
