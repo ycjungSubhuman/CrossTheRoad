@@ -9,9 +9,15 @@ ORect::ORect(double x, double y, double width, double height, RotPoint rotcnt, d
 	/* ---------------------------------------------------------------------- */
 	/* implement color initiallizing(maybe blue?) and setting rotx, roty, rot */
 	/* ---------------------------------------------------------------------- */
+	double rotx, roty;
 	this->r = 1;
 	this->g = 1;
 	this->b = 1;
+
+	switch(rotcnt){
+	case TOPLEFT:
+		rotx = x; roty = y; 
+	}
 }
 void ORect::setColor(int r, int g, int b)
 {

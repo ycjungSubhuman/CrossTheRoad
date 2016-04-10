@@ -117,10 +117,10 @@ Player::Player()
 
 	//making hierarchy of player graph
 	this->addObject(pelvis);
-		pelvis->addObject(leg_left_upper, 0);
+		//pelvis->addObject(leg_left_upper, 0);
 			leg_left_upper->addObject(leg_left_lower);
 				leg_left_lower->addObject(foot_left);
-		pelvis->addObject(leg_right_upper, -1);
+		//pelvis->addObject(leg_right_upper, -1);
 			leg_right_upper->addObject(leg_right_lower);
 				leg_right_lower->addObject(foot_right);
 		pelvis->addObject(torso, 2);
