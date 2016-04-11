@@ -2,6 +2,7 @@
 #include "Rect.h"
 #include "Game.h"
 #include <string>
+#include <queue>
 
 extern Game game;
 
@@ -88,7 +89,7 @@ Rect GObject::getgloobj() {
 	Rect original_rect = this->getobj();
 
 	while (curr_node != nullptr) {
-		Rect curr_rect = getobj();
+		Rect curr_rect = curr_node->getobj();
 		x += curr_rect.x();
 		y += curr_rect.y();
 		
@@ -149,19 +150,31 @@ GObject* GObject::addObject(GObject* obj, int z) {
 		//the end of this list
 		children.push_back(obj);
 	}
+	//set parent
+	obj->parent = this;
 	return obj;
 }
 GObject* GObject::removeObject(GObject* obj) {
 	/* remove specified GObject from the root of Scene Graph */
-	std::list<GObject*>::iterator target = std::find(children.begin(), children.end(), obj);
-	if (target != children.end()) {// target found
-		children.erase(target);
-		delete obj;
-		return obj;
+	std::queue<GObject*> travq;
+	std::list<GObject*>* current_children;
+	std::list<GObject*> result;
+
+	travq.push(this);
+
+	while (!travq.empty()) {
+		current_children = travq.front()->getChildren();
+		travq.pop();
+		for (std::list<GObject*>::iterator it = current_children->begin(); it != current_children->end(); it++) {
+			if ((*it) == obj) {
+				current_children->erase(it);
+				delete obj;
+				return obj;
+			}
+			travq.push((*it));
+		}
 	}
-	else {
-		return nullptr;
-	}
+	return nullptr;
 }
 GObject* GObject::getParent() {
 	return parent;

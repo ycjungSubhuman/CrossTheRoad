@@ -13,10 +13,10 @@ CarLikeObject::CarLikeObject(int line, GameMap::Linetype linetype, double width,
 	//start from up or down
 	if (linetype == GameMap::ROADDOWN || linetype == GameMap::WATERDOWN) {
 		dis_y = -dis_y;//goes down
-		y = GameMap::MAPHEIGHT + height;
+		y = height;
 	}
 	else {
-		y = 0;
+		y = -GameMap::MAPHEIGHT;
 	}
 	//line number
 	x = line*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - width / 2;

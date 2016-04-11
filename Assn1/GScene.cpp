@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include <queue>
+#include "GameMap.h"
 
 float camloc;
 float PlayerX;
@@ -47,8 +48,31 @@ std::list<GObject*> GScene::getCollisionsOf(GObject* obj, std::string type) {
 		current_children = travq.front()->getChildren();
 		travq.pop();
 		for (std::list<GObject*>::iterator it = current_children->begin(); it != current_children->end(); it++) {
-			if (GObject::isCollide(*(*it), *obj) && (*it)->getType() == type) {
-				result.push_front((*it));
+			if ((*it) != obj) {
+				if (GObject::isCollide(*(*it), *obj) && (*it)->getType() == type) {
+					result.push_front((*it));
+				}
+			}
+			travq.push((*it));
+		}
+	}
+	return result;
+}
+std::list<GObject*> GScene::getNonCollisions(GObject*obj) {
+	std::queue<GObject*> travq;
+	std::list<GObject*>* current_children;
+	std::list<GObject*> result;
+
+	travq.push(this);
+
+	while(!travq.empty()){
+		current_children = travq.front()->getChildren();
+		travq.pop();
+		for (std::list<GObject*>::iterator it = current_children->begin(); it != current_children->end(); it++) {
+			if ((*it) != obj) {
+				if (!GObject::isCollide(*(*it), *obj)) {
+					result.push_front((*it));
+				}
 			}
 			travq.push((*it));
 		}

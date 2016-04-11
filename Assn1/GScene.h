@@ -12,6 +12,6 @@ public:
 	void updateScene();
 	virtual void draw(mat4 MVMatrix);
 	virtual void frameAction();
-	std::list<GObject*> getCollisions(GObject* obj);
 	std::list<GObject*> getCollisionsOf(GObject* obj, std::string type);
+	std::list<GObject*> getNonCollisions(GObject* obj);
 };

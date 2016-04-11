@@ -7,6 +7,7 @@
 #include "Car.h"
 #include "LogOnWater.h"
 #include<iostream>
+#include<algorithm>
 #include "shaderutil.h"
 
 Game game;
@@ -98,6 +99,8 @@ void processUserInput(int key, int x, int y) {
 void updateScene(int val)
 {
 	/* Implement Scene Update */
+	Rect player = game.getPlayer()->getgloobj();
+	Rect parent = game.getPlayer()->getParent() -> getgloobj();
 
 	//clear cars out of the map
 	game.getScene()->updateScene();
@@ -107,6 +110,28 @@ void updateScene(int val)
 
 	//check for collisions of water
 	std::list<GObject*> log_col = game.getScene()->getCollisionsOf(game.getPlayer(), "LOG");
+
+	//check for out-of-map objects
+	std::list<GObject*> map_noncol = game.getScene()->getNonCollisions(game.getMap());
+
+	//clear out-of-map objects
+	std::for_each(map_noncol.begin(), map_noncol.end(), [=](GObject* obj) {
+		if (obj->getType() == "PLAYER") {
+			game.newPlayer();
+			return;
+		}
+		else if (obj->getType() == "LOG") {
+			if (game.getPlayer()->getPlayerStatus() == Player::BOUND && obj == game.getPlayer()->getBoundObject()) {
+				game.newPlayer();
+				game.getScene()->removeObject(obj);
+			}
+		}
+		else if (obj->getType() == "CAR") {
+			Rect map = game.getMap()->getgloobj();
+			Rect car = obj->getgloobj();
+		}
+		game.getScene()->removeObject(obj);
+	});
 
 	//check if the player is in water
 	GameMap::Linetype current_coltype = game.getMap()->getLine(game.getPlayer()->getLinenum());
@@ -143,7 +168,6 @@ void updateScene(int val)
 	glEnableVertexAttribArray(color_in);
 	//check for goal
 	if (game.getPlayer()->getLinenum() == GameMap::MAPLENGTH - 2) {
-		std::cout << "WIN" << std::endl;
 		exit(0);
 	}
 

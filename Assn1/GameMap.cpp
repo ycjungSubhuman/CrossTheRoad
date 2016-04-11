@@ -15,7 +15,7 @@
 	glRectf(x*Maplength - Linelength, 11 * Lineheight, x*Maplength + Linelength, 112 * Lineheight);
 }*/
 
-GameMap::GameMap() : GObject(Rect(0, 0, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT), Rect(0,0,0,0), "BACKGROUND")
+GameMap::GameMap() : GObject(Rect(0, MAPHEIGHT, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT), Rect(0,0,COLUMN_WIDTH*MAPLENGTH,MAPHEIGHT*2), "BACKGROUND")
 {
 	/* 맵 전체를 그리는 함수
 	 mapinfo의 배열에 따라서 다른 맵을 그려야 한다*/

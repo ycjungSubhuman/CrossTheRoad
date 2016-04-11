@@ -47,6 +47,7 @@ public:
 	Direction getMoveDir();
 	Status getPlayerStatus();
 	void bindPlayerToCenter(GObject* obj);
+	GObject* getBoundObject();
 	int getLinenum();
 	int getGridnum();
 	int incrLInenum(int num=1);
