@@ -165,7 +165,17 @@ void updateScene(int val)
 					game.getPlayer()->incrLinenum(1);
 				else if (game.getPlayer()->getMoveDir() == Player::LEFT)
 					game.getPlayer()->incrLinenum(-1);
-				game.getPlayer()->bindPlayerToCenter(log_col.back());
+				//find the closet log
+				std::list<GObject*>::iterator target_log = log_col.begin();
+				if ((*target_log) == game.getPlayer()->getBoundObject()) {
+					if (log_col.size() > 1) {
+						target_log++;
+						game.getPlayer()->bindPlayerToCenter(*target_log);
+					}
+				}
+				else {
+					game.getPlayer()->bindPlayerToCenter(*target_log);
+				}
 			}
 		}
 	}

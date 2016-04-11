@@ -230,11 +230,9 @@ void Player::frameAction() {
 	in this function. do things the player have to do frame by frame
 	ex) flickering colors*/
 	//moves player according to movedir
-	std::cout << linenum << std::endl;
 	if (status == ALIVE) {
 		switch (movedir) {
 		case UP:
-			std::cout << "moving" << gridnum << std::endl;
 			if (getY() + 2 < -(gridnum-1)*(GameMap::MAPHEIGHT/GameMap::GRIDNUM) ){
 				double next = -(gridnum - 1)*GameMap::MAPHEIGHT / GameMap::GRIDNUM - getY();
 				next = next*0.5;
@@ -245,7 +243,6 @@ void Player::frameAction() {
 			}
 			break;
 		case DOWN:
-			std::cout << "moving" << gridnum <<std::endl;
 			if (getY() - 2 > -(gridnum+1)*GameMap::MAPHEIGHT / GameMap::GRIDNUM) {
 				double next = -(gridnum+1)*GameMap::MAPHEIGHT / GameMap::GRIDNUM - getY();
 				next = next*0.5;
