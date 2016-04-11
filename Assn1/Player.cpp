@@ -278,9 +278,18 @@ void Player::frameAction() {
 		}
 
 		//animation
+		head->setRotation(head->getRotation() + 10);
 		if (movedir != NONE) {
+			const double scale = 0.8;
+			double arm_upper_rot_dist = scale * (ROTATION - arm_left_upper->getRotation());
+			double arm_lower_rot_dist = scale * (ROTATION - arm_left_lower->getRotation());
+			double leg_upper_rot_dist = scale * (ROTATION - leg_left_upper->getRotation());
+			double leg_lower_rot_dist = scale * (ROTATION - leg_left_lower->getRotation());
 
-
+			arm_left_upper->setRotation(arm_left_upper->getRotation() + arm_upper_rot_dist);
+			arm_right_upper->setRotation(arm_right_upper->getRotation() + arm_upper_rot_dist);
+			arm_left_lower->setRotation(arm_left_lower->getRotation() + arm_lower_rot_dist);
+			arm_right_lower->setRotation(arm_right_upper->getRotation() + arm_lower_rot_dist);
 		}
 	}
 	else if(status == BOUND) { //when bound to some object

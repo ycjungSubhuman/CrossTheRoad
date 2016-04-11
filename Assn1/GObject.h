@@ -30,6 +30,7 @@ public:
 	Rect getobj();
 	Rect getgloobj(); //get obj with global location
 	Rect gethitbox();
+	double getRotation();
 	virtual void draw(mat4 MVMatrix)=0;
 	virtual void frameAction()=0;
 	std::string getType();
