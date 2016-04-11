@@ -165,7 +165,7 @@ void Player::move(Player::Direction dir) {
 }
 void Player::undoMove() {
 	movedir = NONE;
-	setPos((linenum)*GameMap::COLUMN_WIDTH + (double)GameMap::COLUMN_WIDTH / 2 - (double)Player::PLAYERWIDTH / 2, -(double)(gridnum)*GameMap::MAPHEIGHT / GameMap::GRIDNUM);
+	setPos((linenum)*GameMap::COLUMN_WIDTH + (double)GameMap::COLUMN_WIDTH / 2, -(double)(gridnum)*GameMap::MAPHEIGHT / GameMap::GRIDNUM);
 }
 void Player::finishMove() {
 
@@ -230,6 +230,7 @@ void Player::frameAction() {
 	in this function. do things the player have to do frame by frame
 	ex) flickering colors*/
 	//moves player according to movedir
+	std::cout << linenum << std::endl;
 	if (status == ALIVE) {
 		switch (movedir) {
 		case UP:
@@ -275,14 +276,20 @@ void Player::frameAction() {
 			}
 			break;
 		}
+
+		//animation
+		if (movedir != NONE) {
+
+
+		}
 	}
 	else if(status == BOUND) { //when bound to some object
 		//always set the position of this object to bound object
 		Rect rect_bound = bound_object->getgloobj();
 		Rect parent_rect = getParent()->getgloobj();
 		this->setPos(
-			(rect_bound.x() + rect_bound.width()/2 - getobj().width()/2), 
-			rect_bound.y() - rect_bound.height()/2 + getobj().height()/2);
+			(rect_bound.x() + rect_bound.width()/2)-parent_rect.x(), 
+			rect_bound.y() - rect_bound.height()/2 - parent_rect.y());
 
 		//set gridnum according to current location
 		gridnum = floor(abs(getobj().y() / ((double)GameMap::MAPHEIGHT / GameMap::GRIDNUM)));
@@ -294,7 +301,7 @@ int Player::getLinenum() {
 int Player::getGridnum() {
 	return gridnum; //vertical position
 }
-int Player::incrLInenum(int num)
+int Player::incrLinenum(int num)
 {
 	return this->linenum += num;
 }
