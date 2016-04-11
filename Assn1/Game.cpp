@@ -65,7 +65,7 @@ Player* Game::getPlayer() {
 void Game::newPlayer() {
 	getMap()->removeObject(player);
 	player = new Player();
-	getMap()->addObject(player);
+	getMap()->addObject(player, 2);
 }
 Game::~Game() {
 	delete scene;

@@ -138,7 +138,7 @@ void updateScene(int val)
 
 	//check for player death
 	if (!car_col.empty() ||  //collision with car
-		(log_col.empty() && (current_coltype==GameMap::WATERDOWN || current_coltype==GameMap::WATERUP))) {
+		(game.getPlayer()->getMoveDir() == Player::NONE && log_col.empty() && (current_coltype==GameMap::WATERDOWN || current_coltype==GameMap::WATERUP))) {
 		//^ no collisions with LogOnWater but in the water
 		//game over
 		game.newPlayer();
@@ -160,8 +160,13 @@ void updateScene(int val)
 		}
 		if (linetype_of_next == GameMap::WATERDOWN || linetype_of_next == GameMap::WATERUP) {
 			//make the player ride the log
-			if (game.getPlayer()->getPlayerStatus() == Player::ALIVE)
-				game.getPlayer()->bindPlayerToCenter(log_col.front());
+			if (game.getPlayer()->getPlayerStatus() == Player::ALIVE) {
+				if (game.getPlayer()->getMoveDir() == Player::RIGHT)
+					game.getPlayer()->incrLinenum(1);
+				else if (game.getPlayer()->getMoveDir() == Player::LEFT)
+					game.getPlayer()->incrLinenum(-1);
+				game.getPlayer()->bindPlayerToCenter(log_col.back());
+			}
 		}
 	}
 
