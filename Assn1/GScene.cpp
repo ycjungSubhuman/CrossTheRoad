@@ -18,8 +18,8 @@ void GScene::drawScene() {
 
 	mat4 MVMatrix = mat4();
 	MVMatrix *= Angel::LookAt(
-		vec4(camloc, 0, 1, 1),
-		vec4(camloc, 0, -1, 1),
+		vec4(camloc-10, 0, 1, 1),
+		vec4(camloc-10, 0, -1, 1),
 		vec4(0, 1, 0, 1)
 		); 
 	onTraverseDraw(MVMatrix);
@@ -33,7 +33,7 @@ void GScene::draw(mat4 MVMatrix) {
 }
 void GScene::frameAction() {
 	float cam_dest = getChildOfType("PLAYER")->getgloobj().x();
-	camloc = 0.1 * cam_dest + 0.9 * camloc;
+	camloc = 0.3 * cam_dest + 0.7 * camloc;
 }
 std::list<GObject*> GScene::getCollisionsOf(GObject* obj, std::string type) {
 	/* I'll go with iterative traverse because returning copy of list in recursion is possibly too

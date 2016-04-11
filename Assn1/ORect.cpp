@@ -42,9 +42,9 @@ void ORect::setColor(int r, int g, int b)
 	/* ------------------------------------------------------ */
 	/* implement converting int rgb to double rgb and storing */
 	/* ------------------------------------------------------ */
-	this->r = ((double)r / 256);
-	this->g = ((double)g / 256);
-	this->b = ((double)b / 256);
+	this->r = ((double)r / 256.0f);
+	this->g = ((double)g / 256.0f);
+	this->b = ((double)b / 256.0f);
 }
 
 void ORect::draw(mat4 MVMatrix)

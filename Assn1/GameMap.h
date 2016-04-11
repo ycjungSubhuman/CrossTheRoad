@@ -1,6 +1,7 @@
 #pragma once
 #include "GObject.h"
 #include "mat.h"
+#include "ORect.h"
 #include <vector>
 
 class GameMap : public GObject {
