@@ -7,31 +7,16 @@ void DrawRoadLine(int Maplength, int Mapheight, int x, mat4 MVMatrix)
 {
 	double Linelength = Maplength / 20;
 	double Lineheight = Mapheight / 12;
-	/*glColor3f(1.0f, 1.0f, 1.0f);
 	
-	glRectf(x*Maplength - Linelength, 0, x*Maplength + Linelength, Lineheight);
-	glRectf(x*Maplength - Linelength, 3 * Lineheight, x*Maplength + Linelength, 5 * Lineheight);
-	glRectf(x*Maplength - Linelength, 7 * Lineheight, x*Maplength + Linelength, 9 * Lineheight);
-	glRectf(x*Maplength - Linelength, 11 * Lineheight, x*Maplength + Linelength, 112 * Lineheight);*/
 	ORect* maprect = new ORect(x*Maplength - Linelength, 0, 2*Linelength, Lineheight, ORect::BOTTOMLEFT, 0.0f, "GAMEMAPROAD");
 	maprect->setColor(255,255,255);
-	maprect->draw(MVMatrix);
-	delete(maprect);
-	maprect = new ORect(x*Maplength - Linelength, 3 * Lineheight, 2 * Linelength, 2 * Lineheight, ORect::BOTTOMLEFT, 0.0f, "GAMEMAPROAD");
-	maprect->setColor(255, 255, 255);
-	maprect->draw(MVMatrix);
-	delete(maprect);
-	maprect = new ORect(x*Maplength - Linelength, 7 * Lineheight, 2 * Linelength, 2 * Lineheight, ORect::BOTTOMLEFT, 0.0f, "GAMEMAPROAD");
-	maprect->setColor(255, 255, 255);
-	maprect->draw(MVMatrix);
-	delete(maprect);
-	maprect = new ORect(x*Maplength - Linelength, 11 * Lineheight, 2 * Linelength, Lineheight, ORect::BOTTOMLEFT, 0.0f, "GAMEMAPROAD");
-	maprect->setColor(255, 255, 255);
-	maprect->draw(MVMatrix);
-	delete(maprect);
-	maprect = new ORect(40, 0, 2 * Linelength, Lineheight, ORect::BOTTOMLEFT, 0.0f, "GAMEMAPROAD");
-	maprect->setColor(255, 255, 255);
-	maprect->draw(MVMatrix);
+
+	maprect->draw(MVMatrix * Translate(x*Maplength - Linelength, 0, 0));
+	maprect->draw(MVMatrix * Translate(x*Maplength - Linelength, -3 * Lineheight, 0));
+	maprect->draw(MVMatrix * Translate(x*Maplength - Linelength, -6 * Lineheight, 0));
+	maprect->draw(MVMatrix * Translate(x*Maplength - Linelength, -9 * Lineheight, 0));
+	maprect->draw(MVMatrix * Translate(x*Maplength - Linelength, -12 * Lineheight, 0));
+
 	delete(maprect);
 }
 
@@ -92,23 +77,31 @@ void GameMap::draw(mat4 MVMatrix) {
 	} */
 	ORect* maprect = new ORect(0.0f, 0.0f, MAPLENGTH * COLUMN_WIDTH, MAPHEIGHT, ORect::BOTTOMLEFT, 0.0f, "GAMEMAP");
 	maprect->setColor(51, 51, 51);
+
 	maprect->draw(MVMatrix);
-	delete(maprect);
+	
+	ORect* grassrect = new ORect(0.0, 0.0f, COLUMN_WIDTH, MAPHEIGHT, ORect::BOTTOMLEFT, 0.0f, "GAMEMAPGRASS");
+	grassrect->setColor(83, 255, 26);
+	ORect* waterrect = new ORect(0.0, 0.0f, COLUMN_WIDTH, MAPHEIGHT, ORect::BOTTOMLEFT, 0.0f, "GAMEMAPWATER");
+	waterrect->setColor(25, 30, 255);
 	for (int i = 0; i < MAPLENGTH; i++)
 	{
 		if (getLine(i) == GRASS)
+		{			
+			grassrect->draw(MVMatrix * Translate(i*COLUMN_WIDTH, 0.0f, 0));			
+		}
+		else if ((getLine(i) == WATERDOWN) || (getLine(i) == WATERUP))
 		{
-			ORect* grassrect = new ORect(i*COLUMN_WIDTH, 0.0f, COLUMN_WIDTH, MAPHEIGHT, ORect::BOTTOMLEFT, 0.0f, "GAMEMAPGRASS");
-			grassrect->setColor(83, 255, 26);
-			grassrect->draw(MVMatrix);
-			delete(grassrect);
+			waterrect->draw(MVMatrix * Translate(i*COLUMN_WIDTH, 0.0f, 0));
 		}
 		else
 		{
-			if (getLine(i - 1) != GRASS)
+			if ((getLine(i - 1) != GRASS) && (getLine(i - 1) != WATERDOWN) && (getLine(i - 1) != WATERUP))
 				DrawRoadLine(COLUMN_WIDTH, MAPHEIGHT, i, MVMatrix);
 		}
 	}
+	delete(maprect);
+	delete(grassrect);
 
 }
 GameMap::Linetype GameMap::getLine(int i) {
