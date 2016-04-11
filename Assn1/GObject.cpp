@@ -100,6 +100,9 @@ Rect GObject::getgloobj() {
 Rect GObject::gethitbox() {
 	return this->hitbox;
 }
+double GObject::getRotation() {
+	return this->rotation;
+}
 int GObject::getZ() {
 	return z;
 }

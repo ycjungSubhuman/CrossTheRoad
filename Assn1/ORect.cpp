@@ -16,23 +16,23 @@ ORect::ORect(double x, double y, double width, double height, RotPoint rotcnt, d
 
 	switch(rotcnt){
 	case TOPLEFT:
-		rotx = x; roty = y; break;
+		rotx = 0; roty = 0; break;
 	case TOPMIDDLE:
-		rotx = x + width / 2; roty = y; break;
+		rotx = 0 + width / 2; roty = 0; break;
 	case TOPRIGHT:
-		rotx = x + width; roty = y; break;
+		rotx = 0 + width; roty = 0; break;
 	case MIDDLELEFT:
-		rotx = x; roty = y - height / 2; break;
+		rotx = 0; roty = 0 - height / 2; break;
 	case CENTER:
-		rotx = x + width / 2; roty = y - height / 2; break;
+		rotx = 0 + width / 2; roty = 0 - height / 2; break;
 	case MIDDLERIGHT:
-		rotx = x + width; roty = y - height / 2; break;
+		rotx = 0 + width; roty = 0 - height / 2; break;
 	case BOTTOMLEFT:
-		rotx = x; roty = y - height; break;
+		rotx = 0; roty = 0 - height; break;
 	case BOTTOMMIDDLE:
-		rotx = x + width / 2; roty = y - height; break;
+		rotx = 0 + width / 2; roty = 0 - height; break;
 	case BOTTOMRIGHT:
-		rotx = x + width; roty = y - height; break;
+		rotx = 0 + width; roty = 0 - height; break;
 	}
 	setRotCenter(rotx, roty);
 	setRotation(rot);

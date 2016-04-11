@@ -38,6 +38,9 @@ public:
 		HANDWIDTH = 1,
 		HANDHEIGHT = 1,
 	};
+	enum {
+		ROTATION = 10,
+	};
 	enum Direction { NONE, RIGHT, UP, DOWN, LEFT };
 	virtual void draw(mat4 MVMatrix);
 	virtual void frameAction();

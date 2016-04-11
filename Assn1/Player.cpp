@@ -278,9 +278,37 @@ void Player::frameAction() {
 		}
 
 		//animation
+		head->setRotation(head->getRotation() + 10);
 		if (movedir != NONE) {
+			const double scale = 0.8;
+			double arm_upper_rot_dist = scale * (ROTATION - arm_left_upper->getRotation());
+			double arm_lower_rot_dist = scale * (ROTATION - arm_left_lower->getRotation());
+			double leg_upper_rot_dist = scale * (ROTATION - leg_left_upper->getRotation());
+			double leg_lower_rot_dist = scale * (ROTATION - leg_left_lower->getRotation());
 
+			arm_left_upper->setRotation(arm_left_upper->getRotation() + arm_upper_rot_dist);
+			arm_right_upper->setRotation(arm_right_upper->getRotation() + arm_upper_rot_dist);
+			arm_left_lower->setRotation(arm_left_lower->getRotation() + arm_lower_rot_dist);
+			arm_right_lower->setRotation(arm_right_upper->getRotation() + arm_lower_rot_dist);
+			leg_left_upper->setRotation(leg_left_upper->getRotation() + leg_upper_rot_dist);
+			leg_left_lower->setRotation(leg_left_lower->getRotation() + leg_lower_rot_dist);
+			leg_right_upper->setRotation(leg_right_upper->getRotation() + leg_upper_rot_dist);
+			leg_right_lower->setRotation(leg_right_lower->getRotation() + leg_lower_rot_dist);
+		}
+		else {
+			const double scale = 0.8;
+			double arm_upper_rot_dist = scale * (20 - arm_left_upper->getRotation());
+			double arm_lower_rot_dist = scale * (40 - arm_left_lower->getRotation());
+			double leg_upper_rot_dist = scale * (-20 - leg_left_upper->getRotation());
+			double leg_lower_rot_dist = scale * (20 - leg_left_lower->getRotation());
 
+			arm_left_upper->setRotation(arm_left_upper->getRotation() + arm_upper_rot_dist);
+			arm_right_upper->setRotation(arm_right_upper->getRotation() + arm_upper_rot_dist);
+			arm_left_lower->setRotation(arm_left_lower->getRotation() + arm_lower_rot_dist);
+			leg_left_upper->setRotation(leg_left_upper->getRotation() + leg_upper_rot_dist);
+			leg_left_lower->setRotation(leg_left_lower->getRotation() + leg_lower_rot_dist);
+			leg_right_upper->setRotation(leg_right_upper->getRotation() + leg_upper_rot_dist);
+			leg_right_lower->setRotation(leg_right_lower->getRotation() + leg_lower_rot_dist);		arm_right_lower->setRotation(arm_right_upper->getRotation() + arm_lower_rot_dist);
 		}
 	}
 	else if(status == BOUND) { //when bound to some object
