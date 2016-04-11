@@ -15,7 +15,7 @@
 } */
 
 Player::Player() 
-	: GObject(Rect(GameMap::COLUMN_WIDTH/2 - PLAYERWIDTH/2, -(double)GameMap::MAPHEIGHT/GameMap::GRIDNUM*(GameMap::GRIDNUM/2), PLAYERWIDTH, PLAYERHEIGHT), Rect(PLAYERWIDTH*0.25, -PLAYERWIDTH*0.25, PLAYERWIDTH*0.5, PLAYERHEIGHT*0.5), "PLAYER")
+	: GObject(Rect(GameMap::COLUMN_WIDTH/2, -(double)GameMap::MAPHEIGHT/GameMap::GRIDNUM*(GameMap::GRIDNUM/2), PLAYERWIDTH, PLAYERHEIGHT), Rect(PLAYERWIDTH*0.25, -PLAYERWIDTH*0.25, PLAYERWIDTH*0.5, PLAYERHEIGHT*0.5), "PLAYER")
 {
 	linenum = 0;
 	gridnum = GameMap::GRIDNUM / 2;
@@ -114,6 +114,24 @@ Player::Player()
 	/* ------------------------------------------------------------ */
 	/* implement calling setColor for each part! (COLOR TIME! YAY!) */
 	/* ------------------------------------------------------------ */
+	head->setColor(255, 0, 0);
+	torso->setColor(0, 0, 120);
+	arm_left_upper->setColor(77, 77, 77);
+	arm_left_lower->setColor(180, 180, 180);
+	arm_right_upper->setColor(77, 77, 77);
+	arm_right_lower->setColor(180, 180, 180);
+	leg_left_upper->setColor(77, 77, 77);
+	leg_left_lower->setColor(180, 180, 180);
+	leg_right_upper->setColor(77, 77, 77);
+	leg_right_lower->setColor(180, 180, 180);
+	hand_left->setColor(180, 52, 52);
+	hand_right->setColor(180, 52, 52);
+	foot_left->setColor(0, 0, 0);
+	foot_right->setColor(0, 0, 0);
+	pelvis->setColor(0, 255, 255);
+	neck->setColor(0, 255, 255);
+
+
 
 	//making hierarchy of player graph
 	this->addObject(pelvis);
@@ -275,7 +293,7 @@ void Player::frameAction() {
 		}
 
 		//animation
-		head->setRotation(head->getRotation() + 10);
+		//head->setRotation(head->getRotation() + 10);
 		if (movedir != NONE) {
 			const double scale = 0.8;
 			double arm_upper_rot_dist = scale * (ROTATION - arm_left_upper->getRotation());
