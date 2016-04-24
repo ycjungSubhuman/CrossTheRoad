@@ -2,7 +2,7 @@
 #include "GObject.h"
 #include "GameMap.h"
 #include "mat.h"
-#include "ORect.h"
+#include "O3DModel.h"
 
 class Player : public GObject {
 private:
@@ -10,6 +10,7 @@ private:
 	GObject* bound_object;
 	//these pointes are referenced only from inside. a change in the 'status' can be
 	//done to manipulate player limbs
+	O3DModel *head, *hair, *arm_left, *arm_right, *eyes, *neck;
 public:
 	Player();
 	enum Status { ALIVE, WALKING, BOUND, DEAD };

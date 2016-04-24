@@ -1,6 +1,7 @@
 #pragma once
 #include "GObject.h"
 #include <map>
+#include <tuple>
 
 /* O3DModel : Any 3D Model on the screen. It has static method 
 to load model from .wobj files. Its field represents the index of the
@@ -12,20 +13,24 @@ private:
 	GLint index_vbo;
 public:
 	enum RotPoint {
-		LLL, LLM, LLR,
-		LML, LMM, LMR,
-		LRL, LRM, LRR,
+		AAA, BAA, CAA,
+		ABA, BBA, CBA,
+		ACA, BCA, CCA,
 
-		MLL, MLM, MLR,
-		MML, MMM, MMR,
-		MRL, MRM, MRR,
+		AAB, BAB, CAB,
+		ABB, BBB, CBB,
+		ACB, BCB, CCB,
 
-		RLL, RLM, RLR,
-		RML, RMM, RMR,
-		RRL, RRM, RRR,
+		AAC, BAC, CAC,
+		ABC, BBC, CBC,
+		ACC, BCC, CCC
 	};
 
-	O3DModel(double x, double y, double z, double width, double height, RotPoint rotcnt, double rotx, double roty, std::string type, GLint index_vbo);
-	static std::map<std::string, GLint> loadModelFromFile(std::string name_file);
+	O3DModel(double x, double y, double z, 
+		RotPoint rotcnt, double rotx, double roty, 
+		std::string type, 
+		std::tuple<GLint,double,double> data_model);
+	static std::map<std::string, std::tuple<GLint,double,double>> loadModelFromFile(std::string name_file);
 	virtual void draw(mat4 MVMatrix);
+	virtual void frameAction();
 };

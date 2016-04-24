@@ -2,6 +2,7 @@
 #include "GameMap.h"
 #include <list>
 #include <iostream>
+#include <map>
 
 /* void drawcircle(double x, double y, double radius)
 {
@@ -22,8 +23,34 @@ Player::Player()
 	status = ALIVE;
 	movedir = NONE;
 
-	//assemble palyer hierarchy
+	std::map<std::string, std::tuple<GLint, double, double>> map_modeldata =
+		O3DModel::loadModelFromFile("player.wobj");
 
+	//assemble palyer hierarchy
+	neck = new O3DModel(0, 0, 0,
+		O3DModel::BBC, 0, 0, 
+		"NECK",
+		map_modeldata.at("Neck"));
+	head = new O3DModel(0,0,0,
+		O3DModel::BBC, 0, 0,
+		"HEAD",
+		map_modeldata.at("Head"));
+	eyes = new O3DModel(0, 0, 0,
+		O3DModel::BBB, 0, 0,
+		"EYES",
+		map_modeldata.at("Eyes"));
+	hair = new O3DModel(0, 0, 0,
+		O3DModel::BBC, 0, 0,
+		"HAIR",
+		map_modeldata.at("Hair"));
+	arm_left = new O3DModel(0, 0, 0,
+		O3DModel::BAC, 0, 0,
+		"ARMLEFT",
+		map_modeldata.at("ArmLeft"));
+	arm_right = new O3DModel(0, 0, 0,
+		O3DModel::BCC, 0, 0,
+		"ARMRIGHT",
+		map_modeldata.at("ArmRight"));
 }
 void Player::move(Player::Direction dir) {
 	status = ALIVE; //unbound from Log
