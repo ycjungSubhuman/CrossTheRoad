@@ -51,6 +51,12 @@ Player::Player()
 		O3DModel::BCC, 0, 0,
 		"ARMRIGHT",
 		map_modeldata.at("ArmRight"));
+
+	neck->addObject(head);
+		head->addObject(hair);
+		head->addObject(eyes);
+	neck->addObject(arm_left);
+	neck->addObject(arm_right);
 }
 void Player::move(Player::Direction dir) {
 	status = ALIVE; //unbound from Log
