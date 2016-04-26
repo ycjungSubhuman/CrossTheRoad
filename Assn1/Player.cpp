@@ -77,6 +77,7 @@ Player::Player()
 	}
 }
 void Player::move(Player::Key key) {
+	if (isDead) return;
 	isBound = false;
 	switch (key) {
 	case KEY_RIGHT:
