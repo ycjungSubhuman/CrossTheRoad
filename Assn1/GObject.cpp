@@ -71,7 +71,12 @@ void GObject::setRotCenter(double x, double y) {
 	this->roty = y;
 }
 void GObject::setRotation(double rot) {
-	this->rotation = rot;
+	if (rot < 0) rot = 360 + rot;
+	if (rot<360)
+		this->rotation = rot;
+	else {
+		this->rotation = rot - floor(rot / 360) * 360;
+	}
 }
 double GObject::getX() {
 	return this->obj.left();

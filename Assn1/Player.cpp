@@ -14,17 +14,29 @@
 	}
 	glEnd();
 } */
+void Player::incrRotDest(double rot) {
+	if (rot < 0) rot = 360 + rot;
+	rotdest = rotdest + rot;
+	rotdest = rotdest - floor(rotdest / 360) * 360;
+}
 
 Player::Player() 
-	: GObject(Rect(GameMap::COLUMN_WIDTH/2, -(double)GameMap::MAPHEIGHT/GameMap::GRIDNUM*(GameMap::GRIDNUM/2), PLAYERWIDTH, PLAYERHEIGHT), Rect(PLAYERWIDTH*0.25, -PLAYERWIDTH*0.25, PLAYERWIDTH*0.5, PLAYERHEIGHT*0.5), "PLAYER")
+	: GObject(Rect(GameMap::COLUMN_WIDTH/2 - PLAYERWIDTH/2, -(double)GameMap::MAPHEIGHT/GameMap::GRIDNUM*(GameMap::GRIDNUM/2), PLAYERWIDTH, PLAYERHEIGHT), Rect(PLAYERWIDTH*0.25, -PLAYERWIDTH*0.25, PLAYERWIDTH*0.5, PLAYERHEIGHT*0.5), "PLAYER")
 {
 	linenum = 0;
 	gridnum = GameMap::GRIDNUM / 2;
 	status = ALIVE;
 	movedir = NONE;
+	isBound = false;
+	headdir = RIGHT;
+	rotdest = 0;
+	setRotCenter(PLAYERWIDTH / 2, -PLAYERHEIGHT / 2);
 
 	std::map<std::string, std::tuple<GLint, double, double, double>> map_modeldata =
 		O3DModel::loadModelFromFile("player.wobj");
+
+	wow = new ORect(0, 0, 10, 10, ORect::CENTER, 0, "TEST");
+	this->addObject(wow);
 
 	//assemble palyer hierarchy
 	try {
@@ -64,41 +76,43 @@ Player::Player()
 	}
 }
 void Player::move(Player::Key key) {
-	status = ALIVE; //unbound from Log
+	isBound = false;
 	switch (key) {
 	case KEY_RIGHT:
-		if (linenum < GameMap::MAPLENGTH - 1) {
-			if (movedir == LEFT) linenum--;
-			movedir = RIGHT;
-		}
+		status = WALKING;
+		movedir = TURN_RIGHT;
+		incrRotDest(-90);
+		incrHead(false);
 		break;
 	case KEY_UP:
-		if (gridnum > 0) {
-			if (movedir == DOWN) gridnum++;
-			movedir = UP;
+		if (characterIsMovableTo(headdir)) {
+			finishMove();
+			status = WALKING;
+			movedir = headdir;
 		}
 		break;
 	case KEY_DOWN:
-		if (gridnum < GameMap::GRIDNUM - 1) {
-			if (movedir == UP) gridnum--;
-			movedir = DOWN;
+		if (characterIsMovableTo(reverseOf(headdir))) {
+			finishMove();
+			status = WALKING;
+			movedir = reverseOf(headdir);
 		}
 		break;
 	case KEY_LEFT:
-		if (linenum > 0) {
-			if (movedir == RIGHT) linenum++;
-			movedir = LEFT;
-		}
+		status = WALKING;
+		movedir = TURN_LEFT;
+		incrRotDest(90);
+		incrHead(true);
 		break;
 	}
 	//check for tree collisions
 }
 void Player::undoMove() {
+	status = ALIVE;
 	movedir = NONE;
-	setPos((linenum)*GameMap::COLUMN_WIDTH + (double)GameMap::COLUMN_WIDTH / 2, -(double)(gridnum)*GameMap::MAPHEIGHT / GameMap::GRIDNUM);
+	setPos((linenum)*GameMap::COLUMN_WIDTH + (double)GameMap::COLUMN_WIDTH / 2-PLAYERWIDTH/2, -(double)(gridnum)*GameMap::MAPHEIGHT / GameMap::GRIDNUM);
 }
 void Player::finishMove() {
-
 	switch (movedir) {
 	case UP:
 		gridnum--;
@@ -116,6 +130,11 @@ void Player::finishMove() {
 		linenum++;
 		undoMove();
 		break;
+	case TURN_RIGHT:
+	case TURN_LEFT:
+		setRotation(rotdest);
+		undoMove();
+		break;
 	}
 }
 Player::Direction Player::getMoveDir() {
@@ -125,8 +144,11 @@ Player::Status Player::getPlayerStatus() {
 	return status;
 }
 void Player::bindPlayerToCenter(GObject* obj) {
-	this->status = BOUND;
+	isBound = true;
 	bound_object = obj;
+}
+bool Player::isPlayerBound() {
+	return isBound;
 }
 GObject* Player::getBoundObject() {
 	return this->bound_object;
@@ -160,10 +182,10 @@ void Player::frameAction() {
 	in this function. do things the player have to do frame by frame
 	ex) flickering colors*/
 	//moves player according to movedir
-	if (status == ALIVE) {
+	if (status == WALKING) {
 		switch (movedir) {
 		case UP:
-			if (getY() + 2 < -(gridnum-1)*(GameMap::MAPHEIGHT/GameMap::GRIDNUM) ){
+			if (getY() + 5 < -(gridnum-1)*(GameMap::MAPHEIGHT/GameMap::GRIDNUM) ){
 				double next = -(gridnum - 1)*GameMap::MAPHEIGHT / GameMap::GRIDNUM - getY();
 				next = next*0.5;
 				setPos(getX(), getY() + next);
@@ -173,7 +195,7 @@ void Player::frameAction() {
 			}
 			break;
 		case DOWN:
-			if (getY() - 2 > -(gridnum+1)*GameMap::MAPHEIGHT / GameMap::GRIDNUM) {
+			if (getY() - 5 > -(gridnum+1)*GameMap::MAPHEIGHT / GameMap::GRIDNUM) {
 				double next = -(gridnum+1)*GameMap::MAPHEIGHT / GameMap::GRIDNUM - getY();
 				next = next*0.5;
 				setPos(getX(), getY() + next);
@@ -183,7 +205,7 @@ void Player::frameAction() {
 			}
 			break;
 		case RIGHT:
-			if (getX() + 2 < (linenum + 1)*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - Player::PLAYERWIDTH / 2) {
+			if (getX() + 5 < (linenum + 1)*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - Player::PLAYERWIDTH / 2) {
 				double next = (linenum + 1)*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - Player::PLAYERWIDTH / 2 - getX();
 				next = next*0.5;
 				setPos(getX() + next, getY());
@@ -193,7 +215,7 @@ void Player::frameAction() {
 			}
 			break;
 		case LEFT:
-			if (getX() - 2 > (linenum-1)*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - Player::PLAYERWIDTH / 2) {
+			if (getX() - 5 > (linenum-1)*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - Player::PLAYERWIDTH / 2) {
 				double next = (linenum-1)*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - Player::PLAYERWIDTH / 2 - getX();
 				next = next*0.5;
 				setPos(getX() + next, getY());
@@ -202,13 +224,31 @@ void Player::frameAction() {
 				finishMove();
 			}
 			break;
+		case TURN_LEFT:
+		{
+			double rot_curr = getRotation();
+			if (rotdest>rot_curr || rot_curr-rotdest >180) {
+				setRotation(rot_curr + 20);
+			}
+			else {
+				finishMove();
+			}
 		}
-
-		//animation
-		//head->setRotation(head->getRotation() + 10);
-
+			break;
+		case TURN_RIGHT:
+		{
+			double rot_curr = getRotation();
+			if (rotdest<rot_curr && rot_curr - rotdest < 180 || rot_curr==0) {
+				setRotation(rot_curr - 20);
+			}
+			else {
+				finishMove();
+			}
+		}
+			break;
+		}
 	}
-	else if(status == BOUND) { //when bound to some object
+	if(isBound) { //when bound to some object
 		//always set the position of this object to bound object
 		Rect rect_bound = bound_object->getgloobj();
 		Rect parent_rect = getParent()->getgloobj();
@@ -232,4 +272,65 @@ int Player::incrLinenum(int num)
 }
 int Player::incrGridnum(int num) {
 	return this->gridnum += num;
+}
+void Player::incrHead(bool incr) {
+	if (incr) {
+		switch (headdir) {
+		case RIGHT: 
+			headdir = UP;
+			break;
+		case UP:
+			headdir = LEFT;
+			break;
+		case LEFT:
+			headdir = DOWN;
+			break;
+		case DOWN:
+			headdir = RIGHT;
+			break;
+		}
+	}
+	else {
+		switch (headdir) {
+		case RIGHT: 
+			headdir = DOWN;
+			break;
+		case UP:
+			headdir = RIGHT;
+			break;
+		case LEFT:
+			headdir = UP;
+			break;
+		case DOWN:
+			headdir = LEFT;
+			break;
+		}
+	}
+}
+bool Player::characterIsMovableTo(Direction dir) {
+	switch (dir) {
+	case RIGHT: 
+		if (linenum - 1 < GameMap::MAPLENGTH) return true;
+		else return false;
+	case LEFT:
+		if (linenum > 0) return true;
+		else return false;
+	case UP:
+		if (gridnum - 1 < GameMap::GRIDNUM) return true;
+		else return false;
+	case DOWN:
+		if (gridnum > 0) return true;
+		else return false;
+	default: return true;
+	}
+	
+}
+Player::Direction Player::reverseOf(Player::Direction dir) {
+	switch (dir) {
+	case RIGHT: return LEFT;
+	case LEFT: return RIGHT;
+	case UP: return DOWN;
+	case DOWN: return UP;
+	default: return dir;
+	}
 }

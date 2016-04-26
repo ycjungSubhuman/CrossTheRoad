@@ -121,7 +121,7 @@ void updateScene(int val)
 			return;
 		}
 		else if (obj->getType() == "LOG") {
-			if (game.getPlayer()->getPlayerStatus() == Player::BOUND && obj == game.getPlayer()->getBoundObject()) {
+			if (game.getPlayer()->isPlayerBound() && obj == game.getPlayer()->getBoundObject()) {
 				game.newPlayer();
 				game.getScene()->removeObject(obj);
 			}
@@ -182,7 +182,7 @@ void updateScene(int val)
 
 	glEnableVertexAttribArray(color_in);
 	//check for goal
-	if (game.getPlayer()->getLinenum() == GameMap::MAPLENGTH - 2) {
+	if (game.getPlayer()->getLinenum() == GameMap::MAPLENGTH - 1) {
 		exit(0);
 	}
 
