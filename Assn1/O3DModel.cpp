@@ -6,7 +6,7 @@ O3DModel::O3DModel(double x, double y, double z, RotPoint rotcnt, double rotx, d
 	//inits model... just as ORect
 }
 
-std::map<std::string, std::tuple<GLint,double,double>> O3DModel::loadModelFromFile(std::string name_file) { 
+std::map<std::string, std::tuple<GLint,double,double,double>> O3DModel::loadModelFromFile(std::string name_file) { 
 	//TODO : implement model loading from given .wobj file.  
 	//this function
 	//1. parses .wobj
