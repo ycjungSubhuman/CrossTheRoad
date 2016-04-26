@@ -27,36 +27,41 @@ Player::Player()
 		O3DModel::loadModelFromFile("player.wobj");
 
 	//assemble palyer hierarchy
-	/*neck = new O3DModel(0, 0, 0,
-		O3DModel::BBC, 0, 0, 
-		"NECK",
-		map_modeldata.at("Neck"));
-	head = new O3DModel(0,0,0,
-		O3DModel::BBC, 0, 0,
-		"HEAD",
-		map_modeldata.at("Head"));
-	eyes = new O3DModel(0, 0, 0,
-		O3DModel::BBB, 0, 0,
-		"EYES",
-		map_modeldata.at("Eyes"));
-	hair = new O3DModel(0, 0, 0,
-		O3DModel::BBC, 0, 0,
-		"HAIR",
-		map_modeldata.at("Hair"));
-	arm_left = new O3DModel(0, 0, 0,
-		O3DModel::BAC, 0, 0,
-		"ARMLEFT",
-		map_modeldata.at("ArmLeft"));
-	arm_right = new O3DModel(0, 0, 0,
-		O3DModel::BCC, 0, 0,
-		"ARMRIGHT",
-		map_modeldata.at("ArmRight"));
+	try {
+		neck = new O3DModel(0, 0, 0,
+			O3DModel::BBC, 0, 0,
+			"NECK",
+			map_modeldata.at("Neck"));
+		head = new O3DModel(0, 0, 0,
+			O3DModel::BBC, 0, 0,
+			"HEAD",
+			map_modeldata.at("Head"));
+		eyes = new O3DModel(0, 0, 0,
+			O3DModel::BBB, 0, 0,
+			"EYES",
+			map_modeldata.at("Eyes"));
+		hair = new O3DModel(0, 0, 0,
+			O3DModel::BBC, 0, 0,
+			"HAIR",
+			map_modeldata.at("Hair"));
+		arm_left = new O3DModel(0, 0, 0,
+			O3DModel::BAC, 0, 0,
+			"ARMLEFT",
+			map_modeldata.at("ArmLeft"));
+		arm_right = new O3DModel(0, 0, 0,
+			O3DModel::BCC, 0, 0,
+			"ARMRIGHT",
+			map_modeldata.at("ArmRight"));
 
-	neck->addObject(head);
+		neck->addObject(head);
 		head->addObject(hair);
 		head->addObject(eyes);
-	neck->addObject(arm_left);
-	neck->addObject(arm_right); */
+		neck->addObject(arm_left);
+		neck->addObject(arm_right);
+	}
+	catch (...) {
+		std::cerr << "Error Occured when trying to load the player" << std::endl;
+	}
 }
 void Player::move(Player::Direction dir) {
 	status = ALIVE; //unbound from Log
