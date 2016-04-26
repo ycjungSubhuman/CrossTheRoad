@@ -20,7 +20,7 @@ void DrawRoadLine(int Maplength, int Mapheight, int x, mat4 MVMatrix)
 	delete(maprect);
 }
 
-GameMap::GameMap(GameMap::GameMode mode) : GObject(Rect(0, MAPHEIGHT, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT), Rect(0,0,COLUMN_WIDTH*MAPLENGTH*2,MAPHEIGHT*2), "BACKGROUND")
+GameMap::GameMap(GameMap::GameMode mode) : GObject(Rect(0, MAPHEIGHT, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT), Rect(0,-MAPHEIGHT/2,COLUMN_WIDTH*MAPLENGTH*2,MAPHEIGHT*4), "BACKGROUND")
 {
 	/* 맵 전체를 그리는 함수
 	 mapinfo의 배열에 따라서 다른 맵을 그려야 한다*/

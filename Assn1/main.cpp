@@ -117,13 +117,16 @@ void updateScene(int val)
 	//check for out-of-map objects
 	std::list<GObject*> map_noncol = game.getScene()->getNonCollisions(game.getMap());
 
+	for (std::list<GObject*>::iterator it = map_noncol.begin(); it != map_noncol.end(); it++) {
+		if ((*it)->getType() == "PLAYER") {
+			map_noncol.erase(it);
+			break;
+		}
+	}
+
 	//clear out-of-map objects
 	std::for_each(map_noncol.begin(), map_noncol.end(), [=](GObject* obj) {
-		if (obj->getType() == "PLAYER") {
-			game.newPlayer();
-			return;
-		}
-		else if (obj->getType() == "LOG" || obj->getType() == "CAR") {
+		if (obj->getType() == "LOG" || obj->getType() == "CAR") {
 			if (game.getPlayer()->isPlayerBound() && obj == game.getPlayer()->getBoundObject()) {
 				game.newPlayer();
 			}
@@ -132,10 +135,6 @@ void updateScene(int val)
 		else {
 			game.getScene()->removeObject(obj);
 		}
-	});
-	map_noncol = game.getScene()->getNonCollisions(game.getMap());
-	std::for_each(map_noncol.begin(), map_noncol.end(), [=](GObject* obj) {
-		delete obj;
 	});
 
 	//check if the player is in water
@@ -146,7 +145,7 @@ void updateScene(int val)
 		(game.getPlayer()->getMoveDir() == Player::NONE && log_col.empty() && (current_coltype==GameMap::WATERDOWN || current_coltype==GameMap::WATERUP))) {
 		//^ no collisions with LogOnWater but in the water
 		//game over
-		if (!car_col.empty()) {
+		if (!car_col.empty() && game.getPlayer()->getMoveDir()!=Player::NONE) {
 			//bind to car
 			game.getPlayer()->bindPlayerToCenter(car_col.front());
 		}
