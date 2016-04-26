@@ -29,7 +29,7 @@ public:
 	O3DModel(double x, double y, double z, 
 		RotPoint rotcnt, double rotx, double roty, 
 		std::string type, 
-		std::tuple<GLint,double,double> data_model);
+		std::tuple<GLint,double,double,double> data_model);
 	static std::map<std::string, std::tuple<GLint,double,double,double>> loadModelFromFile(std::string name_file);
 	virtual void draw(mat4 MVMatrix);
 	virtual void frameAction();

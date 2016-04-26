@@ -1,7 +1,7 @@
 #include "O3DModel.h"
 
-O3DModel::O3DModel(double x, double y, double z, RotPoint rotcnt, double rotx, double roty, std::string type, std::tuple<GLint,double,double> data_model)
-	:GObject(.......);//fill in this initiallizer list, too.
+O3DModel::O3DModel(double x, double y, double z, RotPoint rotcnt, double rotx, double roty, std::string type, std::tuple<GLint,double,double,double> data_model)
+	:GObject(Rect(0, 0, 0, 0), Rect(0, 0, 0, 0), type)
 {
 	//inits model... just as ORect
 }
@@ -16,8 +16,14 @@ std::map<std::string, std::tuple<GLint,double,double,double>> O3DModel::loadMode
 	//		string -> (GLint, double, double)
 	//IT IS A STATIC FUNCTION!!!! IT CANNOT USE "this"
 	//USED ONLY FROM CLASS DIRECTLY
+	std::map<std::string, std::tuple<GLint, double, double, double>> test;
+	return test;
 }
 
 void O3DModel::draw(mat4 MVMatrix) {
 	//TODO : implement drawing the 3d model
+}
+
+void O3DModel::frameAction() {
+
 }

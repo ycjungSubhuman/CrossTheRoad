@@ -23,11 +23,11 @@ Player::Player()
 	status = ALIVE;
 	movedir = NONE;
 
-	std::map<std::string, std::tuple<GLint, double, double>> map_modeldata =
+	std::map<std::string, std::tuple<GLint, double, double, double>> map_modeldata =
 		O3DModel::loadModelFromFile("player.wobj");
 
 	//assemble palyer hierarchy
-	neck = new O3DModel(0, 0, 0,
+	/*neck = new O3DModel(0, 0, 0,
 		O3DModel::BBC, 0, 0, 
 		"NECK",
 		map_modeldata.at("Neck"));
@@ -56,7 +56,7 @@ Player::Player()
 		head->addObject(hair);
 		head->addObject(eyes);
 	neck->addObject(arm_left);
-	neck->addObject(arm_right);
+	neck->addObject(arm_right); */
 }
 void Player::move(Player::Direction dir) {
 	status = ALIVE; //unbound from Log
@@ -201,37 +201,7 @@ void Player::frameAction() {
 
 		//animation
 		//head->setRotation(head->getRotation() + 10);
-		if (movedir != NONE) {
-			const double scale = 0.8;
-			double arm_upper_rot_dist = scale * (ROTATION - arm_left_upper->getRotation());
-			double arm_lower_rot_dist = scale * (ROTATION - arm_left_lower->getRotation());
-			double leg_upper_rot_dist = scale * (ROTATION - leg_left_upper->getRotation());
-			double leg_lower_rot_dist = scale * (ROTATION - leg_left_lower->getRotation());
 
-			arm_left_upper->setRotation(arm_left_upper->getRotation() + arm_upper_rot_dist);
-			arm_right_upper->setRotation(arm_right_upper->getRotation() + arm_upper_rot_dist);
-			arm_left_lower->setRotation(arm_left_lower->getRotation() + arm_lower_rot_dist);
-			arm_right_lower->setRotation(arm_right_upper->getRotation() + arm_lower_rot_dist);
-			leg_left_upper->setRotation(leg_left_upper->getRotation() + leg_upper_rot_dist);
-			leg_left_lower->setRotation(leg_left_lower->getRotation() + leg_lower_rot_dist);
-			leg_right_upper->setRotation(leg_right_upper->getRotation() + leg_upper_rot_dist);
-			leg_right_lower->setRotation(leg_right_lower->getRotation() + leg_lower_rot_dist);
-		}
-		else {
-			const double scale = 0.8;
-			double arm_upper_rot_dist = scale * (20 - arm_left_upper->getRotation());
-			double arm_lower_rot_dist = scale * (40 - arm_left_lower->getRotation());
-			double leg_upper_rot_dist = scale * (-20 - leg_left_upper->getRotation());
-			double leg_lower_rot_dist = scale * (20 - leg_left_lower->getRotation());
-
-			arm_left_upper->setRotation(arm_left_upper->getRotation() + arm_upper_rot_dist);
-			arm_right_upper->setRotation(arm_right_upper->getRotation() + arm_upper_rot_dist);
-			arm_left_lower->setRotation(arm_left_lower->getRotation() + arm_lower_rot_dist);
-			leg_left_upper->setRotation(leg_left_upper->getRotation() + leg_upper_rot_dist);
-			leg_left_lower->setRotation(leg_left_lower->getRotation() + leg_lower_rot_dist);
-			leg_right_upper->setRotation(leg_right_upper->getRotation() + leg_upper_rot_dist);
-			leg_right_lower->setRotation(leg_right_lower->getRotation() + leg_lower_rot_dist);		arm_right_lower->setRotation(arm_right_upper->getRotation() + arm_lower_rot_dist);
-		}
 	}
 	else if(status == BOUND) { //when bound to some object
 		//always set the position of this object to bound object
