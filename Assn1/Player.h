@@ -7,6 +7,7 @@
 class Player : public GObject {
 private:
 	bool isBound;
+	bool isDead;
 	int linenum, gridnum;
 	double rotdest;
 	GObject* bound_object;
@@ -17,7 +18,7 @@ private:
 	void incrRotDest(double rot);
 public:
 	Player();
-	enum Status { ALIVE, WALKING, TURNING, DEAD };
+	enum Status { ALIVE, WALKING };
 	enum { PLAYERWIDTH=10, PLAYERHEIGHT=GameMap::MAPHEIGHT/GameMap::GRIDNUM };
 	enum Direction { NONE, RIGHT, UP, DOWN, LEFT, TURN_LEFT, TURN_RIGHT };
 	enum Key { KEY_RIGHT, KEY_UP, KEY_DOWN, KEY_LEFT };
@@ -29,13 +30,16 @@ public:
 	Direction getMoveDir();
 	Status getPlayerStatus();
 	void bindPlayerToCenter(GObject* obj);
+	void unbindPlayer();
 	bool isPlayerBound();
+	bool isPlayerDead();
 	GObject* getBoundObject();
 	int getLinenum();
 	int getGridnum();
 	int incrLinenum(int num=1);
 	int incrGridnum(int num);
 	void incrHead(bool incr);
+	void markDead();
 	bool characterIsMovableTo(Direction dir);
 	static Direction reverseOf(Direction dir);
 private:

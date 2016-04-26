@@ -28,6 +28,7 @@ Player::Player()
 	status = ALIVE;
 	movedir = NONE;
 	isBound = false;
+	isDead = false;
 	headdir = RIGHT;
 	rotdest = 0;
 	setRotCenter(PLAYERWIDTH / 2, -PLAYERHEIGHT / 2);
@@ -86,14 +87,14 @@ void Player::move(Player::Key key) {
 		break;
 	case KEY_UP:
 		if (characterIsMovableTo(headdir)) {
-			finishMove();
+			undoMove();
 			status = WALKING;
 			movedir = headdir;
 		}
 		break;
 	case KEY_DOWN:
 		if (characterIsMovableTo(reverseOf(headdir))) {
-			finishMove();
+			undoMove();
 			status = WALKING;
 			movedir = reverseOf(headdir);
 		}
@@ -108,9 +109,10 @@ void Player::move(Player::Key key) {
 	//check for tree collisions
 }
 void Player::undoMove() {
-	status = ALIVE;
 	movedir = NONE;
-	setPos((linenum)*GameMap::COLUMN_WIDTH + (double)GameMap::COLUMN_WIDTH / 2-PLAYERWIDTH/2, -(double)(gridnum)*GameMap::MAPHEIGHT / GameMap::GRIDNUM);
+	setRotation(rotdest);
+	if (!isDead)
+		setPos((linenum)*GameMap::COLUMN_WIDTH + (double)GameMap::COLUMN_WIDTH / 2-PLAYERWIDTH/2, -(double)(gridnum)*GameMap::MAPHEIGHT / GameMap::GRIDNUM);
 }
 void Player::finishMove() {
 	switch (movedir) {
@@ -147,8 +149,14 @@ void Player::bindPlayerToCenter(GObject* obj) {
 	isBound = true;
 	bound_object = obj;
 }
+void Player::unbindPlayer() {
+	isBound = false;
+}
 bool Player::isPlayerBound() {
 	return isBound;
+}
+bool Player::isPlayerDead() {
+	return isDead;
 }
 GObject* Player::getBoundObject() {
 	return this->bound_object;
@@ -182,7 +190,7 @@ void Player::frameAction() {
 	in this function. do things the player have to do frame by frame
 	ex) flickering colors*/
 	//moves player according to movedir
-	if (status == WALKING) {
+	if (status == WALKING && !isDead) {
 		switch (movedir) {
 		case UP:
 			if (getY() + 5 < -(gridnum-1)*(GameMap::MAPHEIGHT/GameMap::GRIDNUM) ){
@@ -306,6 +314,9 @@ void Player::incrHead(bool incr) {
 			break;
 		}
 	}
+}
+void Player::markDead() {
+	isDead = true;
 }
 bool Player::characterIsMovableTo(Direction dir) {
 	switch (dir) {

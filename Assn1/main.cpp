@@ -33,6 +33,9 @@ void genLog(int linenum) {
 	}
 	glutTimerFunc(LogOnWater::GENTIME, genLog, linenum);
 }
+void respawnPlayer(int dummy) {
+	game.newPlayer();
+}
 void init(void) {
 	//make VAO
 	GLuint VertexArrayID;
@@ -120,28 +123,35 @@ void updateScene(int val)
 			game.newPlayer();
 			return;
 		}
-		else if (obj->getType() == "LOG") {
+		else if (obj->getType() == "LOG" || obj->getType() == "CAR") {
 			if (game.getPlayer()->isPlayerBound() && obj == game.getPlayer()->getBoundObject()) {
 				game.newPlayer();
-				game.getScene()->removeObject(obj);
 			}
+			game.getScene()->removeObject(obj);
 		}
-		else if (obj->getType() == "CAR") {
-			Rect map = game.getMap()->getgloobj();
-			Rect car = obj->getgloobj();
+		else {
+			game.getScene()->removeObject(obj);
 		}
-		game.getScene()->removeObject(obj);
+	});
+	map_noncol = game.getScene()->getNonCollisions(game.getMap());
+	std::for_each(map_noncol.begin(), map_noncol.end(), [=](GObject* obj) {
+		delete obj;
 	});
 
 	//check if the player is in water
 	GameMap::Linetype current_coltype = game.getMap()->getLine(game.getPlayer()->getLinenum());
 
 	//check for player death
-	if (!car_col.empty() ||  //collision with car
+	if (!game.getPlayer()->isPlayerDead() && !car_col.empty() ||  //collision with car
 		(game.getPlayer()->getMoveDir() == Player::NONE && log_col.empty() && (current_coltype==GameMap::WATERDOWN || current_coltype==GameMap::WATERUP))) {
 		//^ no collisions with LogOnWater but in the water
 		//game over
-		game.newPlayer();
+		if (!car_col.empty()) {
+			//bind to car
+			game.getPlayer()->bindPlayerToCenter(car_col.front());
+		}
+		game.getPlayer()->markDead();
+		glutTimerFunc(800, respawnPlayer, 0);
 	}
 
 	//check for log riding

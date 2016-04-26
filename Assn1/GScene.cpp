@@ -60,6 +60,7 @@ std::list<GObject*> GScene::getCollisionsOf(GObject* obj, std::string type) {
 	return result;
 }
 std::list<GObject*> GScene::getNonCollisions(GObject*obj) {
+	//check for only first children. not grand children
 	std::queue<GObject*> travq;
 	std::list<GObject*>* current_children;
 	std::list<GObject*> result;
@@ -75,7 +76,7 @@ std::list<GObject*> GScene::getNonCollisions(GObject*obj) {
 					result.push_front((*it));
 				}
 			}
-			travq.push((*it));
+			//travq.push((*it));
 		}
 	}
 	return result;
