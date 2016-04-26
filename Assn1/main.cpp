@@ -81,16 +81,16 @@ void processUserInput(int key, int x, int y) {
 	/* process User Input*/	
 	switch (key) {
 	case GLUT_KEY_UP:
-		game.getPlayer()->move(Player::UP);
+		game.getPlayer()->move(Player::KEY_UP);
 		break;
 	case GLUT_KEY_DOWN:
-		game.getPlayer()->move(Player::DOWN);
+		game.getPlayer()->move(Player::KEY_DOWN);
 		break;
 	case GLUT_KEY_RIGHT:
-		game.getPlayer()->move(Player::RIGHT);
+		game.getPlayer()->move(Player::KEY_RIGHT);
 		break;
 	case GLUT_KEY_LEFT:
-		game.getPlayer()->move(Player::LEFT);
+		game.getPlayer()->move(Player::KEY_LEFT);
 		break;
 	}
 }

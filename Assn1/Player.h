@@ -16,9 +16,10 @@ public:
 	enum Status { ALIVE, WALKING, BOUND, DEAD };
 	enum { PLAYERWIDTH=10, PLAYERHEIGHT=GameMap::MAPHEIGHT/GameMap::GRIDNUM };
 	enum Direction { NONE, RIGHT, UP, DOWN, LEFT };
+	enum Key { KEY_RIGHT, KEY_UP, KEY_DOWN, KEY_LEFT };
 	virtual void draw(mat4 MVMatrix);
 	virtual void frameAction();
-	void move(Direction dir);
+	void move(Key key);
 	void undoMove();
 	void finishMove();
 	Direction getMoveDir();

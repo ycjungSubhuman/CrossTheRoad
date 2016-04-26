@@ -12,7 +12,8 @@ private:
 public:
 	enum { MAPLENGTH=20, COLUMN_WIDTH=20, MAPHEIGHT=90, GRIDNUM=9 };
 	enum Linetype { GRASS, ROADUP, ROADDOWN, WATERUP, WATERDOWN };
-	GameMap();
+	enum GameMode { MODE_ROAD=1, MODE_WATER=2 };
+	GameMap(GameMode mode);
 	virtual void frameAction();
 	virtual void draw(mat4 MVMatrix);
 	Linetype getLine(int i);

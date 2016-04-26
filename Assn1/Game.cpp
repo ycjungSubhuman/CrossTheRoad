@@ -12,7 +12,7 @@ Game::Game()
 	scene = new GScene();
 
 	//GameMap
-	map = new GameMap();
+	map = new GameMap(GameMap::MODE_ROAD);
 	scene->addObject(map);
 
 	//Player

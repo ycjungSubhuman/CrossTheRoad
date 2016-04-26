@@ -20,7 +20,7 @@ void DrawRoadLine(int Maplength, int Mapheight, int x, mat4 MVMatrix)
 	delete(maprect);
 }
 
-GameMap::GameMap() : GObject(Rect(0, MAPHEIGHT, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT), Rect(0,0,COLUMN_WIDTH*MAPLENGTH*2,MAPHEIGHT*2), "BACKGROUND")
+GameMap::GameMap(GameMap::GameMode mode) : GObject(Rect(0, MAPHEIGHT, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT), Rect(0,0,COLUMN_WIDTH*MAPLENGTH*2,MAPHEIGHT*2), "BACKGROUND")
 {
 	/* 맵 전체를 그리는 함수
 	 mapinfo의 배열에 따라서 다른 맵을 그려야 한다*/
@@ -38,16 +38,32 @@ GameMap::GameMap() : GObject(Rect(0, MAPHEIGHT, COLUMN_WIDTH*MAPLENGTH, MAPHEIGH
 			prevroad++;
 		}
 		else {
-			switch (rand() % 5) {
-				case 0: mapinfo[i] = ROADUP;
-					break;
-				case 1: mapinfo[i] = ROADDOWN;
-					break;
-				case 2: mapinfo[i] = GRASS;
-					break;
-				case 3: mapinfo[i] = WATERUP;
-					break;
-				case 4: mapinfo[i] = WATERDOWN;
+			if (mode & MODE_ROAD && mode & MODE_WATER) {
+				switch (rand() % 5) {
+					case 0: mapinfo[i] = ROADUP;
+						break;
+					case 1: mapinfo[i] = ROADDOWN;
+						break;
+					case 2: mapinfo[i] = GRASS;
+						break;
+					case 3: mapinfo[i] = WATERUP;
+						break;
+					case 4: mapinfo[i] = WATERDOWN;
+				}
+			}
+			else if (mode & MODE_ROAD) {
+				switch (rand() % 3) {
+					case 0: mapinfo[i] = ROADUP;
+						break;
+					case 1: mapinfo[i] = ROADDOWN;
+						break;
+					case 2: mapinfo[i] = GRASS;
+				}
+			}
+			else {
+				std::cerr << "Invalid GameMap Option" << std::endl;
+				system("pause");
+				exit(1);
 			}
 			if(mapinfo[i]==GRASS) prevroad = 0;
 		}

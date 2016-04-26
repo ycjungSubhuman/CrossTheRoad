@@ -63,28 +63,28 @@ Player::Player()
 		std::cerr << "Error Occured when trying to load the player" << std::endl;
 	}
 }
-void Player::move(Player::Direction dir) {
+void Player::move(Player::Key key) {
 	status = ALIVE; //unbound from Log
-	switch (dir) {
-	case RIGHT:
+	switch (key) {
+	case KEY_RIGHT:
 		if (linenum < GameMap::MAPLENGTH - 1) {
 			if (movedir == LEFT) linenum--;
 			movedir = RIGHT;
 		}
 		break;
-	case UP:
+	case KEY_UP:
 		if (gridnum > 0) {
 			if (movedir == DOWN) gridnum++;
 			movedir = UP;
 		}
 		break;
-	case DOWN:
+	case KEY_DOWN:
 		if (gridnum < GameMap::GRIDNUM - 1) {
 			if (movedir == UP) gridnum--;
 			movedir = DOWN;
 		}
 		break;
-	case LEFT:
+	case KEY_LEFT:
 		if (linenum > 0) {
 			if (movedir == RIGHT) linenum++;
 			movedir = LEFT;

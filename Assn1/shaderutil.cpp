@@ -46,7 +46,8 @@ static void validateShader(GLint shader) {
 	glGetShaderInfoLog(shader, 1024, &logSize, infoLog);
 	printf("%s", infoLog);
 	printf("%s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
-	free(infoLog);
+	if(logSize>0)
+		free(infoLog);
 	checkError(status, "Failed to compile the vertex shader.");
 }
 void loadShadersFromFile(const char* vShaderFile, const char* fShaderFile) {
