@@ -61,7 +61,7 @@ void GScene::setCameraMode(CameraMode mode) {
 			glUniformMatrix4fv(u_Projection, 1, true, projection);
 			break;
 		case SHOULDER:
-			projection = Perspective(90, 2, 10, 1000);
+			projection = Perspective(45, 2, 10, 1000);
 			glUniformMatrix4fv(u_Projection, 1, true, projection);
 			break;
 	}
