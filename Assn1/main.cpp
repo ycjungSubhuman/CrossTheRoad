@@ -48,7 +48,7 @@ void init(void) {
 	loadShadersFromFile(vShaderFile, fShaderFile);
 
 	/* init screen */
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(33.0f/256.0f, 33.0f/256.0f, 157.0f/256.0f, 0.0f);
 
 	//initiate timer call loop for car and log generation
 	for (int i = 0; i < GameMap::MAPLENGTH; i++) {
@@ -63,7 +63,7 @@ void init(void) {
 
 	//Set projection matrix by ortho2D
 	mat4 projection = mat4();
-	projection = Ortho2D(0, GameMap::MAPHEIGHT*2, 0, GameMap::MAPHEIGHT);
+	projection = Ortho(0, GameMap::MAPHEIGHT*2, 0, GameMap::MAPHEIGHT, 0, 1000);
 	glUniformMatrix4fv(u_Projection, 1, true, projection);
 
 	//set basic rect info 
@@ -72,6 +72,16 @@ void init(void) {
 	glGenBuffers(1, &rectbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, rectbuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
+	
+	mciSendString("open \"dead.mp3\" type mpegvideo alias dead", NULL, 0, NULL);
+	mciSendString("open \"pong_1.mp3\" type mpegvideo alias pong1", NULL, 0, NULL);
+	mciSendString("open \"pong_2.mp3\" type mpegvideo alias pong2", NULL, 0, NULL);
+	mciSendString("open \"CrossTheRoad_2.mp3\" type mpegvideo alias back", NULL, 0, NULL);
+	mciSendString("play back repeat", NULL, 0, NULL);
+	mciSendString("open \"CrossTheRoad_1.mp3\" type mpegvideo alias front", NULL, 0, NULL);
+	mciSendString("play front repeat", NULL, 0, NULL);
+	mciSendString("setaudio front Volume to 1", NULL, 0, NULL);
+
 }
 void drawView(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -97,6 +107,20 @@ void processUserInput(int key, int x, int y) {
 		break;
 	}
 }
+void processPerspective(unsigned char key, int x, int y) {
+	switch (key) {
+		case '1':
+			game.getScene()->setCameraMode(GScene::TOP);
+			break;
+		case '2':
+			game.getScene()->setCameraMode(GScene::POV);
+			break;
+		case '3':
+			game.getScene()->setCameraMode(GScene::SHOULDER);
+			break;
+	}
+
+}
 
 
 void updateScene(int val)
@@ -104,6 +128,13 @@ void updateScene(int val)
 	/* Implement Scene Update */
 	Rect player = game.getPlayer()->getgloobj();
 	Rect parent = game.getPlayer()->getParent() -> getgloobj();
+
+	if (game.getMap()->getLine(game.getPlayer()->getLinenum()) != GameMap::GRASS) {
+		mciSendString("setaudio front Volume to 1000", NULL, 0, NULL);
+	}
+	else {
+		mciSendString("setaudio front Volume to 1", NULL, 0, NULL);
+	}
 
 	//clear cars out of the map
 	game.getScene()->updateScene();
@@ -148,8 +179,11 @@ void updateScene(int val)
 		if (!car_col.empty() && game.getPlayer()->getMoveDir()!=Player::NONE) {
 			//bind to car
 			game.getPlayer()->bindPlayerToCenter(car_col.front());
+			game.getPlayer()->markDead(Player::HORIZONTAL);
 		}
-		game.getPlayer()->markDead();
+		else {
+			game.getPlayer()->markDead(Player::VERTICAL);
+		}
 		glutTimerFunc(800, respawnPlayer, 0);
 	}
 
@@ -228,6 +262,7 @@ int main(int argc, char** argv) {
 
 	glutDisplayFunc(drawView);
 	glutSpecialFunc(processUserInput);
+	glutKeyboardFunc(processPerspective);
 	//glutIdleFunc(updateScene);
 	glutTimerFunc(20, updateScene, 0);
 	glutMainLoop();

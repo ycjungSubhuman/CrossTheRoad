@@ -21,6 +21,7 @@ public:
 	enum Status { ALIVE, WALKING };
 	enum { PLAYERWIDTH=10, PLAYERHEIGHT=GameMap::MAPHEIGHT/GameMap::GRIDNUM };
 	enum Direction { NONE, RIGHT, UP, DOWN, LEFT, TURN_LEFT, TURN_RIGHT };
+	enum Compression { VERTICAL, HORIZONTAL };
 	enum Key { KEY_RIGHT, KEY_UP, KEY_DOWN, KEY_LEFT };
 	virtual void draw(mat4 MVMatrix);
 	virtual void frameAction();
@@ -39,7 +40,7 @@ public:
 	int incrLinenum(int num=1);
 	int incrGridnum(int num);
 	void incrHead(bool incr);
-	void markDead();
+	void markDead(Compression com = VERTICAL);
 	bool characterIsMovableTo(Direction dir);
 	static Direction reverseOf(Direction dir);
 private:

@@ -10,7 +10,7 @@ private:
 	for example, 
 		[GRASS, ROAD, ROAD, ROAD, GRASS, ROAD, ROAD, ROAD, ROAD]  */
 public:
-	enum { MAPLENGTH=20, COLUMN_WIDTH=20, MAPHEIGHT=90, GRIDNUM=9 };
+	enum { MAPLENGTH=40, COLUMN_WIDTH=20, MAPHEIGHT=90, GRIDNUM=9 };
 	enum Linetype { GRASS, ROADUP, ROADDOWN, WATERUP, WATERDOWN };
 	enum GameMode { MODE_ROAD=1, MODE_WATER=2 };
 	GameMap(GameMode mode);

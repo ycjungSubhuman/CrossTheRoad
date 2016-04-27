@@ -3,6 +3,7 @@
 #include <list>
 #include <iostream>
 #include <map>
+#include <mciapi.h>
 
 /* void drawcircle(double x, double y, double radius)
 {
@@ -81,12 +82,18 @@ void Player::move(Player::Key key) {
 	isBound = false;
 	switch (key) {
 	case KEY_RIGHT:
+		mciSendString("close pong2", NULL, 0, 0);
+		mciSendString("open \"pong_2.mp3\" type mpegvideo alias pong2", NULL, 0, NULL);
+		mciSendString("play pong2", NULL, 0, NULL);
 		status = WALKING;
 		movedir = TURN_RIGHT;
 		incrRotDest(-90);
 		incrHead(false);
 		break;
 	case KEY_UP:
+		mciSendString("close pong1", NULL, 0, 0);
+		mciSendString("open \"pong_1.mp3\" type mpegvideo alias pong1", NULL, 0, NULL);
+		mciSendString("play pong1", NULL, 0, NULL);
 		if (characterIsMovableTo(headdir)) {
 			undoMove();
 			status = WALKING;
@@ -94,6 +101,9 @@ void Player::move(Player::Key key) {
 		}
 		break;
 	case KEY_DOWN:
+		mciSendString("close pong1", NULL, 0, 0);
+		mciSendString("open \"pong_1.mp3\" type mpegvideo alias pong1", NULL, 0, NULL);
+		mciSendString("play pong1", NULL, 0, NULL);
 		if (characterIsMovableTo(reverseOf(headdir))) {
 			undoMove();
 			status = WALKING;
@@ -101,6 +111,9 @@ void Player::move(Player::Key key) {
 		}
 		break;
 	case KEY_LEFT:
+		mciSendString("close pong2", NULL, 0, 0);
+		mciSendString("open \"pong_2.mp3\" type mpegvideo alias pong2", NULL, 0, NULL);
+		mciSendString("play pong2", NULL, 0, NULL);
 		status = WALKING;
 		movedir = TURN_LEFT;
 		incrRotDest(90);
@@ -316,7 +329,17 @@ void Player::incrHead(bool incr) {
 		}
 	}
 }
-void Player::markDead() {
+void Player::markDead(Player::Compression com) {
+	mciSendString("close dead", NULL, 0, 0);
+	mciSendString("open \"dead.mp3\" type mpegvideo alias dead", NULL, 0, NULL);
+	mciSendString("play dead", NULL, 0, NULL);
+	if (com == VERTICAL) {
+		//TODO: compress player vertically
+		setScale(1, 1, 0.2);
+	}
+	else {
+		setScale(0.2, 1, 1);
+	}
 	isDead = true;
 }
 bool Player::characterIsMovableTo(Direction dir) {
@@ -327,10 +350,10 @@ bool Player::characterIsMovableTo(Direction dir) {
 	case LEFT:
 		if (linenum > 0) return true;
 		else return false;
-	case UP:
-		if (gridnum - 1 < GameMap::GRIDNUM) return true;
-		else return false;
 	case DOWN:
+		if (gridnum + 1 < GameMap::GRIDNUM) return true;
+		else return false;
+	case UP:
 		if (gridnum > 0) return true;
 		else return false;
 	default: return true;
