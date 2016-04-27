@@ -17,6 +17,7 @@ private:
 	Rect hitbox; //collision box(relative to obj)
 	double rotx, roty, rotz; //position of rotation center (reletive to obj)
 	double rotation_z, rotation_x; //amount of rotation about z and x
+	double scale_x, scale_y, scale_z;
 	std::string type; //type of this object(for RTTS with convenience)
 	std::list<GObject*> children; //list of children
 public:
@@ -24,6 +25,7 @@ public:
 	void setPos(double x, double y);
 	void setRotCenter(double x, double y);
 	void setRotation(double rotz, double rotx=0);
+	void setScale(double x, double y, double z);
 	int getZ();
 	double getX();
 	double getY();

@@ -335,11 +335,10 @@ void Player::markDead(Player::Compression com) {
 	mciSendString("play dead", NULL, 0, NULL);
 	if (com == VERTICAL) {
 		//TODO: compress player vertically
-
+		setScale(1, 1, 0.2);
 	}
 	else {
-		//TODO: compress player horizontally
-
+		setScale(0.2, 1, 1);
 	}
 	isDead = true;
 }

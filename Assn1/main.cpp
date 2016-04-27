@@ -179,8 +179,11 @@ void updateScene(int val)
 		if (!car_col.empty() && game.getPlayer()->getMoveDir()!=Player::NONE) {
 			//bind to car
 			game.getPlayer()->bindPlayerToCenter(car_col.front());
+			game.getPlayer()->markDead(Player::HORIZONTAL);
 		}
-		game.getPlayer()->markDead();
+		else {
+			game.getPlayer()->markDead(Player::VERTICAL);
+		}
 		glutTimerFunc(800, respawnPlayer, 0);
 	}
 
