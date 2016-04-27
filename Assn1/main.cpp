@@ -73,6 +73,9 @@ void init(void) {
 	glBindBuffer(GL_ARRAY_BUFFER, rectbuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
 	
+	mciSendString("open \"dead.mp3\" type mpegvideo alias dead", NULL, 0, NULL);
+	mciSendString("open \"pong_1.mp3\" type mpegvideo alias pong1", NULL, 0, NULL);
+	mciSendString("open \"pong_2.mp3\" type mpegvideo alias pong2", NULL, 0, NULL);
 	mciSendString("open \"CrossTheRoad_2.mp3\" type mpegvideo alias back", NULL, 0, NULL);
 	mciSendString("play back repeat", NULL, 0, NULL);
 	mciSendString("open \"CrossTheRoad_1.mp3\" type mpegvideo alias front", NULL, 0, NULL);
