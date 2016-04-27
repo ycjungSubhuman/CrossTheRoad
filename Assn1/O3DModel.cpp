@@ -21,6 +21,9 @@ O3DModel::O3DModel(double x, double y, double z, RotPoint rotcnt, double rotz, d
 	}
 	setRotCenter(rcntx, rcnty, rcntz);
 	setRotation(rotz, rotx);
+
+	index_vbo = model.getModelID();
+	size_vertex = model.getVertexSize();
 }
 
 void O3DModel::draw(mat4 MVMatrix) {
