@@ -1,4 +1,5 @@
 #pragma once
+#include "GModel.h"
 #include <map>
 #include <tuple>
 #include <string>
@@ -6,7 +7,8 @@
 /* loads 3d Models and stores. */
 class ModelManager {
 private:
-	std::map<std::string, std::tuple<GLuint, double, double, double, int>> data_models;
+	std::map<std::string,GModel> data_models;
 public:
-	static std::map<std::string, std::tuple<GLuint,double,double,double,int>> loadModelFromFile(std::string name_file);
+	void loadModelFromFile(std::string name_file);
+	GModel getModel(std::string name_group);
 };

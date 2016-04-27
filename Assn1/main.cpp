@@ -4,6 +4,7 @@
 #include "stdlib.h"
 #include <time.h>
 #include "Game.h"
+#include "ModelManager.h"
 #include "Car.h"
 #include "LogOnWater.h"
 #include<iostream>
@@ -11,6 +12,7 @@
 #include "shaderutil.h"
 
 Game* game;
+ModelManager* modelManager;
 
 extern GLuint rectbuffer;
 extern GLint u_Projection;
@@ -46,6 +48,14 @@ void init(void) {
 	char vShaderFile[] = "VertexShader1.glsl";
 	char fShaderFile[] = "FragmentShader1.glsl";
 	loadShadersFromFile(vShaderFile, fShaderFile);
+
+	//load models and init game
+	modelManager = new ModelManager();
+	modelManager->loadModelFromFile("object/player.wobj");
+	modelManager->loadModelFromFile("object/christmastree/christmas_tree.wobj");
+	modelManager->loadModelFromFile("object/policecar/police_car.wobj");
+	modelManager->loadModelFromFile("object/taxi/Taxi.wobj");
+	modelManager->loadModelFromFile("object/truck/truck_blue.wobj");
 
 	game = new Game();
 

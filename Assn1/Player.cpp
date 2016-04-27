@@ -4,6 +4,9 @@
 #include <iostream>
 #include <map>
 #include <mciapi.h>
+#include "ModelManager.h"
+
+extern ModelManager* modelManager;
 
 /* void drawcircle(double x, double y, double radius)
 {
@@ -34,9 +37,6 @@ Player::Player()
 	rotdest = 0;
 	setRotCenter(PLAYERWIDTH / 2, -PLAYERHEIGHT / 2);
 
-	std::map<std::string, std::tuple<GLuint, double, double, double, int>> map_modeldata =
-		O3DModel::loadModelFromFile("object/player.wobj");
-
 	wow = new ORect(0, 0, 10, 10, ORect::CENTER, 0, "TEST");
 	this->addObject(wow);
 
@@ -45,27 +45,27 @@ Player::Player()
 		neck = new O3DModel(0, 0, 0,
 			O3DModel::BBC, 0, 0,
 			"NECK",
-			map_modeldata.at("Neck"));
+			modelManager->getModel("Neck"));
 		head = new O3DModel(0, 0, 0,
 			O3DModel::BBC, 0, 0,
 			"HEAD",
-			map_modeldata.at("Head"));
+			modelManager->getModel("Head"));
 		eyes = new O3DModel(0, 0, 0,
 			O3DModel::BBB, 0, 0,
 			"EYES",
-			map_modeldata.at("Eyes"));
+			modelManager->getModel("Eyes"));
 		hair = new O3DModel(0, 0, 0,
 			O3DModel::BBC, 0, 0,
 			"HAIR",
-			map_modeldata.at("Hair"));
+			modelManager->getModel("Hair"));
 		arm_left = new O3DModel(0, 0, 0,
 			O3DModel::BAC, 0, 0,
 			"ARMLEFT",
-			map_modeldata.at("ArmLeft"));
+			modelManager->getModel("ArmLeft"));
 		arm_right = new O3DModel(0, 0, 0,
 			O3DModel::BCC, 0, 0,
 			"ARMRIGHT",
-			map_modeldata.at("ArmRight"));
+			modelManager->getModel("ArmRight"));
 
 		neck->addObject(head);
 		head->addObject(hair);

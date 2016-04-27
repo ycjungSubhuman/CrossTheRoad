@@ -70,9 +70,10 @@ void GObject::setPos(double x, double y) {
 	this->obj.setX(x);
 	this->obj.setY(y);
 }
-void GObject::setRotCenter(double x, double y) {
+void GObject::setRotCenter(double x, double y, double z) {
 	this->rotx = x;
 	this->roty = y;
+	this->rotz = z;
 }
 void GObject::setRotation(double rotz, double rotx) {
 	if (rotz < 0) rotz = 360 + rotz;

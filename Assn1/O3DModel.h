@@ -1,5 +1,6 @@
 #pragma once
 #include "GObject.h"
+#include "GModel.h"
 #include <map>
 #include <tuple>
 
@@ -21,6 +22,8 @@ public:
 		ABB, BBB, CBB,
 		ACB, BCB, CCB,
 
+		CENTER, ORIGIN,
+
 		AAC, BAC, CAC,
 		ABC, BBC, CBC,
 		ACC, BCC, CCC
@@ -28,9 +31,7 @@ public:
 
 	O3DModel(double x, double y, double z, 
 		RotPoint rotcnt, double rotx, double roty, 
-		std::string type, 
-		std::tuple<GLuint,double,double,double,int> data_model);
-	static std::map<std::string, std::tuple<GLuint, double, double, double, int>> loadModelFromFile(std::string name_file);
+		std::string type, GModel& data_model);
 	virtual void draw(mat4 MVMatrix);
 	virtual void frameAction();
 };

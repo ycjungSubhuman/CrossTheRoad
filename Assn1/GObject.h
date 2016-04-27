@@ -23,7 +23,7 @@ private:
 public:
 	GObject(const Rect& obj, const Rect& hitbox, std::string type="OBJECT");
 	void setPos(double x, double y);
-	void setRotCenter(double x, double y);
+	void setRotCenter(double x, double y, double z=0);
 	void setRotation(double rotz, double rotx=0);
 	void setScale(double x, double y, double z);
 	int getZ();

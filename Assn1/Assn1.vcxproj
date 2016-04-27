@@ -120,12 +120,14 @@
     <ClCompile Include="CarLikeObject.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMap.cpp" />
+    <ClCompile Include="GModel.cpp" />
     <ClCompile Include="GObject.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GScene.cpp" />
     <ClCompile Include="LogOnWater.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ModelManager.cpp" />
     <ClCompile Include="O3DModel.cpp" />
     <ClCompile Include="ORect.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -145,6 +147,8 @@
     <ClInclude Include="GScene.h" />
     <ClInclude Include="LogOnWater.h" />
     <ClInclude Include="mat.h" />
+    <ClInclude Include="GModel.h" />
+    <ClInclude Include="ModelManager.h" />
     <ClInclude Include="O3DModel.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rect.h" />
