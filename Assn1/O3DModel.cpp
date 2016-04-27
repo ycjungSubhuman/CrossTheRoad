@@ -24,18 +24,23 @@ std::map<std::string, std::tuple<GLuint,double,double,double,int>> O3DModel::loa
 	std::vector<vec3> temp_vertices;
 	std::vector<vec2> temp_uvs;
 	std::vector<vec3> temp_normals;
-	char* filename = new char[sizeof(name_file) + 1];
-	strcpy_s(filename, name_file.size() + 1, name_file.c_str());
-	delete filename;
+	std::string old_groupname;
+	char* filename = new char[name_file.size() + 1];
+	strcpy_s(filename, name_file.size()+1, name_file.c_str());
 
 	int verticesize = 0;
 
 	FILE * file = fopen(filename, "r");
+	if (file == nullptr) {
+		std::cerr << "Invalid location or filename : " << filename << std::endl;
+		system("pause");
+		exit(1);
+	}
+	delete filename;
 	while (1) 
 	{
 		char lineHeader[128];
 		// read the first word of the line
-		std::string old_groupname;
 		int res = fscanf(file, "%s", lineHeader);
 		if (res == EOF)
 		{
@@ -87,7 +92,7 @@ std::map<std::string, std::tuple<GLuint,double,double,double,int>> O3DModel::loa
 			temp_vertices.push_back(vertex);
 		}
 		else if (strcmp(lineHeader, "g") == 0) {
-			std::string groupname;
+			char groupname[128];
 			std::tuple<GLuint, double, double, double, int> indexes;
 			vec3* arrvert;
 			double maxx = 0, maxy = 0, maxz = 0;
@@ -126,7 +131,8 @@ std::map<std::string, std::tuple<GLuint,double,double,double,int>> O3DModel::loa
 
 				indexes = std::make_tuple(groupint, width, height, depth, vertices.size());
 				dict[old_groupname] = indexes;
-				old_groupname = groupname;
+				std::string groupnametmp = groupname;
+				old_groupname = groupnametmp;
 				vertexIndices.clear();
 				vertices.clear();
 			}

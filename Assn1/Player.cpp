@@ -34,8 +34,8 @@ Player::Player()
 	rotdest = 0;
 	setRotCenter(PLAYERWIDTH / 2, -PLAYERHEIGHT / 2);
 
-	std::map<std::string, std::tuple<GLint, double, double, double>> map_modeldata =
-		O3DModel::loadModelFromFile("player.wobj");
+	std::map<std::string, std::tuple<GLuint, double, double, double, int>> map_modeldata =
+		O3DModel::loadModelFromFile("object/player.wobj");
 
 	wow = new ORect(0, 0, 10, 10, ORect::CENTER, 0, "TEST");
 	this->addObject(wow);

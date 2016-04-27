@@ -96,6 +96,9 @@ void loadShadersFromFile(const char* vShaderFile, const char* fShaderFile) {
 
 	//glEnableVertexAttribArray(1);
 	//glVertexAttribPointer(1, 4, GL_FLOAT, 0, 0, NULL);
+	GLuint VertexArrayID;
+	glGenVertexArrays(1, &VertexArrayID);
+	glBindVertexArray(VertexArrayID);
 
 	u_Model = glGetUniformLocation(program, "u_Model");
 	u_Projection = glGetUniformLocation(program, "u_Projection");
