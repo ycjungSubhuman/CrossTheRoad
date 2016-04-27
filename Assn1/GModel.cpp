@@ -25,7 +25,7 @@ double GModel::getBoundboxZ()
 	return std::get<3>(data_models);
 }
 
-int GModel::getVertexNumber()
+int GModel::getVertexSize()
 {
 	return std::get<4>(data_models);
 }
