@@ -30,7 +30,7 @@ public:
 		RotPoint rotcnt, double rotx, double roty, 
 		std::string type, 
 		std::tuple<GLuint,double,double,double,int> data_model);
-	static std::map<std::string, std::tuple<GLuint,double,double,double,int>> loadModelFromFile(std::string name_file);
+	static std::map<std::string, std::tuple<GLuint, double, double, double, int>> loadModelFromFile(std::string name_file);
 	virtual void draw(mat4 MVMatrix);
 	virtual void frameAction();
 };
