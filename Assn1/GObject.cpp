@@ -17,9 +17,10 @@ void GObject::onTraverseDraw(mat4 MVMatrix) {
 
 	MVMatrixLocal = MVMatrixLocal
 		* Translate(vec3(obj.x(), obj.y(), 0))
-		* Translate(vec3(rotx, roty, 0))
+		* Translate(vec3(rotx, roty, rotz))
 		* RotateZ((GLfloat)rotation_z)
-		* Translate(vec3(-rotx, -roty, 0))
+		* RotateX((GLfloat)rotation_x)
+		* Translate(vec3(-rotx, -roty, -rotz))
 		* Scale(vec3(scale_x, scale_y, scale_z));
 
 	std::list<GObject*>::iterator nonnegstart = children.begin(); //the children with the first non-negative z-index
