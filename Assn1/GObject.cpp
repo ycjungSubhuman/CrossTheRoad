@@ -23,30 +23,11 @@ void GObject::onTraverseDraw(mat4 MVMatrix) {
 		* Translate(vec3(-rotx, -roty, -rotz))
 		* Scale(vec3(scale_x, scale_y, scale_z));
 
-	std::list<GObject*>::iterator nonnegstart = children.begin(); //the children with the first non-negative z-index
-	//negative indices
-	if (nonnegstart != children.end()) {
-		if ((*nonnegstart)->getZ() < 0) {
-			for (std::list<GObject*>::iterator it = children.begin(); it != children.end(); it++) {
-				if ((*it)->getZ() >= 0) {
-					nonnegstart = it;
-					break;
-				}
-				else {
-					(*it)->onTraverseDraw(MVMatrixLocal);
-				}
-			}
-		}
-	}
-	//draw this node
-
 	draw(MVMatrixLocal);
 
 	//positive indexes
-	if (nonnegstart != children.end()) {
-		for (std::list<GObject*>::iterator it = nonnegstart; it != children.end(); it++) {
-			(*it)->onTraverseDraw(MVMatrixLocal);
-		}
+	for (std::list<GObject*>::iterator it = children.begin(); it != children.end(); it++) {
+		(*it)->onTraverseDraw(MVMatrixLocal);
 	}
 }
 void GObject::onTraverseUpdate() {
@@ -118,7 +99,7 @@ Rect GObject::gethitbox() {
 double GObject::getRotation() {
 	return this->rotation_z;
 }
-int GObject::getZ() {
+double GObject::getZ() {
 	return z;
 }
 std::string GObject::getType() {
@@ -148,13 +129,10 @@ bool GObject::isCollide(GObject& o1, GObject& o2) {
 	else 
 		return false;
 }
-GObject* GObject::addObject(GObject* obj, int z) {
+GObject* GObject::addObject(GObject* obj) {
 	/* adds a node to the child of this node
 	keeping the order of z-index left to right */
 	bool isAdded = false;
-
-	//sets the z-index of this object to the given z
-	obj->z = z;
 
 	//order to z-index
 	for (std::list<GObject*>::iterator i = children.begin(); i != children.end(); i++) {

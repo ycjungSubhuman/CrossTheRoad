@@ -11,7 +11,7 @@ protected:
 	void onTraverseDraw(mat4 MVMatrix);
 	void onTraverseUpdate();
 private:
-	int z; //z-index(relative to the parent)
+	double z;
 	GObject* parent; //pointer to the parent node
 	Rect obj; //local boundbox(relative to parent's position)
 	Rect hitbox; //collision box(relative to obj)
@@ -26,7 +26,7 @@ public:
 	void setRotCenter(double x, double y, double z=0);
 	void setRotation(double rotz, double rotx=0);
 	void setScale(double x, double y, double z);
-	int getZ();
+	double getZ();
 	double getX();
 	double getY();
 	Rect getobj();
@@ -40,7 +40,7 @@ public:
 	std::list<GObject*>* getChildren();
 
 	static bool isCollide(GObject&, GObject&);
-	GObject* addObject(GObject* obj, int z=0);
+	GObject* addObject(GObject* obj);
 	GObject* removeObject(GObject* obj);
 	GObject* getParent();
 

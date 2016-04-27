@@ -17,7 +17,7 @@ Game::Game()
 
 	//Player
 	player = new Player();
-	map->addObject(player, 2);
+	map->addObject(player);
 
 	//Trees - randomly  place 0~2 trees in grass
 	//the start and the goal should be treeless
@@ -44,7 +44,7 @@ Game::Game()
 			for (int j = 0; j < GameMap::GRIDNUM; j++) {
 				if (0x01 & pos) { //only when LSB is 1
 					Tree* tree = new Tree(i, position); //place tree
-					map->addObject(tree, 3);
+					map->addObject(tree);
 				}
 				pos >>= 1; //right shift once
 				position++;
@@ -65,7 +65,7 @@ Player* Game::getPlayer() {
 void Game::newPlayer() {
 	getMap()->removeObject(player);
 	player = new Player();
-	getMap()->addObject(player, 2);
+	getMap()->addObject(player);
 }
 Game::~Game() {
 	delete scene;
