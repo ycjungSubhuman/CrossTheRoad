@@ -48,7 +48,7 @@ void init(void) {
 	loadShadersFromFile(vShaderFile, fShaderFile);
 
 	/* init screen */
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(33.0f/256.0f, 33.0f/256.0f, 157.0f/256.0f, 0.0f);
 
 	//initiate timer call loop for car and log generation
 	for (int i = 0; i < GameMap::MAPLENGTH; i++) {

@@ -91,24 +91,28 @@ void GameMap::draw(mat4 MVMatrix) {
 				DrawRoadLine(COLUMN_WIDTH, MAPHEIGHT, i);
 		}		
 	} */
+	ORect* back_maprect = new ORect(0.0f, 0.0f, MAPLENGTH * COLUMN_WIDTH, 2000, ORect::BOTTOMLEFT, 0.0f, "GAMEMAP");
+	back_maprect->setColor(44, 128, 44);
+	back_maprect->draw(MVMatrix*Translate(0, 1000, 0));
+	delete back_maprect;
+
 	ORect* maprect = new ORect(0.0f, 0.0f, MAPLENGTH * COLUMN_WIDTH, MAPHEIGHT, ORect::BOTTOMLEFT, 0.0f, "GAMEMAP");
 	maprect->setColor(51, 51, 51);
-
 	maprect->draw(MVMatrix);
 	
 	ORect* grassrect = new ORect(0.0, 0.0f, COLUMN_WIDTH, MAPHEIGHT, ORect::BOTTOMLEFT, 0.0f, "GAMEMAPGRASS");
 	grassrect->setColor(83, 255, 26);
-	ORect* waterrect = new ORect(0.0, 0.0f, COLUMN_WIDTH, MAPHEIGHT, ORect::BOTTOMLEFT, 0.0f, "GAMEMAPWATER");
+	ORect* waterrect = new ORect(0.0, 0.0f, COLUMN_WIDTH, 2000, ORect::BOTTOMLEFT, 0.0f, "GAMEMAPWATER");
 	waterrect->setColor(25, 30, 255);
 	for (int i = 0; i < MAPLENGTH; i++)
 	{
 		if (getLine(i) == GRASS)
 		{			
-			grassrect->draw(MVMatrix * Translate(i*COLUMN_WIDTH, 0.0f, 0));			
+			grassrect->draw(MVMatrix * Translate(i*COLUMN_WIDTH, 0, 0));			
 		}
 		else if ((getLine(i) == WATERDOWN) || (getLine(i) == WATERUP))
 		{
-			waterrect->draw(MVMatrix * Translate(i*COLUMN_WIDTH, 0.0f, 0));
+			waterrect->draw(MVMatrix * Translate(i*COLUMN_WIDTH, 1000, 0));
 		}
 		else
 		{
