@@ -7,26 +7,66 @@
 
 float camloc;
 float PlayerX;
+extern GLint u_Projection;
 
 GScene::GScene()
 : GObject(Rect(0,0,0,0), Rect(0,0,0,0), "SCENE") {
+	mode_cam = TOP;
 	cam_x = 0;
 	cam_y = 0;
 }
 void GScene::drawScene() {
 	/* Draws all elements in the scene */
-
 	mat4 MVMatrix = mat4();
-	MVMatrix *= Angel::LookAt(
-		vec4(camloc, 0, 1, 1),
-		vec4(camloc, 0, -1, 1),
-		vec4(0, 1, 0, 1)
-		); 
+	switch (mode_cam) {
+	case TOP:
+		MVMatrix *= Angel::LookAt(
+			vec4(camloc, 0, 1, 1),
+			vec4(camloc, 0, -1, 1),
+			vec4(0, 1, 0, 1)
+			);
+		break;
+	case POV:
+		MVMatrix *= Angel::LookAt(
+			vec4(camloc, 45, 30, 1),
+			vec4(camloc+30, 45, 0, 1),
+			vec4(1, 0, 0, 1)
+			);
+		break;
+	case SHOULDER:
+		MVMatrix *= Angel::LookAt(
+			vec4(camloc, 45, 30, 1),
+			vec4(camloc+30, 45, 0, 1),
+			vec4(1, 0, 0, 1)
+			);
+
+		break;
+	}
 	onTraverseDraw(MVMatrix);
 }
 void GScene::updateScene() {
 	/* Updates all elements in the scene. */
 	onTraverseUpdate();
+}
+void GScene::setCameraMode(CameraMode mode) {
+	this->mode_cam = mode;
+	mat4 projection = mat4();
+	switch (mode) {
+		case TOP:
+			projection = Ortho(0, GameMap::MAPHEIGHT*2, 0, GameMap::MAPHEIGHT, 0, 1000);
+			glUniformMatrix4fv(u_Projection, 1, true, projection);
+			break;
+		case POV:
+			projection = Perspective(90, 2, 10, 1000);
+			glUniformMatrix4fv(u_Projection, 1, true, projection);
+			break;
+		case SHOULDER:
+			projection = Perspective(90, 2, 10, 1000);
+			glUniformMatrix4fv(u_Projection, 1, true, projection);
+			break;
+	}
+
+
 }
 void GScene::draw(mat4 MVMatrix) {
 	// nothing to draw. blank

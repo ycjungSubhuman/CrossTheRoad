@@ -329,10 +329,18 @@ void Player::incrHead(bool incr) {
 		}
 	}
 }
-void Player::markDead() {
+void Player::markDead(Player::Compression com) {
 	mciSendString("close dead", NULL, 0, 0);
 	mciSendString("open \"dead.mp3\" type mpegvideo alias dead", NULL, 0, NULL);
 	mciSendString("play dead", NULL, 0, NULL);
+	if (com == VERTICAL) {
+		//TODO: compress player vertically
+
+	}
+	else {
+		//TODO: compress player horizontally
+
+	}
 	isDead = true;
 }
 bool Player::characterIsMovableTo(Direction dir) {

@@ -63,7 +63,7 @@ void init(void) {
 
 	//Set projection matrix by ortho2D
 	mat4 projection = mat4();
-	projection = Ortho2D(0, GameMap::MAPHEIGHT*2, 0, GameMap::MAPHEIGHT);
+	projection = Ortho(0, GameMap::MAPHEIGHT*2, 0, GameMap::MAPHEIGHT, 0, 1000);
 	glUniformMatrix4fv(u_Projection, 1, true, projection);
 
 	//set basic rect info 
@@ -106,6 +106,20 @@ void processUserInput(int key, int x, int y) {
 		game.getPlayer()->move(Player::KEY_LEFT);
 		break;
 	}
+}
+void processPerspective(unsigned char key, int x, int y) {
+	switch (key) {
+		case '1':
+			game.getScene()->setCameraMode(GScene::TOP);
+			break;
+		case '2':
+			game.getScene()->setCameraMode(GScene::POV);
+			break;
+		case '3':
+			game.getScene()->setCameraMode(GScene::SHOULDER);
+			break;
+	}
+
 }
 
 
@@ -245,6 +259,7 @@ int main(int argc, char** argv) {
 
 	glutDisplayFunc(drawView);
 	glutSpecialFunc(processUserInput);
+	glutKeyboardFunc(processPerspective);
 	//glutIdleFunc(updateScene);
 	glutTimerFunc(20, updateScene, 0);
 	glutMainLoop();

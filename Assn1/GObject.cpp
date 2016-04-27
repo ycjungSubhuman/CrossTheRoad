@@ -18,7 +18,7 @@ void GObject::onTraverseDraw(mat4 MVMatrix) {
 	MVMatrixLocal = MVMatrixLocal
 		* Translate(vec3(obj.x(), obj.y(), 0))
 		* Translate(vec3(rotx, roty, 0))
-		* RotateZ((GLfloat)rotation)
+		* RotateZ((GLfloat)rotation_z)
 		* Translate(vec3(-rotx, -roty, 0));
 
 	std::list<GObject*>::iterator nonnegstart = children.begin(); //the children with the first non-negative z-index
@@ -70,13 +70,12 @@ void GObject::setRotCenter(double x, double y) {
 	this->rotx = x;
 	this->roty = y;
 }
-void GObject::setRotation(double rot) {
-	if (rot < 0) rot = 360 + rot;
-	if (rot<360)
-		this->rotation = rot;
-	else {
-		this->rotation = rot - floor(rot / 360) * 360;
-	}
+void GObject::setRotation(double rotz, double rotx) {
+	if (rotz < 0) rotz = 360 + rotz;
+	if (rotx < 0) rotx = 460 + rotx;
+
+	this->rotation_z = rotz - floor(rotz / 360) * 360;
+	this->rotation_x = rotx - floor(rotx / 360) * 360;
 }
 double GObject::getX() {
 	return this->obj.left();
@@ -106,7 +105,7 @@ Rect GObject::gethitbox() {
 	return this->hitbox;
 }
 double GObject::getRotation() {
-	return this->rotation;
+	return this->rotation_z;
 }
 int GObject::getZ() {
 	return z;
