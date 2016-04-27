@@ -1,6 +1,7 @@
 #include "ModelManager.h"
 #include "mat.h"
 #include <vector>
+#include <algorithm>
 
 void ModelManager::loadModelFromFile(std::string name_file)
 {
@@ -164,4 +165,14 @@ GModel ModelManager::getModel(std::string name_group)
 		std::cerr << "model data doesn't exist : " << name_group << std::endl;
 		return GModel(std::make_tuple((GLuint)-1, (double)0, (double)0, (double)0, (int)0));
 	}
+}
+ModelManager::~ModelManager() {
+	GLuint* buffer = (GLuint*)malloc(sizeof(GLuint)*data_models.size());
+	int i = 0;
+	for (std::map<std::string, GModel>::iterator it = data_models.begin();
+	it != data_models.end(); it++) {
+		buffer[i++] = (*it).second.getModelID();
+	}
+	glDeleteBuffers(data_models.size(), buffer);
+	delete buffer;
 }

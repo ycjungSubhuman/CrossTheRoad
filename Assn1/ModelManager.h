@@ -11,4 +11,5 @@ private:
 public:
 	void loadModelFromFile(std::string name_file);
 	GModel getModel(std::string name_group);
+	~ModelManager();
 };

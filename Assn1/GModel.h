@@ -8,7 +8,7 @@
 
 class GModel {
 private:
-	std::tuple<GLuint, double, double, double, int> data_models;
+	std::tuple<GLuint, double, double, double, int> data_model;
 public:
 	GModel() = default;
 	GModel(std::tuple<GLuint, double, double, double, int> data_models);
