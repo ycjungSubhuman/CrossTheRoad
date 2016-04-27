@@ -1,8 +1,9 @@
 #include "O3DModel.h"
 #include <vector>
 
-O3DModel::O3DModel(double x, double y, double z, RotPoint rotcnt, double rotx, double roty, std::string type, std::tuple<GLuint,double,double,double,int> data_model)
-	:GObject(Rect(0, 0, 0, 0), Rect(0, 0, 0, 0), type)
+O3DModel::O3DModel(double x, double y, double z, RotPoint rotcnt, double rotx, double roty, 
+	std::string type, std::tuple<GLuint,double,double,double,int> data_model)
+	:GObject(Rect(x, y, 0, 0), Rect(0, 0, 0, 0), type)
 {
 	//inits model... just as ORect
 }
@@ -99,6 +100,7 @@ std::map<std::string, std::tuple<GLuint,double,double,double,int>> O3DModel::loa
 			double minx = 0, miny = 0, minz = 0;
 			double width, height, depth;
 			fscanf(file, "%s\n", groupname);		
+			std::string groupnametmp = groupname;
 			if(old_groupname.size() != 0)
 			{ 
 				// For each vertex of each triangle
@@ -132,10 +134,10 @@ std::map<std::string, std::tuple<GLuint,double,double,double,int>> O3DModel::loa
 				indexes = std::make_tuple(groupint, width, height, depth, vertices.size());
 				dict[old_groupname] = indexes;
 				std::string groupnametmp = groupname;
-				old_groupname = groupnametmp;
 				vertexIndices.clear();
 				vertices.clear();
 			}
+			old_groupname = groupname;
 		}
 		else if (strcmp(lineHeader, "f") == 0) {
 			std::string vertex1, vertex2, vertex3;
