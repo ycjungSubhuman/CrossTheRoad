@@ -72,6 +72,13 @@ void init(void) {
 	glGenBuffers(1, &rectbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, rectbuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
+	
+	mciSendString("open \"CrossTheRoad_2.mp3\" type mpegvideo alias back", NULL, 0, NULL);
+	mciSendString("play back repeat", NULL, 0, NULL);
+	mciSendString("open \"CrossTheRoad_1.mp3\" type mpegvideo alias front", NULL, 0, NULL);
+	mciSendString("play front repeat", NULL, 0, NULL);
+	mciSendString("setaudio front Volume to 1", NULL, 0, NULL);
+
 }
 void drawView(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -104,6 +111,13 @@ void updateScene(int val)
 	/* Implement Scene Update */
 	Rect player = game.getPlayer()->getgloobj();
 	Rect parent = game.getPlayer()->getParent() -> getgloobj();
+
+	if (game.getMap()->getLine(game.getPlayer()->getLinenum()) != GameMap::GRASS) {
+		mciSendString("setaudio front Volume to 1000", NULL, 0, NULL);
+	}
+	else {
+		mciSendString("setaudio front Volume to 1", NULL, 0, NULL);
+	}
 
 	//clear cars out of the map
 	game.getScene()->updateScene();
