@@ -37,9 +37,6 @@ Player::Player()
 	rotdest = 0;
 	setRotCenter(PLAYERWIDTH / 2, -PLAYERHEIGHT / 2);
 
-	wow = new ORect(0, 0, 10, 10, ORect::CENTER, 0, "TEST");
-	this->addObject(wow);
-
 	//assemble palyer hierarchy
 	try {
 		neck = new O3DModel(PLAYERWIDTH/2,-PLAYERHEIGHT/2, 0,
@@ -66,14 +63,6 @@ Player::Player()
 			O3DModel::BCC, 0, 0,
 			"ARMRIGHT",
 			modelManager->getModel("ArmRight"));
-		hand_left = new O3DModel(0, 0, 0,
-			O3DModel::BCC, 0, 0,
-			"HANDLEFT",
-			modelManager->getModel("HandLeft"));
-		hand_right = new O3DModel(0, 0, 0,
-			O3DModel::BCC, 0, 0,
-			"HANDRIGHT",
-			modelManager->getModel("HandRight"));
 
 		neck->setColor(33, 33, 33);
 		head->setColor(55, 55, 55);
@@ -85,9 +74,7 @@ Player::Player()
 		head->addObject(hair);
 		head->addObject(eyes);
 		neck->addObject(arm_left);
-		arm_left->addObject(hand_left);
 		neck->addObject(arm_right);
-		arm_right->addObject(hand_right);
 	}
 	catch (...) {
 		std::cerr << "Error Occured when trying to load the player" << std::endl;
@@ -290,9 +277,15 @@ void Player::frameAction() {
 		//always set the position of this object to bound object
 		Rect rect_bound = bound_object->getgloobj();
 		Rect parent_rect = getParent()->getgloobj();
-		this->setPos(
-			(rect_bound.x() + rect_bound.width()/2)-parent_rect.x(), 
-			rect_bound.y() - rect_bound.height()/2 - parent_rect.y());
+		if (!isDead) {
+			this->setPos(
+				(rect_bound.x() + rect_bound.width() / 2) - parent_rect.x(),
+				rect_bound.y() - rect_bound.height() / 2 - parent_rect.y());
+		}
+		else {
+			this->setPos(getX(),
+				rect_bound.y() - parent_rect.y());
+		}
 
 		//set gridnum according to current location
 		gridnum = floor(abs(getobj().y() / ((double)GameMap::MAPHEIGHT / GameMap::GRIDNUM)));
