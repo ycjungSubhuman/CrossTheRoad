@@ -1,6 +1,6 @@
 #include "O3DModel.h"
 #include <vector>
-
+extern GLint u_Model;
 O3DModel::O3DModel(double x, double y, double z, RotPoint rotcnt, double rotz, double rotx, std::string type, GModel& model)
 	:GObject(Rect(x, y, 0, 0), Rect(0, 0, 0, 0), type)
 {
@@ -28,6 +28,9 @@ O3DModel::O3DModel(double x, double y, double z, RotPoint rotcnt, double rotz, d
 
 void O3DModel::draw(mat4 MVMatrix) {
 	//TODO : implement drawing the 3d model
+	glBindBuffer(GL_ARRAY_BUFFER, index_vbo);
+	glUniformMatrix4fv(u_Model, 1, true, MVMatrix);
+	glDrawArrays(GL_TRIANGLES, 0, size_vertex);
 }
 
 void O3DModel::frameAction() {

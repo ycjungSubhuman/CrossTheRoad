@@ -11,7 +11,7 @@ draws the wireframe of the model. */
 
 class O3DModel : public GObject {
 private:
-	GLint index_vbo;
+	GLuint index_vbo;
 	int size_vertex;
 public:
 	enum RotPoint {
