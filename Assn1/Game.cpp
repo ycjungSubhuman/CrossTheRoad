@@ -21,7 +21,7 @@ Game::Game()
 
 	//Trees - randomly  place 0~2 trees in grass
 	//the start and the goal should be treeless
-	for (int i = 1; i < GameMap::MAPLENGTH-1; i++) {
+	for (int i = 1; i < (map->getLineLen())-1; i++) {
 		if (map->getLine(i) == GameMap::GRASS) { //if grass
 			int tree_cnt = 0;
 			int pos = 0;

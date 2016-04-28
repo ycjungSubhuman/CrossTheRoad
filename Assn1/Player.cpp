@@ -363,9 +363,6 @@ void Player::markDead(Player::Compression com) {
 }
 bool Player::characterIsMovableTo(Direction dir) {
 	switch (dir) {
-	case RIGHT: 
-		if (linenum - 1 < GameMap::MAPLENGTH) return true;
-		else return false;
 	case LEFT:
 		if (linenum > 0) return true;
 		else return false;

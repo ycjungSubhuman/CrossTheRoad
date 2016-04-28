@@ -63,7 +63,7 @@ void init(void) {
 	glClearColor(33.0f/256.0f, 33.0f/256.0f, 55.0f/256.0f, 0.0f);
 
 	//initiate timer call loop for car and log generation
-	for (int i = 0; i < GameMap::MAPLENGTH; i++) {
+	for (int i = 0; i < game->getMap()->getLineLen(); i++) {
 		int line = game->getMap()->getLine(i);
 		if (line == GameMap::ROADDOWN || line == GameMap::ROADUP) {
 			glutTimerFunc(Car::GENTIME+rand()%1000, genCar, i);
@@ -245,7 +245,7 @@ void updateScene(int val)
 
 	glEnableVertexAttribArray(color_in);
 	//check for goal
-	if (game->getPlayer()->getLinenum() == GameMap::MAPLENGTH - 1) {
+	if (game->getPlayer()->getLinenum() == game->getMap()->getLineLen() - 1) {
 		exit(0);
 	}
 

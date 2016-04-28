@@ -54,8 +54,8 @@ void GScene::drawScene() {
 	}
 	case SHOULDER:
 		MVMatrix *= Angel::LookAt(
-			vec4(camloc, 45, 30, 1),
-			vec4(camloc+30, 45, 0, 1),
+			vec4(camloc, camlocY, 60, 1),
+			vec4(camloc+30, camlocY, 0, 1),
 			vec4(1, 0, 0, 1)
 			);
 

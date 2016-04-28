@@ -10,13 +10,14 @@ private:
 	for example, 
 		[GRASS, ROAD, ROAD, ROAD, GRASS, ROAD, ROAD, ROAD, ROAD]  */
 public:
-	enum { MAPLENGTH=40, COLUMN_WIDTH=20, MAPHEIGHT=90, GRIDNUM=9 };
+	enum { MAPLENGTH=10, COLUMN_WIDTH=20, MAPHEIGHT=180, GRIDNUM=9 };
 	enum Linetype { GRASS, ROADUP, ROADDOWN, WATERUP, WATERDOWN };
 	enum GameMode { MODE_ROAD=1, MODE_WATER=2 };
 	GameMap(GameMode mode);
 	virtual void frameAction();
 	virtual void draw(mat4 MVMatrix);
 	Linetype getLine(int i);
+	int getLineLen();
 private:
 	std::vector<Linetype> mapinfo;
 };

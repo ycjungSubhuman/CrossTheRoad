@@ -26,7 +26,7 @@ CarLikeObject::CarLikeObject(int line, GameMap::Linetype linetype, double width,
 	setRect(Rect(x+Car::CARWIDTH/2, y, width, height));
 	setColor(34, 45, 255);
 	setRotCenter(0, 0);
-	setHitBox(Rect(-width/4, 0, width, height));
+	setHitBox(Rect(-width/4, height/4, width, height));
 	if (linetype == GameMap::ROADDOWN) {
 		setRotation(180);
 	}

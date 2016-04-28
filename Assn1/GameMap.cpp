@@ -20,19 +20,24 @@ void DrawRoadLine(int Maplength, int Mapheight, int x, mat4 MVMatrix)
 	delete(maprect);
 }
 
-GameMap::GameMap(GameMap::GameMode mode) : GObject(Rect(0, MAPHEIGHT, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT), Rect(0,-MAPHEIGHT/2,COLUMN_WIDTH*MAPLENGTH*2,MAPHEIGHT*4), "BACKGROUND")
+GameMap::GameMap(GameMap::GameMode mode) 
+	: GObject(Rect(0, MAPHEIGHT, COLUMN_WIDTH*MAPLENGTH, MAPHEIGHT), 
+		Rect(0,-MAPHEIGHT/2,COLUMN_WIDTH*MAPLENGTH*2,MAPHEIGHT*4), "BACKGROUND")
+
 {
 	/* 맵 전체를 그리는 함수
 	 mapinfo의 배열에 따라서 다른 맵을 그려야 한다*/
 	//init mapinfo
-	mapinfo = std::vector<Linetype>(MAPLENGTH);
+	mapinfo = std::vector<Linetype>(MAPLENGTH+rand()%20);
+	setRect(Rect(0, MAPHEIGHT, COLUMN_WIDTH*getLineLen(), MAPHEIGHT));
+	setHitBox(Rect(0, -MAPHEIGHT / 2, COLUMN_WIDTH*getLineLen() * 2, MAPHEIGHT * 4));
 	mapinfo[0] = GRASS;
 	mapinfo[1] = rand()%2 ? ROADUP : ROADDOWN;
-	mapinfo[MAPLENGTH - 2] = rand()%2 ? ROADUP : ROADDOWN;
-	mapinfo[MAPLENGTH - 1] = GRASS; //the first and the last should be GRASS
+	mapinfo[getLineLen() - 2] = rand()%2 ? ROADUP : ROADDOWN;
+	mapinfo[getLineLen() - 1] = GRASS; //the first and the last should be GRASS
 	int prevroad = 0;
 	std::cout << "MAPINFO: [";
-	for (int i = 2; i < MAPLENGTH-2; i++) {
+	for (int i = 2; i < getLineLen()-2; i++) {
 		if (prevroad < 3) {
 			mapinfo[i] = rand() % 2 ? ROADUP : ROADDOWN;
 			prevroad++;
@@ -91,12 +96,12 @@ void GameMap::draw(mat4 MVMatrix) {
 				DrawRoadLine(COLUMN_WIDTH, MAPHEIGHT, i);
 		}		
 	} */
-	ORect* back_maprect = new ORect(0.0f, 0.0f, MAPLENGTH * COLUMN_WIDTH, 2000, ORect::BOTTOMLEFT, 0.0f, "GAMEMAP");
+	ORect* back_maprect = new ORect(0.0f, 0.0f, getLineLen() * COLUMN_WIDTH, 2000, ORect::BOTTOMLEFT, 0.0f, "GAMEMAP");
 	back_maprect->setColor(44, 128, 44);
 	back_maprect->draw(MVMatrix*Translate(0, 1000, -0.3));
 	delete back_maprect;
 
-	ORect* maprect = new ORect(0.0f, 0.0f, MAPLENGTH * COLUMN_WIDTH, MAPHEIGHT, ORect::BOTTOMLEFT, 0.0f, "GAMEMAP");
+	ORect* maprect = new ORect(0.0f, 0.0f, getLineLen() * COLUMN_WIDTH, MAPHEIGHT, ORect::BOTTOMLEFT, 0.0f, "GAMEMAP");
 	maprect->setColor(51, 51, 51);
 	maprect->draw(MVMatrix);
 	
@@ -104,7 +109,7 @@ void GameMap::draw(mat4 MVMatrix) {
 	grassrect->setColor(83, 255, 26);
 	ORect* waterrect = new ORect(0.0, 0.0f, COLUMN_WIDTH, 2000, ORect::BOTTOMLEFT, 0.0f, "GAMEMAPWATER");
 	waterrect->setColor(25, 30, 255);
-	for (int i = 0; i < MAPLENGTH; i++)
+	for (int i = 0; i < getLineLen(); i++)
 	{
 		if (getLine(i) == GRASS)
 		{			
@@ -137,4 +142,7 @@ GameMap::Linetype GameMap::getLine(int i) {
 void GameMap::frameAction() {
 	//Maybe color flickering when invincible item obtained??
 	//Nothing to do for now.
+}
+int GameMap::getLineLen() {
+	return mapinfo.size();
 }
