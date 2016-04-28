@@ -77,8 +77,6 @@ void GScene::setCameraMode(CameraMode mode) {
 			glUniformMatrix4fv(u_Projection, 1, true, projection);
 			break;
 	}
-
-
 }
 void GScene::draw(mat4 MVMatrix) {
 	// nothing to draw. blank

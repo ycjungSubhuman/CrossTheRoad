@@ -66,6 +66,14 @@ Player::Player()
 			O3DModel::BCC, 0, 0,
 			"ARMRIGHT",
 			modelManager->getModel("ArmRight"));
+		hand_left = new O3DModel(0, 0, 0,
+			O3DModel::BCC, 0, 0,
+			"HANDLEFT",
+			modelManager->getModel("HandLeft"));
+		hand_right = new O3DModel(0, 0, 0,
+			O3DModel::BCC, 0, 0,
+			"HANDRIGHT",
+			modelManager->getModel("HandRight"));
 
 		neck->setColor(33, 33, 33);
 		head->setColor(55, 55, 55);
@@ -77,7 +85,9 @@ Player::Player()
 		head->addObject(hair);
 		head->addObject(eyes);
 		neck->addObject(arm_left);
+		arm_left->addObject(hand_left);
 		neck->addObject(arm_right);
+		arm_right->addObject(hand_right);
 	}
 	catch (...) {
 		std::cerr << "Error Occured when trying to load the player" << std::endl;
