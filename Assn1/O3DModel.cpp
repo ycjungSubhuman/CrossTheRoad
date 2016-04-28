@@ -1,6 +1,7 @@
 #include "O3DModel.h"
 #include <vector>
 extern GLint u_Model;
+extern GLint color_in;
 O3DModel::O3DModel(double x, double y, double z, RotPoint rotcnt, double rotz, double rotx, std::string type, GModel& model)
 	:GObject(Rect(x, y, 0, 0), Rect(0, 0, 0, 0), type)
 {
@@ -28,9 +29,20 @@ O3DModel::O3DModel(double x, double y, double z, RotPoint rotcnt, double rotz, d
 
 void O3DModel::draw(mat4 MVMatrix) {
 	//TODO : implement drawing the 3d model
+	GLint error;
+	vec4 colors = vec4(0.0,0.0,0.0, 1);
+	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, index_vbo);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+	glUniform4fv(color_in, 1, colors);
 	glUniformMatrix4fv(u_Model, 1, true, MVMatrix);
 	glDrawArrays(GL_TRIANGLES, 0, size_vertex);
+	glDisableVertexAttribArray(0);
+	error = glGetError();
+	if (error != GL_NO_ERROR) {
+		printf("%x\n", error);
+	}
 }
 
 void O3DModel::frameAction() {

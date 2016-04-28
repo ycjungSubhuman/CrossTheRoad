@@ -17,10 +17,8 @@ void ModelManager::loadModelFromFile(std::string name_file)
 
 	std::vector<vec3> vertices;
 	std::map<std::string, GModel> dict;
-	std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
+	std::vector<unsigned int> vertexIndices;
 	std::vector<vec3> temp_vertices;
-	std::vector<vec2> temp_uvs;
-	std::vector<vec3> temp_normals;
 	std::string old_groupname;
 	char* filename = new char[name_file.size() + 1];
 	strcpy_s(filename, name_file.size() + 1, name_file.c_str());
@@ -42,7 +40,6 @@ void ModelManager::loadModelFromFile(std::string name_file)
 		if (res == EOF)
 		{
 			std::tuple<GLuint, double, double, double, int> indexes;
-			vec3* arrvert;
 			double maxx = 0, maxy = 0, maxz = 0;
 			double minx = 0, miny = 0, minz = 0;
 			double width, height, depth;
@@ -67,12 +64,10 @@ void ModelManager::loadModelFromFile(std::string name_file)
 			height = maxy - miny;
 			depth = maxz - minz;
 
-			arrvert = &vertices[0];
-
 			GLuint groupint;
 			glGenBuffers(1, &groupint);
 			glBindBuffer(GL_ARRAY_BUFFER, groupint);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(arrvert), arrvert, GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
 
 			indexes = std::make_tuple(groupint, width, height, depth, vertices.size());
 			dict[old_groupname] = GModel(indexes);
@@ -91,7 +86,6 @@ void ModelManager::loadModelFromFile(std::string name_file)
 		else if (strcmp(lineHeader, "g") == 0) {
 			char groupname[128];
 			std::tuple<GLuint, double, double, double, int> indexes;
-			vec3* arrvert;
 			double maxx = 0, maxy = 0, maxz = 0;
 			double minx = 0, miny = 0, minz = 0;
 			double width, height, depth;
@@ -120,12 +114,10 @@ void ModelManager::loadModelFromFile(std::string name_file)
 				height = maxy - miny;
 				depth = maxz - minz;
 
-				arrvert = &vertices[0];
-
 				GLuint groupint;
 				glGenBuffers(1, &groupint);
 				glBindBuffer(GL_ARRAY_BUFFER, groupint);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(arrvert), arrvert, GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
 
 				indexes = std::make_tuple(groupint, width, height, depth, vertices.size());
 				dict[old_groupname] = GModel(indexes);
