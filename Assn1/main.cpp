@@ -60,7 +60,7 @@ void init(void) {
 	game = new Game();
 
 	/* init screen */
-	glClearColor(33.0f/256.0f, 33.0f/256.0f, 157.0f/256.0f, 0.0f);
+	glClearColor(33.0f/256.0f, 33.0f/256.0f, 55.0f/256.0f, 0.0f);
 
 	//initiate timer call loop for car and log generation
 	for (int i = 0; i < GameMap::MAPLENGTH; i++) {
@@ -131,6 +131,12 @@ void processPerspective(unsigned char key, int x, int y) {
 			break;
 		case '3':
 			game->getScene()->setCameraMode(GScene::SHOULDER);
+			break;
+		case '4':
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			break;
+		case '5':
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			break;
 	}
 

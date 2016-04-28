@@ -2,11 +2,11 @@
 #include "GameMap.h"
 #include <cmath>
 #include "ModelManager.h"
-
+#include "Car.h"
 extern ModelManager* modelManager;
 
 CarLikeObject::CarLikeObject(int line, GameMap::Linetype linetype, double width, double height, std::string type) 
-	:O3DModel(0, 0, 0, CENTER, 0, 0, "CAR", modelManager->getModel("police_car"))
+	:O3DModel(Car::CARWIDTH/2, -Car::CARHEIGHT/2, 0, CENTER, 0, 0, "CAR", modelManager->getModel("police_car"))
 {
 	//init obj speed
 	dis_y = 1;
@@ -23,7 +23,12 @@ CarLikeObject::CarLikeObject(int line, GameMap::Linetype linetype, double width,
 	}
 	//line number
 	x = line*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - width / 2;
-	setRect(Rect(x, y, width, height));
+	setRect(Rect(x+Car::CARWIDTH/2, y, width, height));
+	setColor(34, 45, 255);
+	setRotCenter(0, 0);
+	if (linetype == GameMap::ROADDOWN) {
+		setRotation(180);
+	}
 }
 void CarLikeObject::setDisY(double dis_y) {
 	if (this->dis_y < 0) {
