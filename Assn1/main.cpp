@@ -75,7 +75,7 @@ void init(void) {
 
 	//Set projection matrix by ortho2D
 	mat4 projection = mat4();
-	projection = Ortho(0, GameMap::MAPHEIGHT*2, 0, GameMap::MAPHEIGHT, 0, 1000);
+	projection = Ortho(0, GameMap::MAPHEIGHT, 0, GameMap::MAPHEIGHT, 0, 1000);
 	glUniformMatrix4fv(u_Projection, 1, true, projection);
 
 	//set basic rect info 
@@ -273,7 +273,7 @@ void updateScene(int val)
 int main(int argc, char** argv) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-	glutInitWindowSize(1000, 500);
+	glutInitWindowSize(700, 700);
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow(argv[0]);
 	glewInit();

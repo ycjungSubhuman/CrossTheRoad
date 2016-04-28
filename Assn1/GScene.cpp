@@ -7,6 +7,7 @@
 #include "Player.h"
 
 float camloc;
+float camlocY;
 double rot;
 float PlayerX;
 extern GLint u_Projection;
@@ -20,6 +21,7 @@ GScene::GScene()
 void GScene::drawScene() {
 	/* Draws all elements in the scene */
 	mat4 MVMatrix = mat4();
+	vec4 rotatedvec;
 	switch (mode_cam) {
 	case TOP:
 		MVMatrix *= Angel::LookAt(
@@ -33,10 +35,14 @@ void GScene::drawScene() {
 		vec3 lay = vec3(camloc + 50, 45, 8, 1);
 		vec3 sub = lay - ori;
 		vec3 rotd = RotateZ(rot);*/
+		if (rot == 0.0) rotatedvec = vec4(camloc + 50, camlocY, 8, 1);
+		else if (rot == 90.0) rotatedvec = vec4(camloc + 30, camlocY+30, 8, 1);
+		else if (rot == 180.0) rotatedvec = vec4(camloc - 10, camlocY, 8, 1);
+		else rotatedvec = vec4(camloc + 30, camlocY-30, 8, 1);
 		MVMatrix *= Angel::LookAt(
-			vec4(camloc+20, 45, 10, 1),
-			vec4(camloc+50, 45, 8, 1),
-			vec4(1, 0, 0, 1)
+			vec4(camloc+30, camlocY, 10, 1),
+			rotatedvec,
+			vec4(0, 0, 1, 1)
 			);
 		break;
 	case SHOULDER:
@@ -59,15 +65,15 @@ void GScene::setCameraMode(CameraMode mode) {
 	mat4 projection = mat4();
 	switch (mode) {
 		case TOP:
-			projection = Ortho(0, GameMap::MAPHEIGHT * 2, 0, GameMap::MAPHEIGHT, -400, 400);
+			projection = Ortho(0, GameMap::MAPHEIGHT, 0, GameMap::MAPHEIGHT, -400, 400);
 			glUniformMatrix4fv(u_Projection, 1, true, projection);
 			break;
 		case POV:
-			projection = Perspective(65, 2, 10, 1000);
+			projection = Perspective(65, 1, 10, 1000);
 			glUniformMatrix4fv(u_Projection, 1, true, projection);
 			break;
 		case SHOULDER:
-			projection = Perspective(75, 2, 10, 1000);
+			projection = Perspective(75, 1, 10, 1000);
 			glUniformMatrix4fv(u_Projection, 1, true, projection);
 			break;
 	}
@@ -79,8 +85,10 @@ void GScene::draw(mat4 MVMatrix) {
 }
 void GScene::frameAction() {
 	float cam_dest = getChildOfType("PLAYER")->getgloobj().x() - 30;
+	float cam_destY = getChildOfType("PLAYER")->getgloobj().y() - 5;
 	rot = getChildOfType("PLAYER")->getRotation();
 	camloc = 0.3 * cam_dest + 0.7 * camloc;
+	camlocY = 0.3 * cam_destY + 0.7 * camlocY;
 	if (camloc < 0) camloc = 0;
 }
 std::list<GObject*> GScene::getCollisionsOf(GObject* obj, std::string type) {
