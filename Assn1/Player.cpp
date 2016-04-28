@@ -83,6 +83,7 @@ Player::Player()
 void Player::move(Player::Key key) {
 	if (isDead) return;
 	isBound = false;
+	setPos(getX(), getY(), 5);
 	switch (key) {
 	case KEY_RIGHT:
 		mciSendString("close pong2", NULL, 0, 0);
@@ -129,9 +130,10 @@ void Player::undoMove() {
 	movedir = NONE;
 	setRotation(rotdest);
 	if (!isDead)
-		setPos((linenum)*GameMap::COLUMN_WIDTH + (double)GameMap::COLUMN_WIDTH / 2-PLAYERWIDTH/2, -(double)(gridnum)*GameMap::MAPHEIGHT / GameMap::GRIDNUM);
+		setPos((linenum)*GameMap::COLUMN_WIDTH + (double)GameMap::COLUMN_WIDTH / 2-PLAYERWIDTH/2, -(double)(gridnum)*GameMap::MAPHEIGHT / GameMap::GRIDNUM, getZ());
 }
 void Player::finishMove() {
+	setPos(getX(), getY(), 0);
 	switch (movedir) {
 	case UP:
 		gridnum--;
@@ -213,7 +215,7 @@ void Player::frameAction() {
 			if (getY() + 5 < -(gridnum-1)*(GameMap::MAPHEIGHT/GameMap::GRIDNUM) ){
 				double next = -(gridnum - 1)*GameMap::MAPHEIGHT / GameMap::GRIDNUM - getY();
 				next = next*0.5;
-				setPos(getX(), getY() + next);
+				setPos(getX(), getY() + next, getZ());
 			}
 			else {
 				finishMove();
@@ -223,7 +225,7 @@ void Player::frameAction() {
 			if (getY() - 5 > -(gridnum+1)*GameMap::MAPHEIGHT / GameMap::GRIDNUM) {
 				double next = -(gridnum+1)*GameMap::MAPHEIGHT / GameMap::GRIDNUM - getY();
 				next = next*0.5;
-				setPos(getX(), getY() + next);
+				setPos(getX(), getY() + next, getZ());
 			}
 			else {
 				finishMove();
@@ -233,7 +235,7 @@ void Player::frameAction() {
 			if (getX() + 5 < (linenum + 1)*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - Player::PLAYERWIDTH / 2) {
 				double next = (linenum + 1)*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - Player::PLAYERWIDTH / 2 - getX();
 				next = next*0.5;
-				setPos(getX() + next, getY());
+				setPos(getX() + next, getY(), getZ());
 			}
 			else {
 				finishMove();
@@ -243,7 +245,7 @@ void Player::frameAction() {
 			if (getX() - 5 > (linenum-1)*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - Player::PLAYERWIDTH / 2) {
 				double next = (linenum-1)*GameMap::COLUMN_WIDTH + GameMap::COLUMN_WIDTH / 2 - Player::PLAYERWIDTH / 2 - getX();
 				next = next*0.5;
-				setPos(getX() + next, getY());
+				setPos(getX() + next, getY(), getZ());
 			}
 			else {
 				finishMove();
@@ -289,6 +291,14 @@ void Player::frameAction() {
 
 		//set gridnum according to current location
 		gridnum = floor(abs(getobj().y() / ((double)GameMap::MAPHEIGHT / GameMap::GRIDNUM)));
+	}
+
+	//animation
+	if (getZ() > 0) {
+		setPos(getX(), getY(), getZ() - 0.5);
+	}
+	else {
+		setPos(getX(), getY(), 0);
 	}
 }
 int Player::getLinenum() {
