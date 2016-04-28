@@ -31,20 +31,27 @@ void GScene::drawScene() {
 			);
 		break;
 	case POV:
-		/*vec3 ori = vec3(camloc + 20, 45, 10, 1);
-		vec3 lay = vec3(camloc + 50, 45, 8, 1);
-		vec3 sub = lay - ori;
-		vec3 rotd = RotateZ(rot);*/
-		if (rot == 0.0) rotatedvec = vec4(camloc + 50, camlocY, 8, 1);
+	{
+		vec3 cnt = vec3(camloc+30, camlocY, 10);
+		vec3 ori = vec3(camloc+40, camlocY, 10);
+		vec3 lay = vec3(camloc + 50, camlocY, 8);
+		vec3 sub = lay - cnt;
+		vec3 subori = ori - cnt;
+		vec4 rotd = RotateZ(rot)*sub;
+		vec4 rotori = RotateZ(rot)*subori;
+		vec4 rotatedvec = rotd + cnt;
+		vec4 rotatedori = rotori + cnt;
+		/*if (rot == 0.0) rotatedvec = vec4(camloc + 50, camlocY, 8, 1);
 		else if (rot == 90.0) rotatedvec = vec4(camloc + 30, camlocY+30, 8, 1);
 		else if (rot == 180.0) rotatedvec = vec4(camloc - 10, camlocY, 8, 1);
-		else rotatedvec = vec4(camloc + 30, camlocY-30, 8, 1);
+		else rotatedvec = vec4(camloc + 30, camlocY-30, 8, 1);*/
 		MVMatrix *= Angel::LookAt(
-			vec4(camloc+30, camlocY, 10, 1),
+			rotatedori,
 			rotatedvec,
 			vec4(0, 0, 1, 1)
 			);
 		break;
+	}
 	case SHOULDER:
 		MVMatrix *= Angel::LookAt(
 			vec4(camloc, 45, 30, 1),
@@ -85,9 +92,10 @@ void GScene::frameAction() {
 	float cam_dest = getChildOfType("PLAYER")->getgloobj().x() - 30;
 	float cam_destY = getChildOfType("PLAYER")->getgloobj().y() - 5;
 	rot = getChildOfType("PLAYER")->getRotation();
-	camloc = 0.3 * cam_dest + 0.7 * camloc;
+	if (mode_cam == POV) camloc = cam_dest;
+	else camloc = 0.3 * cam_dest + 0.7 * camloc;
 	camlocY = 0.3 * cam_destY + 0.7 * camlocY;
-	if (camloc < 0) camloc = 0;
+	if (mode_cam != POV && camloc < 0) camloc = 0;
 }
 std::list<GObject*> GScene::getCollisionsOf(GObject* obj, std::string type) {
 	/* I'll go with iterative traverse because returning copy of list in recursion is possibly too
