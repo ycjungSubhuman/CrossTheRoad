@@ -10,6 +10,9 @@ void GObject::setRect(const Rect& rect) {
 	/* sets the obj boundbox */
 	this->obj = rect;
 }
+void GObject::setHitBox(const Rect& rect) {
+	this->hitbox = rect;
+}
 void GObject::onTraverseDraw(mat4 MVMatrix) {
 
 	/* Get parent's matrix */

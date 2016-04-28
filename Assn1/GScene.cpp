@@ -4,8 +4,10 @@
 #include <iostream>
 #include <queue>
 #include "GameMap.h"
+#include "Player.h"
 
 float camloc;
+double rot;
 float PlayerX;
 extern GLint u_Projection;
 
@@ -27,9 +29,13 @@ void GScene::drawScene() {
 			);
 		break;
 	case POV:
+		/*vec3 ori = vec3(camloc + 20, 45, 10, 1);
+		vec3 lay = vec3(camloc + 50, 45, 8, 1);
+		vec3 sub = lay - ori;
+		vec3 rotd = RotateZ(rot);*/
 		MVMatrix *= Angel::LookAt(
-			vec4(camloc, 45, 30, 1),
-			vec4(camloc+30, 45, 0, 1),
+			vec4(camloc+20, 45, 10, 1),
+			vec4(camloc+50, 45, 8, 1),
 			vec4(1, 0, 0, 1)
 			);
 		break;
@@ -57,11 +63,11 @@ void GScene::setCameraMode(CameraMode mode) {
 			glUniformMatrix4fv(u_Projection, 1, true, projection);
 			break;
 		case POV:
-			projection = Perspective(90, 2, 10, 1000);
+			projection = Perspective(65, 2, 10, 1000);
 			glUniformMatrix4fv(u_Projection, 1, true, projection);
 			break;
 		case SHOULDER:
-			projection = Perspective(45, 2, 10, 1000);
+			projection = Perspective(75, 2, 10, 1000);
 			glUniformMatrix4fv(u_Projection, 1, true, projection);
 			break;
 	}
@@ -73,6 +79,7 @@ void GScene::draw(mat4 MVMatrix) {
 }
 void GScene::frameAction() {
 	float cam_dest = getChildOfType("PLAYER")->getgloobj().x() - 30;
+	rot = getChildOfType("PLAYER")->getRotation();
 	camloc = 0.3 * cam_dest + 0.7 * camloc;
 	if (camloc < 0) camloc = 0;
 }

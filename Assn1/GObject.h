@@ -8,6 +8,7 @@
 class GObject {
 protected:
 	void setRect(const Rect& rect);
+	void setHitBox(const Rect& rect);
 	void onTraverseDraw(mat4 MVMatrix);
 	void onTraverseUpdate();
 private:
