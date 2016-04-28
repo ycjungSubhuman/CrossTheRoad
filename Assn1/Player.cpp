@@ -67,6 +67,7 @@ Player::Player()
 			"ARMRIGHT",
 			modelManager->getModel("ArmRight"));
 
+		this->addObject(neck);
 		neck->addObject(head);
 		head->addObject(hair);
 		head->addObject(eyes);
