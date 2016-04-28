@@ -60,3 +60,8 @@ void O3DModel::setColor(int r, int g, int b)
 void O3DModel::frameAction() {
 
 }
+
+void O3DModel::setModel(GModel model) {
+	index_vbo = model.getModelID();
+	size_vertex = model.getVertexSize();
+}

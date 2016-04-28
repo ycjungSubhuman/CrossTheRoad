@@ -37,4 +37,5 @@ public:
 	virtual void draw(mat4 MVMatrix);
 	virtual void frameAction();
 	void setColor(int r, int g, int b);
+	void setModel(GModel model);
 };
