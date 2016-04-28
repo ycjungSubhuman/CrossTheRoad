@@ -13,7 +13,7 @@ private:
 	GObject* bound_object;
 	//these pointes are referenced only from inside. a change in the 'status' can be
 	//done to manipulate player limbs
-	O3DModel *head, *hair, *arm_left, *arm_right, *eyes, *neck;
+	O3DModel *head, *hair, *arm_left, *arm_right, *eyes, *neck, *hand_left, *hand_right;
 	ORect* wow;
 	void incrRotDest(double rot);
 public:
