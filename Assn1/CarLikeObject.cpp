@@ -1,9 +1,12 @@
 #include "CarLikeObject.h"
 #include "GameMap.h"
 #include <cmath>
+#include "ModelManager.h"
+
+extern ModelManager* modelManager;
 
 CarLikeObject::CarLikeObject(int line, GameMap::Linetype linetype, double width, double height, std::string type) 
-	: ORect(0, 0, width, height, ORect::CENTER, 0, type)
+	:O3DModel(0, 0, 0, CENTER, 0, 0, "CAR", modelManager->getModel("police_car"))
 {
 	//init obj speed
 	dis_y = 1;

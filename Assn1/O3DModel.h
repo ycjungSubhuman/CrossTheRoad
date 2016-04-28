@@ -13,6 +13,7 @@ class O3DModel : public GObject {
 private:
 	GLuint index_vbo;
 	int size_vertex;
+	double r, g, b;
 public:
 	enum RotPoint {
 		AAA, BAA, CAA,
@@ -35,4 +36,5 @@ public:
 		std::string type, GModel& data_model);
 	virtual void draw(mat4 MVMatrix);
 	virtual void frameAction();
+	void setColor(int r, int g, int b);
 };

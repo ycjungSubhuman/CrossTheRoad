@@ -42,7 +42,7 @@ Player::Player()
 
 	//assemble palyer hierarchy
 	try {
-		neck = new O3DModel(0, 0, 0,
+		neck = new O3DModel(PLAYERWIDTH/2,-PLAYERHEIGHT/2, 0,
 			O3DModel::BBC, 0, 0,
 			"NECK",
 			modelManager->getModel("Neck"));
@@ -66,6 +66,11 @@ Player::Player()
 			O3DModel::BCC, 0, 0,
 			"ARMRIGHT",
 			modelManager->getModel("ArmRight"));
+
+		neck->setColor(33, 33, 33);
+		head->setColor(55, 55, 55);
+		eyes->setColor(0, 0, 0);
+		hair->setColor(66, 33, 33);
 
 		this->addObject(neck);
 		neck->addObject(head);

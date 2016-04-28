@@ -16,7 +16,7 @@ void GObject::onTraverseDraw(mat4 MVMatrix) {
 	mat4 MVMatrixLocal = MVMatrix;
 
 	MVMatrixLocal = MVMatrixLocal
-		* Translate(vec3(obj.x(), obj.y(), 0))
+		* Translate(vec3(obj.x(), obj.y(), z))
 		* Translate(vec3(rotx, roty, rotz))
 		* RotateZ((GLfloat)rotation_z)
 		* RotateX((GLfloat)rotation_x)
@@ -48,9 +48,10 @@ GObject::GObject(const Rect& obj, const Rect& hitbox, std::string type) {
 	rotation_z = 0; rotation_x = 0;
 	scale_x = 1; scale_y = 1; scale_z = 1;
 }
-void GObject::setPos(double x, double y) {
+void GObject::setPos(double x, double y, double z) {
 	this->obj.setX(x);
 	this->obj.setY(y);
+	this->z = z;
 }
 void GObject::setRotCenter(double x, double y, double z) {
 	this->rotx = x;

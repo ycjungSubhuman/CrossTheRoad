@@ -77,3 +77,6 @@ void ORect::frameAction()
 {
 	//do nothing
 }
+void ORect::setPosZ(double z) {
+	setPos(getX(), getY(), z);
+}

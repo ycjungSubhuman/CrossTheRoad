@@ -84,6 +84,8 @@ void init(void) {
 	glGenBuffers(1, &rectbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, rectbuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
+
+	glEnable(GL_DEPTH_TEST);
 	
 	mciSendString("open \"dead.mp3\" type mpegvideo alias dead", NULL, 0, NULL);
 	mciSendString("open \"pong_1.mp3\" type mpegvideo alias pong1", NULL, 0, NULL);

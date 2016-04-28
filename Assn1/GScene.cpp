@@ -21,7 +21,7 @@ void GScene::drawScene() {
 	switch (mode_cam) {
 	case TOP:
 		MVMatrix *= Angel::LookAt(
-			vec4(camloc, 0, 1, 1),
+			vec4(camloc, 0, 100, 1),
 			vec4(camloc, 0, -1, 1),
 			vec4(0, 1, 0, 1)
 			);
@@ -53,7 +53,7 @@ void GScene::setCameraMode(CameraMode mode) {
 	mat4 projection = mat4();
 	switch (mode) {
 		case TOP:
-			projection = Ortho(0, GameMap::MAPHEIGHT*2, 0, GameMap::MAPHEIGHT, 0, 1000);
+			projection = Ortho(0, GameMap::MAPHEIGHT * 2, 0, GameMap::MAPHEIGHT, -400, 400);
 			glUniformMatrix4fv(u_Projection, 1, true, projection);
 			break;
 		case POV:

@@ -18,4 +18,5 @@ public:
 	void setColor(int r, int g, int b);
 	virtual void draw(mat4 MVMatrix);
 	virtual void frameAction(); //does nothing, placeholder
+	void setPosZ(double z);
 };
