@@ -64,12 +64,17 @@ void ModelManager::loadModelFromFile(std::string name_file)
 			height = maxy - miny;
 			depth = maxz - minz;
 
+			//wow. make the bound box placed on 0,0,0
+			for (std::vector<vec3>::iterator it = vertices.begin(); it != vertices.end(); it++) {
+				(*it) = (*it) - vec3((minx + maxx) / 2, (miny + maxy) / 2, (minz + maxz) / 2);
+			}
+
 			GLuint groupint;
 			glGenBuffers(1, &groupint);
 			glBindBuffer(GL_ARRAY_BUFFER, groupint);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
 
-			indexes = std::make_tuple(groupint, vec3(minx, miny, minz), vec3(width, height, depth), vertices.size());
+			indexes = std::make_tuple(groupint, vec3((minx+maxx)/2, (miny+maxy)/2, (minz+maxz)/2), vec3(width, height, depth), vertices.size());
 			dict[old_groupname] = GModel(indexes);
 			break;
 		}
@@ -114,12 +119,16 @@ void ModelManager::loadModelFromFile(std::string name_file)
 				height = maxy - miny;
 				depth = maxz - minz;
 
+				for (std::vector<vec3>::iterator it = vertices.begin(); it != vertices.end(); it++) {
+					(*it) = (*it) - vec3((minx + maxx) / 2, (miny + maxy) / 2, (minz + maxz) / 2);
+				}
+
 				GLuint groupint;
 				glGenBuffers(1, &groupint);
 				glBindBuffer(GL_ARRAY_BUFFER, groupint);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
 
-				indexes = std::make_tuple(groupint, vec3(minx, miny, minz), vec3(width, height, depth), vertices.size());
+				indexes = std::make_tuple(groupint, vec3((minx + maxx) / 2, (miny + maxy) / 2, (minz + maxz) / 2), vec3(width, height, depth), vertices.size());
 				dict[old_groupname] = GModel(indexes);
 				std::string groupnametmp = groupname;
 				vertexIndices.clear();
@@ -158,6 +167,31 @@ GModel ModelManager::getModel(std::string name_group)
 		return GModel(std::make_tuple((GLuint)-1, vec3(0,0,0), vec3(0,0,0), (int)0));
 	}
 }
+
+vec3 ModelManager::getGlobalPos(std::string name_group)
+{
+	try {
+		return data_models.at(name_group).getPos();
+	}
+	catch (...) {
+		std::cerr << "model data doesn't exist : " << name_group << std::endl;
+		return vec3();
+	}
+}
+
+vec3 ModelManager::getRelativePos(std::string child, std::string parent)
+{
+	try {
+		vec3 pos_c = data_models.at(child).getPos();
+		vec3 pos_p = data_models.at(parent).getPos();
+		return pos_c - pos_p;
+	}
+	catch (...) {
+		std::cerr << "model data doesn't exist : " << child << ", " << parent << std::endl;
+		return vec3();
+	}
+}
+
 ModelManager::~ModelManager() {
 	GLuint* buffer = (GLuint*)malloc(sizeof(GLuint)*data_models.size());
 	int i = 0;

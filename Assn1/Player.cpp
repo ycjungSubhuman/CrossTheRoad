@@ -39,45 +39,56 @@ Player::Player()
 
 	//assemble palyer hierarchy
 	try {
-		neck = new O3DModel(PLAYERWIDTH/2,-PLAYERHEIGHT/2, 0,
+		neck = new O3DModel(
+			modelManager->getGlobalPos("Neck")+vec3(PLAYERWIDTH/2,-PLAYERHEIGHT/2, 0),
 			O3DModel::CENTER, 0, 0,
 			"NECK",
 			modelManager->getModel("Neck"));
-		head = new O3DModel(0, 0, 0,
+		head = new O3DModel(modelManager->getRelativePos("Head", "Neck"),
 			O3DModel::CENTER, 0, 0,
 			"HEAD",
 			modelManager->getModel("Head"));
-		eyes = new O3DModel(0, 0, 0,
+		eyes = new O3DModel(modelManager->getRelativePos("Eyes", "Head"),
 			O3DModel::CENTER, 0, 0,
 			"EYES",
 			modelManager->getModel("Eyes"));
-		hair = new O3DModel(0, 0, 0,
+		hair = new O3DModel(modelManager->getRelativePos("Hair", "Head"),
 			O3DModel::CENTER, 0, 0,
 			"HAIR",
 			modelManager->getModel("Hair"));
-		arm_left = new O3DModel(0, 0, 0,
-			O3DModel::CENTER, 0, 0,
+		arm_left = new O3DModel(modelManager->getRelativePos("ArmLeft", "Neck"),
+			O3DModel::ORIGIN, 0, 0,
 			"ARMLEFT",
 			modelManager->getModel("ArmLeft"));
-		arm_right = new O3DModel(0, 0, 0,
-			O3DModel::CENTER, 0, 0,
+		arm_right = new O3DModel(modelManager->getRelativePos("ArmRight", "Neck"),
+			O3DModel::ORIGIN, 0, 0,
 			"ARMRIGHT",
 			modelManager->getModel("ArmRight"));
-		hand_left = new O3DModel(0, 0, 0,
+		hand_left = new O3DModel(modelManager->getRelativePos("LeftHand", "ArmLeft"),
 			O3DModel::CENTER, 0, 0,
 			"HANDLEFT",
 			modelManager->getModel("LeftHand"));
-		hand_right = new O3DModel(0, 0, 0,
+		hand_right = new O3DModel(modelManager->getRelativePos("RightHand", "ArmRight"),
 			O3DModel::CENTER, 0, 0,
 			"HANDRIGHT",
 			modelManager->getModel("RightHand"));
+
+		vec3 rel = modelManager->getRelativePos("LeftHand", "ArmLeft");
+		hand_left->setRotCenter(rel.x, rel.y, rel.z);
+		rel = modelManager->getRelativePos("RightHand", "ArmRight");
+		hand_right->setRotCenter(rel.x, rel.y, rel.z);
+		rel = modelManager->getRelativePos("ArmLeft", "Neck");
+		arm_left->setRotCenter(rel.x, rel.y, rel.z);
+		rel = modelManager->getRelativePos("ArmRight", "Neck");
+		arm_right->setRotCenter(rel.x, rel.y, rel.z);
+
 
 		neck->setColor(33, 33, 33);
 		head->setColor(55, 55, 55);
 		eyes->setColor(0, 0, 0);
 		hair->setColor(66, 33, 33);
-		hand_left->setColor(156, 156, 156);
-		hand_right->setColor(156, 156, 156);
+		hand_left->setColor(156, 33, 33);
+		hand_right->setColor(156, 33, 33);
 
 		this->addObject(neck);
 		neck->addObject(head);
@@ -314,18 +325,23 @@ void Player::frameAction() {
 		setPos(getX(), getY(), 0);
 	}
 	//body compress
-	//arm
-	//hand_left->setRotation(hand_left->getRotation() + 10, hand_left->getRotationX() + 10);
-	hand_left->setRotation(hand_left->getRotation() + 10, 0);
-	//hand_right->setRotation(hand_right->getRotation() + 10, hand_right->getRotationX() + 10);
-	hand_right->setRotation(hand_right->getRotation() + 10, 0);
+	if (!isDead) {
+		arm_left->setRotation(0, arm_left->getRotationX() - 10);
+		arm_right->setRotation(0, arm_right->getRotationX() + 10);
+
+		//arm
+		//hand_left->setRotation(hand_left->getRotation() + 10, hand_left->getRotationX() + 10);
+		hand_left->setRotation(hand_left->getRotation() + 10, 0);
+		//hand_right->setRotation(hand_right->getRotation() + 10, hand_right->getRotationX() + 10);
+		hand_right->setRotation(hand_right->getRotation() - 10, 0);
+	}
 	if (getPlayerStatus() == WALKING) {
 		arm_left->setRotation(arm_left->getRotation(), arm_left->getRotationX() - 20);
 		arm_right->setRotation(arm_right->getRotation(), arm_right->getRotationX() + 20);
 	}
 	else {
-		arm_left->setRotation(arm_left->getRotation(), 0);
-		arm_right->setRotation(arm_right->getRotation(), 0);
+		//arm_left->setRotation(arm_left->getRotation(), 0);
+		//arm_right->setRotation(arm_right->getRotation(), 0);
 	}
 }
 int Player::getLinenum() {
@@ -379,6 +395,7 @@ void Player::markDead(Player::Compression com) {
 	mciSendString("close dead", NULL, 0, 0);
 	mciSendString("open \"dead.mp3\" type mpegvideo alias dead", NULL, 0, NULL);
 	mciSendString("play dead", NULL, 0, NULL);
+	status = ALIVE;
 	if (com == VERTICAL) {
 		//TODO: compress player vertically
 		setScale(1, 1, 0.2);

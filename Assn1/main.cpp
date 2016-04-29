@@ -111,7 +111,7 @@ void processUserInput(int key, int x, int y) {
 		game->getPlayer()->move(Player::KEY_UP);
 		break;
 	case GLUT_KEY_DOWN:
-		game->getPlayer()->move(Player::KEY_DOWN);
+		//game->getPlayer()->move(Player::KEY_DOWN);
 		break;
 	case GLUT_KEY_RIGHT:
 		game->getPlayer()->move(Player::KEY_RIGHT);
@@ -123,13 +123,13 @@ void processUserInput(int key, int x, int y) {
 }
 void processPerspective(unsigned char key, int x, int y) {
 	switch (key) {
-		case '1':
+		case '3':
 			game->getScene()->setCameraMode(GScene::TOP);
 			break;
-		case '2':
+		case '1':
 			game->getScene()->setCameraMode(GScene::POV);
 			break;
-		case '3':
+		case '2':
 			game->getScene()->setCameraMode(GScene::SHOULDER);
 			break;
 		case '4':

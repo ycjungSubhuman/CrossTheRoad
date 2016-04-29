@@ -6,7 +6,7 @@
 extern ModelManager* modelManager;
 
 CarLikeObject::CarLikeObject(int line, GameMap::Linetype linetype, double width, double height, std::string type) 
-	:O3DModel(Car::CARWIDTH/2, -Car::CARHEIGHT/2, 0, CENTER, 0, 0, "CAR", modelManager->getModel("police_car"))
+	:O3DModel(vec3(Car::CARWIDTH/2, -Car::CARHEIGHT/2, 0), CENTER, 0, 0, "CAR", modelManager->getModel("police_car"))
 {
 	//init obj speed
 	dis_y = 1;
@@ -42,5 +42,5 @@ void CarLikeObject::setDisY(double dis_y) {
 
 void CarLikeObject::frameAction() {
 	//move
-	setPos(getX(), getY() + dis_y);
+	setPos(getX(), getY() + dis_y, getZ());
 }

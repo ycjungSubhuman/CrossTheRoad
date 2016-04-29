@@ -31,7 +31,7 @@ public:
 		ACC, BCC, CCC
 	};
 
-	O3DModel(double x, double y, double z, 
+	O3DModel(vec3 pos, 
 		RotPoint rotcnt, double rotx, double roty, 
 		std::string type, GModel& data_model);
 	virtual void draw(mat4 MVMatrix);

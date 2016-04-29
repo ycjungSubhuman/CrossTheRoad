@@ -11,5 +11,7 @@ private:
 public:
 	void loadModelFromFile(std::string name_file);
 	GModel getModel(std::string name_group);
+	vec3 getGlobalPos(std::string name_group);
+	vec3 getRelativePos(std::string child, std::string parent);
 	~ModelManager();
 };

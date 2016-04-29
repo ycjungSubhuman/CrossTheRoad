@@ -14,9 +14,7 @@ public:
 	GModel() = default;
 	GModel(std::tuple<GLuint, vec3, vec3, int> data_models);
 	GLuint getModelID();
-	double getMinX();
-	double getMinY();
-	double getMinZ();
+	vec3 getPos();
 	double getBoundboxX();
 	double getBoundboxY();
 	double getBoundboxZ();

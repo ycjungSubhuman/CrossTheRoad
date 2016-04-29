@@ -15,7 +15,7 @@ void DrawRoadLine(int Maplength, int Mapheight, int x, mat4 MVMatrix)
 	maprect->draw(MVMatrix * Translate(x*Maplength - Linelength, -3 * Lineheight, 0.3));
 	maprect->draw(MVMatrix * Translate(x*Maplength - Linelength, -6 * Lineheight, 0.3));
 	maprect->draw(MVMatrix * Translate(x*Maplength - Linelength, -9 * Lineheight, 0.3));
-	maprect->draw(MVMatrix * Translate(x*Maplength - Linelength, -12 * Lineheight, 0.3));
+	//maprect->draw(MVMatrix * Translate(x*Maplength - Linelength, -12 * Lineheight, 0.3));
 
 	delete(maprect);
 }

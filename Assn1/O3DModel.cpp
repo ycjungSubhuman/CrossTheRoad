@@ -1,28 +1,30 @@
 #include "O3DModel.h"
 #include <vector>
+#include "ModelManager.h"
 extern GLint u_Model;
 extern GLint color_in;
-O3DModel::O3DModel(double x, double y, double z, RotPoint rotcnt, double rotz, double rotx, std::string type, GModel& model)
-	:GObject(Rect(x, y, 0, 0), Rect(0, 0, 0, 0), type)
+extern ModelManager* modelManager;
+O3DModel::O3DModel(vec3 pos, RotPoint rotcnt, double rotz, double rotx, std::string type, GModel& model)
+	:GObject(Rect(pos.x, pos.y, 0, 0), Rect(0, 0, 0, 0), type)
 {
 	double rcntx, rcnty, rcntz;
 	//inits model... just as ORect
 	switch (rotcnt) {
 	case CENTER:
-		rcntx = model.getMinX() + model.getBoundboxX() / 2;
-		rcnty = model.getMinY() + model.getBoundboxY() / 2;
-		rcntz = model.getMinZ() + model.getBoundboxZ() / 2;
+		rcntx = model.getPos().x;
+		rcnty = model.getPos().y;
+		rcntz = model.getPos().z;
 		break;
 	case ORIGIN:
 	default:
-		rcntx = model.getMinX();
-		rcnty = model.getMinY();
-		rcntz = model.getMinZ();
+		rcntx = 0;
+		rcnty = 0;
+		rcntz = 0;
 		break;
 	}
-	setRotCenter(rcntx, rcnty, rcntz);
 	std::cout << rcntx << " " << rcnty << " " << rcntz <<" "<< std::endl;
 	setRotation(rotz, rotx);
+	setPos(pos.x, pos.y, pos.z);
 
 	index_vbo = model.getModelID();
 	size_vertex = model.getVertexSize();

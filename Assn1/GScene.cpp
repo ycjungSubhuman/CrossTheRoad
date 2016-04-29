@@ -54,8 +54,8 @@ void GScene::drawScene() {
 	}
 	case SHOULDER:
 		MVMatrix *= Angel::LookAt(
-			vec4(camloc, camlocY, 60, 1),
-			vec4(camloc+30, camlocY, 0, 1),
+			vec4(camloc, camlocY-5, 20, 1),
+			vec4(camloc+30, camlocY-5, 0, 1),
 			vec4(1, 0, 0, 1)
 			);
 
@@ -63,8 +63,7 @@ void GScene::drawScene() {
 	}
 	onTraverseDraw(MVMatrix);
 }
-void GScene::updateScene() {
-	/* Updates all elements in the scene. */
+void GScene::updateScene() { /* Updates all elements in the scene. */
 	onTraverseUpdate();
 }
 void GScene::setCameraMode(CameraMode mode) {
@@ -92,10 +91,12 @@ void GScene::frameAction() {
 	float cam_dest = getChildOfType("PLAYER")->getgloobj().x() - 30;
 	float cam_destY = getChildOfType("PLAYER")->getgloobj().y() - 5;
 	rot = getChildOfType("PLAYER")->getRotation();
-	if (mode_cam == POV) camloc = cam_dest;
-	else camloc = 0.3 * cam_dest + 0.7 * camloc;
-	camlocY = 0.3 * cam_destY + 0.7 * camlocY;
-	if (mode_cam != POV && camloc < 0) camloc = 0;
+	if (mode_cam == POV || mode_cam == SHOULDER) camloc = cam_dest;
+	else {
+		camloc = 0.3 * cam_dest + 0.7 * camloc;
+		camlocY = 0.3 * cam_destY + 0.7 * camlocY;
+		if (camloc < 0) camloc = 0;
+	}
 }
 std::list<GObject*> GScene::getCollisionsOf(GObject* obj, std::string type) {
 	/* I'll go with iterative traverse because returning copy of list in recursion is possibly too

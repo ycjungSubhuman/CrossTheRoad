@@ -9,21 +9,10 @@ GLuint GModel::getModelID()
 {
 	return std::get<0>(data_model);
 }
-
-double GModel::getMinX()
-{
-	return std::get<1>(data_model).x;
+vec3 GModel::getPos() {
+	return std::get<1>(data_model);
 }
 
-double GModel::getMinY()
-{
-	return std::get<1>(data_model).y;
-}
-
-double GModel::getMinZ()
-{
-	return std::get<1>(data_model).z;
-}
 double GModel::getBoundboxX()
 {
 	return std::get<2>(data_model).x;
