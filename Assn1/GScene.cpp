@@ -94,9 +94,9 @@ void GScene::frameAction() {
 	if (mode_cam == POV || mode_cam == SHOULDER) camloc = cam_dest;
 	else {
 		camloc = 0.3 * cam_dest + 0.7 * camloc;
-		camlocY = 0.3 * cam_destY + 0.7 * camlocY;
 		if (camloc < 0) camloc = 0;
 	}
+	camlocY = 0.3 * cam_destY + 0.7 * camlocY;
 }
 std::list<GObject*> GScene::getCollisionsOf(GObject* obj, std::string type) {
 	/* I'll go with iterative traverse because returning copy of list in recursion is possibly too

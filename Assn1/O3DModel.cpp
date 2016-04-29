@@ -11,9 +11,9 @@ O3DModel::O3DModel(vec3 pos, RotPoint rotcnt, double rotz, double rotx, std::str
 	//inits model... just as ORect
 	switch (rotcnt) {
 	case CENTER:
-		rcntx = model.getPos().x;
-		rcnty = model.getPos().y;
-		rcntz = model.getPos().z;
+		rcntx = pos.x;
+		rcnty = pos.y;
+		rcntz = pos.z;
 		break;
 	case ORIGIN:
 	default:
