@@ -3,16 +3,20 @@
 #include <tuple>
 #include <string>
 #include <GL/glew.h>
+#include "mat.h"
 
 /* representation of 3d model in the gpu */
 
 class GModel {
 private:
-	std::tuple<GLuint, double, double, double, int> data_model;
+	std::tuple<GLuint, vec3, vec3, int> data_model;
 public:
 	GModel() = default;
-	GModel(std::tuple<GLuint, double, double, double, int> data_models);
+	GModel(std::tuple<GLuint, vec3, vec3, int> data_models);
 	GLuint getModelID();
+	double getMinX();
+	double getMinY();
+	double getMinZ();
 	double getBoundboxX();
 	double getBoundboxY();
 	double getBoundboxZ();

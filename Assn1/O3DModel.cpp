@@ -9,18 +9,19 @@ O3DModel::O3DModel(double x, double y, double z, RotPoint rotcnt, double rotz, d
 	//inits model... just as ORect
 	switch (rotcnt) {
 	case CENTER:
-		rcntx = model.getBoundboxX() / 2;
-		rcnty = model.getBoundboxY() / 2;
-		rcntz = model.getBoundboxZ() / 2;
+		rcntx = model.getMinX() + model.getBoundboxX() / 2;
+		rcnty = model.getMinY() + model.getBoundboxY() / 2;
+		rcntz = model.getMinZ() + model.getBoundboxZ() / 2;
 		break;
 	case ORIGIN:
 	default:
-		rcntx = 0;
-		rcnty = 0;
-		rcntz = 0;
+		rcntx = model.getMinX();
+		rcnty = model.getMinY();
+		rcntz = model.getMinZ();
 		break;
 	}
 	setRotCenter(rcntx, rcnty, rcntz);
+	std::cout << rcntx << " " << rcnty << " " << rcntz <<" "<< std::endl;
 	setRotation(rotz, rotx);
 
 	index_vbo = model.getModelID();

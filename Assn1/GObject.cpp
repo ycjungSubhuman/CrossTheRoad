@@ -63,7 +63,7 @@ void GObject::setRotCenter(double x, double y, double z) {
 }
 void GObject::setRotation(double rotz, double rotx) {
 	if (rotz < 0) rotz = 360 + rotz;
-	if (rotx < 0) rotx = 460 + rotx;
+	if (rotx < 0) rotx = 360 + rotx;
 
 	this->rotation_z = rotz - floor(rotz / 360) * 360;
 	this->rotation_x = rotx - floor(rotx / 360) * 360;
@@ -102,6 +102,21 @@ Rect GObject::gethitbox() {
 }
 double GObject::getRotation() {
 	return this->rotation_z;
+}
+double GObject::getRotationX() {
+	return this->rotation_x;
+}
+double GObject::getScaleX()
+{
+	return scale_x;
+}
+double GObject::getScaleY()
+{
+	return scale_y;
+}
+double GObject::getScaleZ()
+{
+	return scale_z;
 }
 double GObject::getZ() {
 	return z;

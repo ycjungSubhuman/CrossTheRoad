@@ -39,7 +39,7 @@ void ModelManager::loadModelFromFile(std::string name_file)
 		int res = fscanf(file, "%s", lineHeader);
 		if (res == EOF)
 		{
-			std::tuple<GLuint, double, double, double, int> indexes;
+			std::tuple<GLuint, vec3, vec3, int> indexes;
 			double maxx = 0, maxy = 0, maxz = 0;
 			double minx = 0, miny = 0, minz = 0;
 			double width, height, depth;
@@ -69,7 +69,7 @@ void ModelManager::loadModelFromFile(std::string name_file)
 			glBindBuffer(GL_ARRAY_BUFFER, groupint);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
 
-			indexes = std::make_tuple(groupint, width, height, depth, vertices.size());
+			indexes = std::make_tuple(groupint, vec3(minx, miny, minz), vec3(width, height, depth), vertices.size());
 			dict[old_groupname] = GModel(indexes);
 			break;
 		}
@@ -85,7 +85,7 @@ void ModelManager::loadModelFromFile(std::string name_file)
 		}
 		else if (strcmp(lineHeader, "g") == 0) {
 			char groupname[128];
-			std::tuple<GLuint, double, double, double, int> indexes;
+			std::tuple<GLuint, vec3, vec3, int> indexes;
 			double maxx = 0, maxy = 0, maxz = 0;
 			double minx = 0, miny = 0, minz = 0;
 			double width, height, depth;
@@ -119,7 +119,7 @@ void ModelManager::loadModelFromFile(std::string name_file)
 				glBindBuffer(GL_ARRAY_BUFFER, groupint);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
 
-				indexes = std::make_tuple(groupint, width, height, depth, vertices.size());
+				indexes = std::make_tuple(groupint, vec3(minx, miny, minz), vec3(width, height, depth), vertices.size());
 				dict[old_groupname] = GModel(indexes);
 				std::string groupnametmp = groupname;
 				vertexIndices.clear();
@@ -155,7 +155,7 @@ GModel ModelManager::getModel(std::string name_group)
 	}
 	catch (...) {
 		std::cerr << "model data doesn't exist : " << name_group << std::endl;
-		return GModel(std::make_tuple((GLuint)-1, (double)0, (double)0, (double)0, (int)0));
+		return GModel(std::make_tuple((GLuint)-1, vec3(0,0,0), vec3(0,0,0), (int)0));
 	}
 }
 ModelManager::~ModelManager() {

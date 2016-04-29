@@ -40,41 +40,53 @@ Player::Player()
 	//assemble palyer hierarchy
 	try {
 		neck = new O3DModel(PLAYERWIDTH/2,-PLAYERHEIGHT/2, 0,
-			O3DModel::BBC, 0, 0,
+			O3DModel::CENTER, 0, 0,
 			"NECK",
 			modelManager->getModel("Neck"));
 		head = new O3DModel(0, 0, 0,
-			O3DModel::BBC, 0, 0,
+			O3DModel::CENTER, 0, 0,
 			"HEAD",
 			modelManager->getModel("Head"));
 		eyes = new O3DModel(0, 0, 0,
-			O3DModel::BBB, 0, 0,
+			O3DModel::CENTER, 0, 0,
 			"EYES",
 			modelManager->getModel("Eyes"));
 		hair = new O3DModel(0, 0, 0,
-			O3DModel::BBC, 0, 0,
+			O3DModel::CENTER, 0, 0,
 			"HAIR",
 			modelManager->getModel("Hair"));
 		arm_left = new O3DModel(0, 0, 0,
-			O3DModel::BAC, 0, 0,
+			O3DModel::CENTER, 0, 0,
 			"ARMLEFT",
 			modelManager->getModel("ArmLeft"));
 		arm_right = new O3DModel(0, 0, 0,
-			O3DModel::BCC, 0, 0,
+			O3DModel::CENTER, 0, 0,
 			"ARMRIGHT",
 			modelManager->getModel("ArmRight"));
+		hand_left = new O3DModel(0, 0, 0,
+			O3DModel::CENTER, 0, 0,
+			"HANDLEFT",
+			modelManager->getModel("LeftHand"));
+		hand_right = new O3DModel(0, 0, 0,
+			O3DModel::CENTER, 0, 0,
+			"HANDRIGHT",
+			modelManager->getModel("RightHand"));
 
 		neck->setColor(33, 33, 33);
 		head->setColor(55, 55, 55);
 		eyes->setColor(0, 0, 0);
 		hair->setColor(66, 33, 33);
+		hand_left->setColor(156, 156, 156);
+		hand_right->setColor(156, 156, 156);
 
 		this->addObject(neck);
 		neck->addObject(head);
 		head->addObject(hair);
 		head->addObject(eyes);
 		neck->addObject(arm_left);
+		arm_left->addObject(hand_left);
 		neck->addObject(arm_right);
+		arm_right->addObject(hand_right);
 	}
 	catch (...) {
 		std::cerr << "Error Occured when trying to load the player" << std::endl;
@@ -128,6 +140,7 @@ void Player::move(Player::Key key) {
 }
 void Player::undoMove() {
 	movedir = NONE;
+	status = ALIVE;
 	setRotation(rotdest);
 	if (!isDead)
 		setPos((linenum)*GameMap::COLUMN_WIDTH + (double)GameMap::COLUMN_WIDTH / 2-PLAYERWIDTH/2, -(double)(gridnum)*GameMap::MAPHEIGHT / GameMap::GRIDNUM, getZ());
@@ -299,6 +312,20 @@ void Player::frameAction() {
 	}
 	else {
 		setPos(getX(), getY(), 0);
+	}
+	//body compress
+	//arm
+	//hand_left->setRotation(hand_left->getRotation() + 10, hand_left->getRotationX() + 10);
+	hand_left->setRotation(hand_left->getRotation() + 10, 0);
+	//hand_right->setRotation(hand_right->getRotation() + 10, hand_right->getRotationX() + 10);
+	hand_right->setRotation(hand_right->getRotation() + 10, 0);
+	if (getPlayerStatus() == WALKING) {
+		arm_left->setRotation(arm_left->getRotation(), arm_left->getRotationX() - 20);
+		arm_right->setRotation(arm_right->getRotation(), arm_right->getRotationX() + 20);
+	}
+	else {
+		arm_left->setRotation(arm_left->getRotation(), 0);
+		arm_right->setRotation(arm_right->getRotation(), 0);
 	}
 }
 int Player::getLinenum() {
