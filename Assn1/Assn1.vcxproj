@@ -133,6 +133,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="shaderutil.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +154,8 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="shaderutil.h" />
+    <ClInclude Include="SOIL.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="vec.h" />
     <ClInclude Include="ORect.h" />

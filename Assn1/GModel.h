@@ -10,6 +10,7 @@
 class GModel {
 private:
 	std::tuple<GLuint, vec3, vec3, int> data_model;
+	
 public:
 	GModel() = default;
 	GModel(std::tuple<GLuint, vec3, vec3, int> data_models);
