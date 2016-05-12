@@ -22,6 +22,9 @@ int Texture::getWidth() {
 int Texture::getHeight() {
 	return height;
 }
+bool Texture::isValid() {
+	return isAllocated;
+}
 
 Texture::~Texture() {
 	if (isAllocated)

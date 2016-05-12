@@ -13,5 +13,6 @@ public:
 	void* toArray();
 	int getWidth();
 	int getHeight();
+	bool isValid();
 	~Texture();
 };

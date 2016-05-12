@@ -11,6 +11,10 @@ GLuint GModel::getModelID()
 {
 	return std::get<0>(data_model);
 }
+GLuint GModel::getTextureID()
+{
+	return index_texturebuffer;
+}
 vec3 GModel::getPos() {
 	return std::get<1>(data_model);
 }
@@ -37,7 +41,21 @@ int GModel::getVertexSize()
 
 void GModel::setTexture(std::string filename)
 {
+	glGenTextures(1, &index_texturebuffer);
+	glBindTexture(GL_TEXTURE_2D, index_texturebuffer);
 	texture = Texture(filename);
+	glTexImage2D(GL_TEXTURE_2D, 0, 
+		GL_RGB, texture.getWidth(), texture.getHeight(), 
+		0, GL_RGB, GL_FLOAT, texture.toArray());
+
 }
+
+GModel::~GModel()
+{
+	if (texture.isValid()) {
+		glDeleteTextures(1, &index_texturebuffer);
+	}
+}
+
 
 
