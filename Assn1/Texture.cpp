@@ -2,8 +2,11 @@
 #include "SOIL.h"
 #pragma comment (lib, "SOIL.lib")
 
+Texture::Texture() {
+	isAllocated = false;
+}
 Texture::Texture(std::string name_file) {
-	//TODO: parse texture file and store it as unsigned char array
+	isAllocated = true;
 	texture = SOIL_load_image(name_file.c_str(), 
 		&width, &height, 0, SOIL_LOAD_RGB);
 }
@@ -21,5 +24,6 @@ int Texture::getHeight() {
 }
 
 Texture::~Texture() {
-	SOIL_free_image_data(texture);
+	if (isAllocated)
+		SOIL_free_image_data(texture);
 }

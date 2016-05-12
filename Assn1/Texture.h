@@ -5,8 +5,10 @@
 class Texture {
 private:
 	unsigned char* texture;
+	bool isAllocated;
 	GLsizei width, height;
 public:
+	Texture();
 	Texture(std::string name_file);
 	void* toArray();
 	int getWidth();

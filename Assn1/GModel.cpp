@@ -1,5 +1,7 @@
 #include "GModel.h"
 
+GModel::GModel() {
+}
 GModel::GModel(std::tuple<GLuint, vec3, vec3, int> data_models)
 {
 	this->data_model = data_models;
@@ -31,6 +33,11 @@ double GModel::getBoundboxZ()
 int GModel::getVertexSize()
 {
 	return std::get<3>(data_model);
+}
+
+void GModel::setTexture(std::string filename)
+{
+	texture = Texture(filename);
 }
 
 
