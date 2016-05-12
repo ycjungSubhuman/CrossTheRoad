@@ -157,6 +157,16 @@ void ModelManager::loadModelFromFile(std::string name_file)
 	this->data_models.insert(dict.begin(), dict.end());
 }
 
+void ModelManager::loadTextureFromFile(std::string name_group, std::string name_file) 
+{
+	try {
+		data_models.at(name_group).setTexture(name_file);
+	}
+	catch (...) {
+		std::cerr << "Tried to set Texture for group " << name_group << " but failed" << std::endl;
+	}
+}
+
 GModel ModelManager::getModel(std::string name_group)
 {
 	try {
