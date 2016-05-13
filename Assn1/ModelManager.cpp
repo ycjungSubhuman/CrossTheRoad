@@ -16,7 +16,7 @@ void ModelManager::loadModelFromFile(std::string name_file)
 	//USED ONLY FROM CLASS DIRECTLY
 
 	std::vector<vec3> vertices;
-	std::map<std::string, GModel> dict;
+	std::map<std::string, GModel*> dict;
 	std::vector<unsigned int> vertexIndices;
 	std::vector<vec3> temp_vertices;
 	std::string old_groupname;
@@ -75,7 +75,7 @@ void ModelManager::loadModelFromFile(std::string name_file)
 			glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
 
 			indexes = std::make_tuple(groupint, vec3((minx+maxx)/2, (miny+maxy)/2, (minz+maxz)/2), vec3(width, height, depth), vertices.size());
-			dict[old_groupname] = GModel(indexes);
+			dict[old_groupname] = new GModel(indexes);
 			break;
 		}
 
@@ -129,7 +129,7 @@ void ModelManager::loadModelFromFile(std::string name_file)
 				glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
 
 				indexes = std::make_tuple(groupint, vec3((minx + maxx) / 2, (miny + maxy) / 2, (minz + maxz) / 2), vec3(width, height, depth), vertices.size());
-				dict[old_groupname] = GModel(indexes);
+				dict[old_groupname] = new GModel(indexes);
 				std::string groupnametmp = groupname;
 				vertexIndices.clear();
 				vertices.clear();
@@ -157,31 +157,31 @@ void ModelManager::loadModelFromFile(std::string name_file)
 	this->data_models.insert(dict.begin(), dict.end());
 }
 
-void ModelManager::loadTextureFromFile(std::string name_group, std::string name_file) 
+void ModelManager::loadTextureFromFile(std::string name_group, GModel::TextureType type, std::string name_file) 
 {
 	try {
-		data_models.at(name_group).setTexture(name_file);
+		data_models.at(name_group)->setTexture(type, name_file);
 	}
 	catch (...) {
 		std::cerr << "Tried to set Texture for group " << name_group << " but failed" << std::endl;
 	}
 }
 
-GModel ModelManager::getModel(std::string name_group)
+GModel* ModelManager::getModel(std::string name_group)
 {
 	try {
 		return data_models.at(name_group);
 	}
 	catch (...) {
 		std::cerr << "model data doesn't exist : " << name_group << std::endl;
-		return GModel(std::make_tuple((GLuint)-1, vec3(0,0,0), vec3(0,0,0), (int)0));
+		return nullptr;
 	}
 }
 
 vec3 ModelManager::getGlobalPos(std::string name_group)
 {
 	try {
-		return data_models.at(name_group).getPos();
+		return data_models.at(name_group)->getPos();
 	}
 	catch (...) {
 		std::cerr << "model data doesn't exist : " << name_group << std::endl;
@@ -192,8 +192,8 @@ vec3 ModelManager::getGlobalPos(std::string name_group)
 vec3 ModelManager::getRelativePos(std::string child, std::string parent)
 {
 	try {
-		vec3 pos_c = data_models.at(child).getPos();
-		vec3 pos_p = data_models.at(parent).getPos();
+		vec3 pos_c = data_models.at(child)->getPos();
+		vec3 pos_p = data_models.at(parent)->getPos();
 		return pos_c - pos_p;
 	}
 	catch (...) {
@@ -205,9 +205,10 @@ vec3 ModelManager::getRelativePos(std::string child, std::string parent)
 ModelManager::~ModelManager() {
 	GLuint* buffer = (GLuint*)malloc(sizeof(GLuint)*data_models.size());
 	int i = 0;
-	for (std::map<std::string, GModel>::iterator it = data_models.begin();
+	for (std::map<std::string, GModel*>::iterator it = data_models.begin();
 	it != data_models.end(); it++) {
-		buffer[i++] = (*it).second.getModelID();
+		buffer[i++] = (*it).second->getModelID();
+		delete (*it).second;
 	}
 	glDeleteBuffers(data_models.size(), buffer);
 	delete buffer;

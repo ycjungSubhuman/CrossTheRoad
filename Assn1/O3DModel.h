@@ -33,9 +33,9 @@ public:
 
 	O3DModel(vec3 pos, 
 		RotPoint rotcnt, double rotx, double roty, 
-		std::string type, GModel& data_model);
+		std::string type, GModel* data_model);
 	virtual void draw(mat4 MVMatrix);
 	virtual void frameAction();
 	void setColor(int r, int g, int b);
-	void setModel(GModel model);
+	void setModel(GModel* model);
 };

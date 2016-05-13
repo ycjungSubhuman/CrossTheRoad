@@ -4,7 +4,7 @@
 extern GLint u_Model;
 extern GLint color_in;
 extern ModelManager* modelManager;
-O3DModel::O3DModel(vec3 pos, RotPoint rotcnt, double rotz, double rotx, std::string type, GModel& model)
+O3DModel::O3DModel(vec3 pos, RotPoint rotcnt, double rotz, double rotx, std::string type, GModel* model)
 	:GObject(Rect(pos.x, pos.y, 0, 0), Rect(0, 0, 0, 0), type)
 {
 	double rcntx, rcnty, rcntz;
@@ -26,8 +26,8 @@ O3DModel::O3DModel(vec3 pos, RotPoint rotcnt, double rotz, double rotx, std::str
 	setRotation(rotz, rotx);
 	setPos(pos.x, pos.y, pos.z);
 
-	index_vbo = model.getModelID();
-	size_vertex = model.getVertexSize();
+	index_vbo = model->getModelID();
+	size_vertex = model->getVertexSize();
 	r = 1.0f;
 	g = 1.0f;
 	b = 1.0f;
@@ -64,7 +64,7 @@ void O3DModel::frameAction() {
 
 }
 
-void O3DModel::setModel(GModel model) {
-	index_vbo = model.getModelID();
-	size_vertex = model.getVertexSize();
+void O3DModel::setModel(GModel* model) {
+	index_vbo = model->getModelID();
+	size_vertex = model->getVertexSize();
 }

@@ -52,18 +52,18 @@ void GModel::setTexture(TextureType type, std::string filename)
 	Texture* current;
 	GLuint* pindex;
 	if (type == TEXTURE_DIFFUSE) {
-		current = &texture;
+		texture = Texture(filename);
 		pindex = &index_texturebuffer;
 	}
 	else {
-		current = &normalmap;
+		normalmap = Texture(filename);
 		pindex = &index_normalmapbuffer;
 	}
 
+	current = &texture;
 	glGenTextures(1, pindex);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, *pindex);
-	*current = Texture(filename);
 	glTexImage2D(GL_TEXTURE_2D, 0, 
 		GL_RGB, current->getWidth(), current->getHeight(), 
 		0, GL_RGB, GL_FLOAT, current->toArray());

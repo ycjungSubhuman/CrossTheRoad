@@ -10,6 +10,7 @@
 #include<iostream>
 #include<algorithm>
 #include "shaderutil.h"
+#include "GModel.h"
 
 Game* game;
 ModelManager* modelManager;
@@ -52,6 +53,24 @@ void init(void) {
 	//load models and init game
 	modelManager = new ModelManager();
 	modelManager->loadModelFromFile("object/player.wobj");
+	{
+		modelManager->loadTextureFromFile("Neck", GModel::TEXTURE_DIFFUSE,
+			"object/texture_neck.png");
+		modelManager->loadTextureFromFile("Head", GModel::TEXTURE_DIFFUSE,
+			"object/texture_head.png");
+		modelManager->loadTextureFromFile("Hair", GModel::TEXTURE_DIFFUSE,
+			"object/texture_hair.png");
+		modelManager->loadTextureFromFile("Eyes", GModel::TEXTURE_DIFFUSE,
+			"object/texture_eye.png");
+		modelManager->loadTextureFromFile("ArmLeft", GModel::TEXTURE_DIFFUSE,
+			"object/texture_armleft.png");
+		modelManager->loadTextureFromFile("ArmRight", GModel::TEXTURE_DIFFUSE,
+			"object/texture_armright.png");
+		modelManager->loadTextureFromFile("LeftHand", GModel::TEXTURE_DIFFUSE,
+			"object/texture_handleft.png");
+		modelManager->loadTextureFromFile("RightHand", GModel::TEXTURE_DIFFUSE,
+			"object/texture_handright.png");
+	}
 	modelManager->loadModelFromFile("object/christmastree/christmas_tree.wobj");
 	modelManager->loadModelFromFile("object/policecar/police_car.wobj");
 	modelManager->loadModelFromFile("object/taxi/Taxi.wobj");
