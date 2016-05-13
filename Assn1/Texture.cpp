@@ -7,7 +7,7 @@ Texture::Texture() {
 }
 Texture::Texture(std::string name_file) {
 	isAllocated = true;
-	texture = SOIL_load_image(name_file.c_str(), 
+	texture = SOIL_load_image(name_file.c_str(),
 		&width, &height, 0, SOIL_LOAD_RGB);
 }
 
@@ -15,11 +15,11 @@ void* Texture::toArray() {
 	return (void*)texture;
 }
 
-int Texture::getWidth() {
+GLsizei Texture::getWidth() {
 	return width;
 }
 
-int Texture::getHeight() {
+GLsizei Texture::getHeight() {
 	return height;
 }
 bool Texture::isValid() {

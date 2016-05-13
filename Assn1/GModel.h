@@ -11,10 +11,10 @@
 class GModel {
 private:
 	std::tuple<GLuint, vec3, vec3, int> data_model;
+	bool isTexture;
+	bool isNormal;
 	GLuint index_texturebuffer;
 	GLuint index_normalmapbuffer;
-	Texture texture;
-	Texture normalmap;
 public:
 	//types of texture. diffuse for image mapping(ex: banana peel)
 	//normal for surface normal mapping

@@ -135,7 +135,7 @@ GameMap::Linetype GameMap::getLine(int i) {
 		return mapinfo.at(i);
 	}
 	catch (std::out_of_range) {
-		std::cout << "Erorr: Gamemap deref out of range" << std::endl;
+		std::cerr << "Erorr: Gamemap deref out of range" << std::endl;
 		throw 1;
 	}
 }

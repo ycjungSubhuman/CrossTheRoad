@@ -4,15 +4,15 @@
 
 class Texture {
 private:
-	unsigned char* texture;
 	bool isAllocated;
 	GLsizei width, height;
+	unsigned char* texture;
 public:
 	Texture();
 	Texture(std::string name_file);
 	void* toArray();
-	int getWidth();
-	int getHeight();
+	GLsizei getWidth();
+	GLsizei getHeight();
 	bool isValid();
 	~Texture();
 };

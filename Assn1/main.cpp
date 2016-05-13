@@ -72,10 +72,33 @@ void init(void) {
 			"object/texture_handright.png");
 	}
 	modelManager->loadModelFromFile("object/christmastree/christmas_tree.wobj");
+	{
+		modelManager->loadTextureFromFile("christmas_tree", GModel::TEXTURE_DIFFUSE,
+			"object/christmastree/christmas_tree-tex.tex.png");
+		modelManager->loadTextureFromFile("christmas_tree", GModel::TEXTURE_NORMAL,
+			"object/normal_map/normal_map_for_tree.jpg");
+	}
 	modelManager->loadModelFromFile("object/policecar/police_car.wobj");
+	{
+		modelManager->loadTextureFromFile("police_car", GModel::TEXTURE_DIFFUSE,
+			"object/policecar/police_car-tex.tex.png");
+		modelManager->loadTextureFromFile("police_car", GModel::TEXTURE_NORMAL,
+			"object/normal_map/normal_map_for_police_car.jpg");
+	}
 	modelManager->loadModelFromFile("object/taxi/Taxi.wobj");
+	{
+		modelManager->loadTextureFromFile("Taxi", GModel::TEXTURE_DIFFUSE,
+			"object/taxi/Taxi-tex.tex.png");
+		modelManager->loadTextureFromFile("Taxi", GModel::TEXTURE_NORMAL,
+			"object/normal_map/normal_map_for_taxi.jpg");
+	}
 	modelManager->loadModelFromFile("object/truck/truck_blue.wobj");
-
+	{
+		modelManager->loadTextureFromFile("truck_blue", GModel::TEXTURE_DIFFUSE,
+			"object/truck/truck_blue-tex.tex.png");
+		modelManager->loadTextureFromFile("police_car", GModel::TEXTURE_NORMAL,
+			"object/normal_map/normal_map_for_truck.jpg");
+	}
 	game = new Game();
 
 	/* init screen */

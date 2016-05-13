@@ -5,6 +5,8 @@ GModel::GModel() {
 GModel::GModel(std::tuple<GLuint, vec3, vec3, int> data_models)
 {
 	this->data_model = data_models;
+	isTexture = false;
+	isNormal = false;
 }
 
 GLuint GModel::getModelID()
@@ -49,33 +51,31 @@ int GModel::getVertexSize()
 
 void GModel::setTexture(TextureType type, std::string filename)
 {
-	Texture* current;
 	GLuint* pindex;
+	Texture loaded(filename);
 	if (type == TEXTURE_DIFFUSE) {
-		texture = Texture(filename);
 		pindex = &index_texturebuffer;
+		isTexture = true;
 	}
 	else {
-		normalmap = Texture(filename);
 		pindex = &index_normalmapbuffer;
+		isNormal = true;
 	}
 
-	current = &texture;
 	glGenTextures(1, pindex);
-	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, *pindex);
 	glTexImage2D(GL_TEXTURE_2D, 0, 
-		GL_RGB, current->getWidth(), current->getHeight(), 
-		0, GL_RGB, GL_FLOAT, current->toArray());
+		GL_RGB, loaded.getWidth(), loaded.getHeight(), 
+		0, GL_BGR, GL_UNSIGNED_BYTE, loaded.toArray());
 }
 
 bool GModel::isTextureSet(TextureType type)
 {
 	switch (type) {
 	case TEXTURE_DIFFUSE:
-		return texture.isValid();
+		return isTexture;
 	case TEXTURE_NORMAL:
-		return normalmap.isValid();
+		return isNormal;
 	default:
 		return false;
 	}
@@ -84,8 +84,11 @@ bool GModel::isTextureSet(TextureType type)
 
 GModel::~GModel()
 {
-	if (texture.isValid()) {
+	if (isTexture) {
 		glDeleteTextures(1, &index_texturebuffer);
+	}
+	if (isNormal) {
+		glDeleteTextures(1, &index_normalmapbuffer);
 	}
 }
 

@@ -22,7 +22,6 @@ O3DModel::O3DModel(vec3 pos, RotPoint rotcnt, double rotz, double rotx, std::str
 		rcntz = 0;
 		break;
 	}
-	std::cout << rcntx << " " << rcnty << " " << rcntz <<" "<< std::endl;
 	setRotation(rotz, rotx);
 	setPos(pos.x, pos.y, pos.z);
 
