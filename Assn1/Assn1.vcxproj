@@ -127,7 +127,7 @@
     <ClCompile Include="GScene.cpp" />
     <ClCompile Include="LogOnWater.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ModelManager.cpp" />
+    <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="O3DModel.cpp" />
     <ClCompile Include="ORect.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -149,7 +149,7 @@
     <ClInclude Include="LogOnWater.h" />
     <ClInclude Include="mat.h" />
     <ClInclude Include="GModel.h" />
-    <ClInclude Include="ModelManager.h" />
+    <ClInclude Include="AssetManager.h" />
     <ClInclude Include="O3DModel.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rect.h" />

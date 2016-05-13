@@ -1,9 +1,9 @@
-#include "ModelManager.h"
+#include "AssetManager.h"
 #include "mat.h"
 #include <vector>
 #include <algorithm>
 
-void ModelManager::loadModelFromFile(std::string name_file)
+void AssetManager::loadModelFromFile(std::string name_file)
 {
 	//TODO : implement model loading from given .wobj file.  
 	//this function
@@ -157,7 +157,7 @@ void ModelManager::loadModelFromFile(std::string name_file)
 	this->data_models.insert(dict.begin(), dict.end());
 }
 
-void ModelManager::loadTextureFromFile(std::string name_group, GModel::TextureType type, std::string name_file) 
+void AssetManager::loadTextureFromFile(std::string name_group, GModel::TextureType type, std::string name_file) 
 {
 	try {
 		data_models.at(name_group)->setTexture(type, name_file);
@@ -167,7 +167,7 @@ void ModelManager::loadTextureFromFile(std::string name_group, GModel::TextureTy
 	}
 }
 
-GModel* ModelManager::getModel(std::string name_group)
+GModel* AssetManager::getModel(std::string name_group)
 {
 	try {
 		return data_models.at(name_group);
@@ -178,7 +178,7 @@ GModel* ModelManager::getModel(std::string name_group)
 	}
 }
 
-vec3 ModelManager::getGlobalPos(std::string name_group)
+vec3 AssetManager::getGlobalPos(std::string name_group)
 {
 	try {
 		return data_models.at(name_group)->getPos();
@@ -189,7 +189,7 @@ vec3 ModelManager::getGlobalPos(std::string name_group)
 	}
 }
 
-vec3 ModelManager::getRelativePos(std::string child, std::string parent)
+vec3 AssetManager::getRelativePos(std::string child, std::string parent)
 {
 	try {
 		vec3 pos_c = data_models.at(child)->getPos();
@@ -202,7 +202,7 @@ vec3 ModelManager::getRelativePos(std::string child, std::string parent)
 	}
 }
 
-ModelManager::~ModelManager() {
+AssetManager::~AssetManager() {
 	GLuint* buffer = (GLuint*)malloc(sizeof(GLuint)*data_models.size());
 	int i = 0;
 	for (std::map<std::string, GModel*>::iterator it = data_models.begin();

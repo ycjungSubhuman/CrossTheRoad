@@ -4,9 +4,9 @@
 #include <iostream>
 #include <map>
 #include <mciapi.h>
-#include "ModelManager.h"
+#include "AssetManager.h"
 
-extern ModelManager* modelManager;
+extern AssetManager* assetManager;
 
 /* void drawcircle(double x, double y, double radius)
 {
@@ -40,46 +40,46 @@ Player::Player()
 	//assemble palyer hierarchy
 	try {
 		neck = new O3DModel(
-			modelManager->getGlobalPos("Neck")+vec3(PLAYERWIDTH/2,-PLAYERHEIGHT/2, 0),
+			assetManager->getGlobalPos("Neck")+vec3(PLAYERWIDTH/2,-PLAYERHEIGHT/2, 0),
 			O3DModel::CENTER, 0, 0,
 			"NECK",
-			modelManager->getModel("Neck"));
-		head = new O3DModel(modelManager->getRelativePos("Head", "Neck"),
+			assetManager->getModel("Neck"));
+		head = new O3DModel(assetManager->getRelativePos("Head", "Neck"),
 			O3DModel::CENTER, 0, 0,
 			"HEAD",
-			modelManager->getModel("Head"));
-		eyes = new O3DModel(modelManager->getRelativePos("Eyes", "Head"),
+			assetManager->getModel("Head"));
+		eyes = new O3DModel(assetManager->getRelativePos("Eyes", "Head"),
 			O3DModel::CENTER, 0, 0,
 			"EYES",
-			modelManager->getModel("Eyes"));
-		hair = new O3DModel(modelManager->getRelativePos("Hair", "Head"),
+			assetManager->getModel("Eyes"));
+		hair = new O3DModel(assetManager->getRelativePos("Hair", "Head"),
 			O3DModel::CENTER, 0, 0,
 			"HAIR",
-			modelManager->getModel("Hair"));
-		arm_left = new O3DModel(modelManager->getRelativePos("ArmLeft", "Neck"),
+			assetManager->getModel("Hair"));
+		arm_left = new O3DModel(assetManager->getRelativePos("ArmLeft", "Neck"),
 			O3DModel::ORIGIN, 0, 0,
 			"ARMLEFT",
-			modelManager->getModel("ArmLeft"));
-		arm_right = new O3DModel(modelManager->getRelativePos("ArmRight", "Neck"),
+			assetManager->getModel("ArmLeft"));
+		arm_right = new O3DModel(assetManager->getRelativePos("ArmRight", "Neck"),
 			O3DModel::ORIGIN, 0, 0,
 			"ARMRIGHT",
-			modelManager->getModel("ArmRight"));
-		hand_left = new O3DModel(modelManager->getRelativePos("LeftHand", "ArmLeft"),
+			assetManager->getModel("ArmRight"));
+		hand_left = new O3DModel(assetManager->getRelativePos("LeftHand", "ArmLeft"),
 			O3DModel::CENTER, 0, 0,
 			"HANDLEFT",
-			modelManager->getModel("LeftHand"));
-		hand_right = new O3DModel(modelManager->getRelativePos("RightHand", "ArmRight"),
+			assetManager->getModel("LeftHand"));
+		hand_right = new O3DModel(assetManager->getRelativePos("RightHand", "ArmRight"),
 			O3DModel::CENTER, 0, 0,
 			"HANDRIGHT",
-			modelManager->getModel("RightHand"));
+			assetManager->getModel("RightHand"));
 
-		vec3 rel = modelManager->getRelativePos("LeftHand", "ArmLeft");
+		vec3 rel = assetManager->getRelativePos("LeftHand", "ArmLeft");
 		hand_left->setRotCenter(rel.x, rel.y, rel.z);
-		rel = modelManager->getRelativePos("RightHand", "ArmRight");
+		rel = assetManager->getRelativePos("RightHand", "ArmRight");
 		hand_right->setRotCenter(rel.x, rel.y, rel.z);
-		rel = modelManager->getRelativePos("ArmLeft", "Neck");
+		rel = assetManager->getRelativePos("ArmLeft", "Neck");
 		arm_left->setRotCenter(rel.x, rel.y, rel.z);
-		rel = modelManager->getRelativePos("ArmRight", "Neck");
+		rel = assetManager->getRelativePos("ArmRight", "Neck");
 		arm_right->setRotCenter(rel.x, rel.y, rel.z);
 
 

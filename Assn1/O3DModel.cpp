@@ -1,9 +1,9 @@
 #include "O3DModel.h"
 #include <vector>
-#include "ModelManager.h"
+#include "AssetManager.h"
 extern GLint u_Model;
 extern GLint color_in;
-extern ModelManager* modelManager;
+extern AssetManager* assetManager;
 O3DModel::O3DModel(vec3 pos, RotPoint rotcnt, double rotz, double rotx, std::string type, GModel* model)
 	:GObject(Rect(pos.x, pos.y, 0, 0), Rect(0, 0, 0, 0), type)
 {

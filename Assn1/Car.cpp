@@ -1,8 +1,8 @@
 #include "Car.h"
 #include <vector>
-#include "ModelManager.h"
+#include "AssetManager.h"
 
-extern ModelManager* modelManager;
+extern AssetManager* assetManager;
 
 Car::Car(int line, GameMap::Linetype linetype)
 :CarLikeObject(line, linetype, CARWIDTH, CARHEIGHT, "CAR") {
@@ -13,7 +13,7 @@ Car::Car(int line, GameMap::Linetype linetype)
 	else if (ind == 1) setColor(145, 145, 23);
 	else setColor(77, 77, 145);
 	
-	vec3 pos_glo = modelManager->getGlobalPos(namelist[ind]);
+	vec3 pos_glo = assetManager->getGlobalPos(namelist[ind]);
 	setPos(getX() + pos_glo.x, getY() + pos_glo.y, getZ() + pos_glo.z);
-	setModel(modelManager->getModel(namelist[ind]));
+	setModel(assetManager->getModel(namelist[ind]));
 }

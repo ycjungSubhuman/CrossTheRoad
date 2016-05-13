@@ -66,13 +66,13 @@
     <ClCompile Include="O3DModel.cpp">
       <Filter>소스 파일\Class</Filter>
     </ClCompile>
-    <ClCompile Include="ModelManager.cpp">
-      <Filter>소스 파일\Class</Filter>
-    </ClCompile>
     <ClCompile Include="GModel.cpp">
       <Filter>소스 파일\Class</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
+      <Filter>소스 파일\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
       <Filter>소스 파일\Class</Filter>
     </ClCompile>
   </ItemGroup>
@@ -125,9 +125,6 @@
     <ClInclude Include="O3DModel.h">
       <Filter>헤더 파일\Class</Filter>
     </ClInclude>
-    <ClInclude Include="ModelManager.h">
-      <Filter>헤더 파일\Class</Filter>
-    </ClInclude>
     <ClInclude Include="GModel.h">
       <Filter>헤더 파일\Class</Filter>
     </ClInclude>
@@ -136,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="SOIL.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>헤더 파일\Class</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

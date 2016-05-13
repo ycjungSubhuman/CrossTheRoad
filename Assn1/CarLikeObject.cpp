@@ -1,12 +1,12 @@
 #include "CarLikeObject.h"
 #include "GameMap.h"
 #include <cmath>
-#include "ModelManager.h"
+#include "AssetManager.h"
 #include "Car.h"
-extern ModelManager* modelManager;
+extern AssetManager* assetManager;
 
 CarLikeObject::CarLikeObject(int line, GameMap::Linetype linetype, double width, double height, std::string type) 
-	:O3DModel(vec3(Car::CARWIDTH/2, -Car::CARHEIGHT/2, 0), CENTER, 0, 0, "CAR", modelManager->getModel("police_car"))
+	:O3DModel(vec3(Car::CARWIDTH/2, -Car::CARHEIGHT/2, 0), CENTER, 0, 0, "CAR", assetManager->getModel("police_car"))
 {
 	//init obj speed
 	dis_y = 1;

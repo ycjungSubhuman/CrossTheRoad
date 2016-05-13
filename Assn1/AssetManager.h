@@ -5,7 +5,7 @@
 #include <string>
 #include <GL/glew.h>
 /* loads 3d Models and stores. */
-class ModelManager {
+class AssetManager {
 private:
 	std::map<std::string,GModel*> data_models;
 public:
@@ -14,5 +14,5 @@ public:
 	GModel* getModel(std::string name_group);
 	vec3 getGlobalPos(std::string name_group);
 	vec3 getRelativePos(std::string child, std::string parent);
-	~ModelManager();
+	~AssetManager();
 };

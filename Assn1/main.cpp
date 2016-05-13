@@ -4,7 +4,7 @@
 #include "stdlib.h"
 #include <time.h>
 #include "Game.h"
-#include "ModelManager.h"
+#include "AssetManager.h"
 #include "Car.h"
 #include "LogOnWater.h"
 #include<iostream>
@@ -13,8 +13,9 @@
 #include "GModel.h"
 
 Game* game;
-ModelManager* modelManager;
+AssetManager* assetManager;
 
+extern GLuint program;
 extern GLuint rectbuffer;
 extern GLint u_Projection;
 extern GLint u_Model;
@@ -50,53 +51,57 @@ void init(void) {
 	char fShaderFile[] = "FragmentShader1.glsl";
 	loadShadersFromFile(vShaderFile, fShaderFile);
 
+	u_Model = glGetUniformLocation(program, "u_Model");
+	u_Projection = glGetUniformLocation(program, "u_Projection");
+	color_in = glGetUniformLocation(program, "color_in");
+
 	//load models and init game
-	modelManager = new ModelManager();
-	modelManager->loadModelFromFile("object/player.wobj");
+	assetManager = new AssetManager();
+	assetManager->loadModelFromFile("object/player.wobj");
 	{
-		modelManager->loadTextureFromFile("Neck", GModel::TEXTURE_DIFFUSE,
+		assetManager->loadTextureFromFile("Neck", GModel::TEXTURE_DIFFUSE,
 			"object/texture_neck.png");
-		modelManager->loadTextureFromFile("Head", GModel::TEXTURE_DIFFUSE,
+		assetManager->loadTextureFromFile("Head", GModel::TEXTURE_DIFFUSE,
 			"object/texture_head.png");
-		modelManager->loadTextureFromFile("Hair", GModel::TEXTURE_DIFFUSE,
+		assetManager->loadTextureFromFile("Hair", GModel::TEXTURE_DIFFUSE,
 			"object/texture_hair.png");
-		modelManager->loadTextureFromFile("Eyes", GModel::TEXTURE_DIFFUSE,
+		assetManager->loadTextureFromFile("Eyes", GModel::TEXTURE_DIFFUSE,
 			"object/texture_eye.png");
-		modelManager->loadTextureFromFile("ArmLeft", GModel::TEXTURE_DIFFUSE,
+		assetManager->loadTextureFromFile("ArmLeft", GModel::TEXTURE_DIFFUSE,
 			"object/texture_armleft.png");
-		modelManager->loadTextureFromFile("ArmRight", GModel::TEXTURE_DIFFUSE,
+		assetManager->loadTextureFromFile("ArmRight", GModel::TEXTURE_DIFFUSE,
 			"object/texture_armright.png");
-		modelManager->loadTextureFromFile("LeftHand", GModel::TEXTURE_DIFFUSE,
+		assetManager->loadTextureFromFile("LeftHand", GModel::TEXTURE_DIFFUSE,
 			"object/texture_handleft.png");
-		modelManager->loadTextureFromFile("RightHand", GModel::TEXTURE_DIFFUSE,
+		assetManager->loadTextureFromFile("RightHand", GModel::TEXTURE_DIFFUSE,
 			"object/texture_handright.png");
 	}
-	modelManager->loadModelFromFile("object/christmastree/christmas_tree.wobj");
+	assetManager->loadModelFromFile("object/christmastree/christmas_tree.wobj");
 	{
-		modelManager->loadTextureFromFile("christmas_tree", GModel::TEXTURE_DIFFUSE,
+		assetManager->loadTextureFromFile("christmas_tree", GModel::TEXTURE_DIFFUSE,
 			"object/christmastree/christmas_tree-tex.tex.png");
-		modelManager->loadTextureFromFile("christmas_tree", GModel::TEXTURE_NORMAL,
+		assetManager->loadTextureFromFile("christmas_tree", GModel::TEXTURE_NORMAL,
 			"object/normal_map/normal_map_for_tree.jpg");
 	}
-	modelManager->loadModelFromFile("object/policecar/police_car.wobj");
+	assetManager->loadModelFromFile("object/policecar/police_car.wobj");
 	{
-		modelManager->loadTextureFromFile("police_car", GModel::TEXTURE_DIFFUSE,
+		assetManager->loadTextureFromFile("police_car", GModel::TEXTURE_DIFFUSE,
 			"object/policecar/police_car-tex.tex.png");
-		modelManager->loadTextureFromFile("police_car", GModel::TEXTURE_NORMAL,
+		assetManager->loadTextureFromFile("police_car", GModel::TEXTURE_NORMAL,
 			"object/normal_map/normal_map_for_police_car.jpg");
 	}
-	modelManager->loadModelFromFile("object/taxi/Taxi.wobj");
+	assetManager->loadModelFromFile("object/taxi/Taxi.wobj");
 	{
-		modelManager->loadTextureFromFile("Taxi", GModel::TEXTURE_DIFFUSE,
+		assetManager->loadTextureFromFile("Taxi", GModel::TEXTURE_DIFFUSE,
 			"object/taxi/Taxi-tex.tex.png");
-		modelManager->loadTextureFromFile("Taxi", GModel::TEXTURE_NORMAL,
+		assetManager->loadTextureFromFile("Taxi", GModel::TEXTURE_NORMAL,
 			"object/normal_map/normal_map_for_taxi.jpg");
 	}
-	modelManager->loadModelFromFile("object/truck/truck_blue.wobj");
+	assetManager->loadModelFromFile("object/truck/truck_blue.wobj");
 	{
-		modelManager->loadTextureFromFile("truck_blue", GModel::TEXTURE_DIFFUSE,
+		assetManager->loadTextureFromFile("truck_blue", GModel::TEXTURE_DIFFUSE,
 			"object/truck/truck_blue-tex.tex.png");
-		modelManager->loadTextureFromFile("police_car", GModel::TEXTURE_NORMAL,
+		assetManager->loadTextureFromFile("police_car", GModel::TEXTURE_NORMAL,
 			"object/normal_map/normal_map_for_truck.jpg");
 	}
 	game = new Game();
