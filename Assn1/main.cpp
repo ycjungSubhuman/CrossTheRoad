@@ -16,6 +16,8 @@ Game* game;
 AssetManager* assetManager;
 GLuint rectbuffer;
 GLint u_Model, u_Projection, color_in, mode_shader;
+GLint u_isTextured; //a uniform value that specifies whether it
+//shourld be rendered with texture
 
 extern GLuint program;
 extern GLint mode_shader;
@@ -57,10 +59,11 @@ void init(void) {
 	color_in = glGetUniformLocation(program, "color_in");
 	mode_shader = glGetUniformLocation(program, "mode_shader");
 	glUniform1i(mode_shader, 0);
-	GLint tex = glGetUniformLocation(program, "sample_texture");
-	glUniform1i(tex, 0);
-	tex = glGetUniformLocation(program, "sample_normalmap");
-	glUniform1i(tex, 1);
+	GLint pick = glGetUniformLocation(program, "sample_texture");
+	glUniform1i(pick, 0);
+	pick = glGetUniformLocation(program, "sample_normalmap");
+	glUniform1i(pick, 1);
+	u_isTextured = glGetUniformLocation(program, "isTextured");
 
 	//load models and init game
 	assetManager = new AssetManager();

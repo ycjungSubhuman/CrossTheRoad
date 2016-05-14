@@ -3,6 +3,7 @@
 #include "AssetManager.h"
 extern GLint u_Model;
 extern GLint color_in;
+extern GLint u_isTextured;
 extern AssetManager* assetManager;
 O3DModel::O3DModel(vec3 pos, RotPoint rotcnt, double rotz, double rotx, std::string type, GModel* model)
 	:GObject(Rect(pos.x, pos.y, 0, 0), Rect(0, 0, 0, 0), type)
@@ -63,6 +64,7 @@ void O3DModel::draw(mat4 MVMatrix) {
 
 	glUniform4fv(color_in, 1, colors);
 	glUniformMatrix4fv(u_Model, 1, true, MVMatrix);
+	glUniform1i(u_isTextured, 1);
 	glDrawArrays(GL_TRIANGLES, 0, model.getVertexSize());
 	glDisableVertexAttribArray(0);
 	glDisable(GL_TEXTURE_2D);

@@ -3,6 +3,7 @@
 extern GLint u_Model;
 extern GLint color_in;
 extern GLuint rectbuffer;
+extern GLint u_isTextured;
 
 ORect::ORect(double x, double y, double width, double height, RotPoint rotcnt, double rot, std::string type)
 : GObject(Rect(x, y, width, height), Rect(0, 0, width, height), type){
@@ -63,6 +64,7 @@ void ORect::draw(mat4 MVMatrix)
 	glBindBuffer(GL_ARRAY_BUFFER, rectbuffer);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	
+	glUniform1i(u_isTextured, 0);
 	glUniform4fv(color_in, 1, colors);
 	glUniformMatrix4fv(u_Model, 1, true, MVMatrix);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
