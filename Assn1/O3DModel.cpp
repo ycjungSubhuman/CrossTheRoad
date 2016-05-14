@@ -40,11 +40,26 @@ void O3DModel::draw(mat4 MVMatrix) {
 	glBindBuffer(GL_ARRAY_BUFFER, model.getModelID());
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
+	/* when glActeiveTexture(enum) is called,
+	 * the next glBindTexture will bind to the 
+	 * specified texture unit represented by enum
+	 *
+	 * In main::init(), get uniform location of sampler2D
+	 * and assign the index of texture unit. For example
+	 * when enum is GL_TEXTURE0 -> assign 0
+	 * GL_TEXTURE0 + 1 -> assign 1
+	 * 
+	 * For this program, use GL_TEXTURE0 for surface color texture
+	 * and GL_TEXTURE0+1 for normal map texture
+	 */
+
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, 
 		model.getTextureID(GModel::TEXTURE_DIFFUSE));
-	GLuint id = model.getTextureID(GModel::TEXTURE_DIFFUSE);
 
+	glActiveTexture(GL_TEXTURE0 + 1);
+	glBindTexture(GL_TEXTURE_2D,
+		model.getTextureID(GModel::TEXTURE_NORMAL));
 
 	glUniform4fv(color_in, 1, colors);
 	glUniformMatrix4fv(u_Model, 1, true, MVMatrix);

@@ -74,7 +74,7 @@ void GModel::setTexture(TextureType type, std::string filename)
 
 	glTexImage2D(GL_TEXTURE_2D, 0, 
 		GL_RGB, loaded.getWidth(), loaded.getHeight(), 
-		0, GL_BGR, GL_UNSIGNED_BYTE, loaded.toArray());
+		0, GL_RGB, GL_UNSIGNED_BYTE, loaded.toArray());
 }
 
 bool GModel::isTextureSet(TextureType type)

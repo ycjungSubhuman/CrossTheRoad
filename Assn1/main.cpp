@@ -51,6 +51,7 @@ void init(void) {
 	char fShaderFile[] = "FragmentShader1.glsl";
 	loadShadersFromFile(vShaderFile, fShaderFile);
 
+	//Get uniform locations and assign texture unit index
 	u_Model = glGetUniformLocation(program, "u_Model");
 	u_Projection = glGetUniformLocation(program, "u_Projection");
 	color_in = glGetUniformLocation(program, "color_in");
@@ -58,6 +59,8 @@ void init(void) {
 	glUniform1i(mode_shader, 0);
 	GLint tex = glGetUniformLocation(program, "sample_texture");
 	glUniform1i(tex, 0);
+	tex = glGetUniformLocation(program, "sample_normalmap");
+	glUniform1i(tex, 1);
 
 	//load models and init game
 	assetManager = new AssetManager();
