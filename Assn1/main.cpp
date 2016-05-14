@@ -56,6 +56,8 @@ void init(void) {
 	color_in = glGetUniformLocation(program, "color_in");
 	mode_shader = glGetUniformLocation(program, "mode_shader");
 	glUniform1i(mode_shader, 0);
+	GLint tex = glGetUniformLocation(program, "sample_texture");
+	glUniform1i(tex, 0);
 
 	//load models and init game
 	assetManager = new AssetManager();
@@ -152,7 +154,6 @@ void init(void) {
 	mciSendString("setaudio front Volume to 1", NULL, 0, NULL);
 
 	game->getScene()->setCameraMode(GScene::CHICKEN);
-
 }
 void drawView(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );

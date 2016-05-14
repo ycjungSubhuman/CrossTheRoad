@@ -3,6 +3,7 @@
 #include "GModel.h"
 #include <map>
 #include <tuple>
+#include "GModel.h"
 
 /* O3DModel : Any 3D Model on the screen. It has static method 
 to load model from .wobj files. Its field represents the index of the
@@ -11,8 +12,7 @@ draws the wireframe of the model. */
 
 class O3DModel : public GObject {
 private:
-	GLuint index_vbo;
-	int size_vertex;
+	GModel model;
 	double r, g, b;
 public:
 	enum RotPoint {
