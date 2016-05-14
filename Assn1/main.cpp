@@ -182,13 +182,16 @@ void processUserInput(int key, int x, int y) {
 void processPerspective(unsigned char key, int x, int y) {
 	switch (key) {
 		case '3':
-			game->getScene()->setCameraMode(GScene::TOP);
+			if (!isDebugChicken)
+				game->getScene()->setCameraMode(GScene::TOP);
 			break;
 		case '1':
-			game->getScene()->setCameraMode(GScene::POV);
+			if (!isDebugChicken)
+				game->getScene()->setCameraMode(GScene::POV);
 			break;
 		case '2':
-			game->getScene()->setCameraMode(GScene::SHOULDER);
+			if (!isDebugChicken)
+				game->getScene()->setCameraMode(GScene::SHOULDER);
 			break;
 		case 'q':
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
