@@ -5,8 +5,6 @@
 #define BUFFER_OFFSET( offset ) ((GLvoid*)(offset))
 
 GLuint program;
-GLint u_Model, u_Projection, color_in;
-GLuint rectbuffer;
 
 static char* readShaderSource(const char* shaderFile) {
 	/* reads glsl file and returns string of the source code */
