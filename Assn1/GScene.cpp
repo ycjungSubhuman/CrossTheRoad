@@ -14,7 +14,7 @@ extern GLint u_Projection;
 
 GScene::GScene()
 : GObject(Rect(0,0,0,0), Rect(0,0,0,0), "SCENE") {
-	mode_cam = TOP;
+	setCameraMode(CHICKEN);
 	cam_x = 0;
 	cam_y = 0;
 }
@@ -60,6 +60,12 @@ void GScene::drawScene() {
 			);
 
 		break;
+	case CHICKEN:
+		MVMatrix *= Angel::LookAt(
+			vec4(-190, 0, 20, 1),
+			vec4(-200, 0, 0, 1),
+			vec4(1, 0, 0, 1)
+			);
 	}
 	onTraverseDraw(MVMatrix);
 }
@@ -78,6 +84,7 @@ void GScene::setCameraMode(CameraMode mode) {
 			projection = Perspective(65, 1, 10, 1000);
 			glUniformMatrix4fv(u_Projection, 1, true, projection);
 			break;
+		case CHICKEN:
 		case SHOULDER:
 			projection = Perspective(90, 1, 10, 1000);
 			glUniformMatrix4fv(u_Projection, 1, true, projection);

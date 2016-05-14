@@ -7,7 +7,7 @@ class GScene : public GObject{
 private:
 	double cam_x, cam_y;
 public:
-	enum CameraMode { TOP, POV, SHOULDER };
+	enum CameraMode { TOP, POV, SHOULDER, CHICKEN };
 	GScene();
 	void drawScene();
 	void updateScene();

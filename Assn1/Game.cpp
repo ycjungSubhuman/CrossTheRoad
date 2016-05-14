@@ -3,6 +3,9 @@
 #include "Tree.h"
 #include <stdlib.h>
 #include <time.h>
+#include "AssetManager.h"
+
+extern AssetManager* assetManager;
 
 Game::Game()
 {
@@ -52,6 +55,14 @@ Game::Game()
 		}
 	}
 	//Cars are placed with timer events.
+
+	//place chiken
+	GModel* model_chicken = assetManager->getModel("Mesh0");
+	chicken = new O3DModel(
+		vec3(-200, 0, 0), O3DModel::CENTER,
+		0, 0, "CHICKEN",
+		model_chicken);
+	scene->addObject(chicken);
 }
 GameMap* Game::getMap() {
 	return map;
@@ -62,6 +73,9 @@ GScene* Game::getScene() {
 Player* Game::getPlayer() {
 	return player;
 }
+O3DModel* Game::getChicken() {
+	return chicken;
+}
 void Game::newPlayer() {
 	Player* old = player;
 	player = new Player();
@@ -69,5 +83,6 @@ void Game::newPlayer() {
 	getMap()->removeObject(old);
 }
 Game::~Game() {
+	delete chicken;
 	delete scene;
 }
