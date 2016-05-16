@@ -56,6 +56,14 @@ void O3DModel::draw(mat4 MVMatrix) {
 	glBindBuffer(GL_ARRAY_BUFFER, model.getFNormalID());
 	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
+	glEnableVertexAttribArray(4);
+	glBindBuffer(GL_ARRAY_BUFFER, model.getTangentID());
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+	glEnableVertexAttribArray(5);
+	glBindBuffer(GL_ARRAY_BUFFER, model.getBiTangentID());
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
 	/* when glActeiveTexture(enum) is called,
 	 * the next glBindTexture will bind to the 
 	 * specified texture unit represented by enum
@@ -91,13 +99,18 @@ void O3DModel::draw(mat4 MVMatrix) {
 	glUniformMatrix4fv(u_Model, 1, true, MVMatrix);
 	glUniform1i(u_isTextured, 1);
 	glDrawArrays(GL_TRIANGLES, 0, model.getVertexSize());
-	glDisableVertexAttribArray(0);
 	glDisable(GL_TEXTURE_2D);
 	glBindBuffer(GL_ARRAY_BUFFER, model.getModelID());
 	error = glGetError();
 	if (error != GL_NO_ERROR) {
 		std::cerr << glewGetErrorString(error) << std::endl;
 	}
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+	glDisableVertexAttribArray(3);
+	glDisableVertexAttribArray(4);
+	glDisableVertexAttribArray(5);
 }
 void O3DModel::setColor(int r, int g, int b)
 {

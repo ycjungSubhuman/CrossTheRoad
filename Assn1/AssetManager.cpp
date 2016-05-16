@@ -19,6 +19,9 @@ void AssetManager::loadModelFromFile(std::string name_file)
 	std::vector<vec2> uvs;
 	std::vector<vec3> normals;
 	std::vector<vec3> facenorms;
+
+	std::vector<vec3> tangents;
+	std::vector<vec3> bitangents;
 	std::map<std::string, GModel*> dict;
 	std::map<std::string, GLuint, GLuint> ndict;
 	std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
@@ -43,7 +46,7 @@ void AssetManager::loadModelFromFile(std::string name_file)
 		int res = fscanf(file, "%s", lineHeader);
 		if (res == EOF)
 		{
-			std::tuple<GLuint,GLuint,GLuint,GLuint, vec3, vec3, int> indexes;
+			std::tuple<GLuint,GLuint,GLuint,GLuint,GLuint,GLuint,vec3,vec3,int> indexes;
 			double maxx = 0, maxy = 0, maxz = 0;
 			double minx = 0, miny = 0, minz = 0;
 			double width, height, depth;
@@ -59,7 +62,42 @@ void AssetManager::loadModelFromFile(std::string name_file)
 				uvs.push_back(uv);
 				normals.push_back(normal);
 			}
+			//tangent vector calculation
+			for (unsigned int i = 0; i < vertices.size(); i = i + 3) {
+				// Shortcuts for vertices
+				vec3 & v0 = vertices[i + 0];
+				vec3 & v1 = vertices[i + 1];
+				vec3 & v2 = vertices[i + 2];
 
+				// Shortcuts for UVs
+				vec2 & uv0 = uvs[i + 0];
+				vec2 & uv1 = uvs[i + 1];
+				vec2 & uv2 = uvs[i + 2];
+
+				// Edges of the triangle : postion delta
+				vec3 deltaPos1 = v1 - v0;
+				vec3 deltaPos2 = v2 - v0;
+
+				// UV delta
+				vec2 deltaUV1 = uv1 - uv0;
+				vec2 deltaUV2 = uv2 - uv0;
+
+				float r = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x);
+				vec3 tangent = (deltaPos1 * deltaUV2.y - deltaPos2 * deltaUV1.y)*r;
+				vec3 bitangent = (deltaPos2 * deltaUV1.x - deltaPos1 * deltaUV2.x)*r;
+
+				// Set the same tangent for all three vertices of the triangle.
+				// They will be merged later, in vboindexer.cpp
+				tangents.push_back(tangent);
+				tangents.push_back(tangent);
+				tangents.push_back(tangent);
+
+				// Same thing for binormals
+				bitangents.push_back(bitangent);
+				bitangents.push_back(bitangent);
+				bitangents.push_back(bitangent);
+			}
+			//facenormal calculation
 			for (unsigned int i = 0; i < normals.size(); i = i + 3)
 			{
 				vec3 facenorm = cross(normals[i], normals[i + 1]);
@@ -90,12 +128,16 @@ void AssetManager::loadModelFromFile(std::string name_file)
 			GLuint uv_buf;
 			GLuint normal_buf;
 			GLuint face_buf;
+			GLuint tan_buf;
+			GLuint bitan_buf;
 			int siz = sizeof(vec3) * vertices.size() + sizeof(vec2) * uvs.size() + sizeof(vec3) * normals.size() + sizeof(vec3) * facenorms.size();
 			int wowmuchsize = sizeof(vec3);
 			glGenBuffers(1, &groupint);
 			glGenBuffers(1, &uv_buf);
 			glGenBuffers(1, &normal_buf);
 			glGenBuffers(1, &face_buf);
+			glGenBuffers(1, &tan_buf);
+			glGenBuffers(1, &bitan_buf);
 
 			glBindBuffer(GL_ARRAY_BUFFER, groupint);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
@@ -109,7 +151,13 @@ void AssetManager::loadModelFromFile(std::string name_file)
 			glBindBuffer(GL_ARRAY_BUFFER, face_buf);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * facenorms.size(), &facenorms[0], GL_STATIC_DRAW);
 
-			indexes = std::make_tuple(groupint, uv_buf, normal_buf, face_buf,
+			glBindBuffer(GL_ARRAY_BUFFER, tan_buf);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * tangents.size(), &tangents[0], GL_STATIC_DRAW);
+
+			glBindBuffer(GL_ARRAY_BUFFER, bitan_buf);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * bitangents.size(), &bitangents[0], GL_STATIC_DRAW);
+
+			indexes = std::make_tuple(groupint, uv_buf, normal_buf, face_buf, tan_buf, bitan_buf,
 				vec3((minx + maxx) / 2, (miny + maxy) / 2, (minz + maxz) / 2), vec3(width, height, depth), vertices.size());
 			dict[old_groupname] = new GModel(indexes);
 			break;
@@ -138,7 +186,7 @@ void AssetManager::loadModelFromFile(std::string name_file)
 		}
 		else if (strcmp(lineHeader, "g") == 0) {
 			char groupname[128];
-			std::tuple<GLuint,GLuint,GLuint,GLuint, vec3, vec3, int> indexes;
+			std::tuple<GLuint,GLuint,GLuint,GLuint,GLuint,GLuint,vec3,vec3,int> indexes;
 			double maxx = 0, maxy = 0, maxz = 0;
 			double minx = 0, miny = 0, minz = 0;
 			double width, height, depth;
@@ -157,6 +205,41 @@ void AssetManager::loadModelFromFile(std::string name_file)
 					vertices.push_back(vertex);
 					uvs.push_back(uv);
 					normals.push_back(normal);
+				}
+				//tangent vector calculation
+				for (unsigned int i = 0; i < vertices.size(); i = i + 3) {
+					// Shortcuts for vertices
+					vec3 & v0 = vertices[i + 0];
+					vec3 & v1 = vertices[i + 1];
+					vec3 & v2 = vertices[i + 2];
+
+					// Shortcuts for UVs
+					vec2 & uv0 = uvs[i + 0];
+					vec2 & uv1 = uvs[i + 1];
+					vec2 & uv2 = uvs[i + 2];
+
+					// Edges of the triangle : postion delta
+					vec3 deltaPos1 = v1 - v0;
+					vec3 deltaPos2 = v2 - v0;
+
+					// UV delta
+					vec2 deltaUV1 = uv1 - uv0;
+					vec2 deltaUV2 = uv2 - uv0;
+
+					float r = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x);
+					vec3 tangent = (deltaPos1 * deltaUV2.y - deltaPos2 * deltaUV1.y)*r;
+					vec3 bitangent = (deltaPos2 * deltaUV1.x - deltaPos1 * deltaUV2.x)*r;
+
+					// Set the same tangent for all three vertices of the triangle.
+					// They will be merged later, in vboindexer.cpp
+					tangents.push_back(tangent);
+					tangents.push_back(tangent);
+					tangents.push_back(tangent);
+
+					// Same thing for binormals
+					bitangents.push_back(bitangent);
+					bitangents.push_back(bitangent);
+					bitangents.push_back(bitangent);
 				}
 
 				for (unsigned int i = 0; i < normals.size(); i = i + 3)
@@ -189,12 +272,16 @@ void AssetManager::loadModelFromFile(std::string name_file)
 				GLuint uv_buf;
 				GLuint normal_buf;
 				GLuint face_buf;
+				GLuint tan_buf;
+				GLuint bitan_buf;
 				int siz = sizeof(vec3) * vertices.size() + sizeof(vec2) * uvs.size() + sizeof(vec3) * normals.size() + sizeof(vec3) * facenorms.size();
 				int wowmuchsize = sizeof(vec3);
 				glGenBuffers(1, &groupint);
 				glGenBuffers(1, &uv_buf);
 				glGenBuffers(1, &normal_buf);
 				glGenBuffers(1, &face_buf);
+				glGenBuffers(1, &tan_buf);
+				glGenBuffers(1, &bitan_buf);
 
 				glBindBuffer(GL_ARRAY_BUFFER, groupint);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
@@ -208,9 +295,15 @@ void AssetManager::loadModelFromFile(std::string name_file)
 				glBindBuffer(GL_ARRAY_BUFFER, face_buf);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * facenorms.size(), &facenorms[0], GL_STATIC_DRAW);
 
-				indexes = std::make_tuple(groupint, uv_buf, normal_buf, face_buf, 
+				glBindBuffer(GL_ARRAY_BUFFER, tan_buf);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * tangents.size(), &tangents[0], GL_STATIC_DRAW);
+
+				glBindBuffer(GL_ARRAY_BUFFER, bitan_buf);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * bitangents.size(), &bitangents[0], GL_STATIC_DRAW);
+
+				indexes = std::make_tuple(groupint, uv_buf, normal_buf, face_buf, tan_buf, bitan_buf,
 					vec3((minx + maxx) / 2, (miny + maxy) / 2, (minz + maxz) / 2), vec3(width, height, depth), vertices.size());
-				dict[old_groupname] = new GModel(indexes);
+				dict[old_groupname] = new GModel(indexes);;
 				std::string groupnametmp = groupname;
 				vertexIndices.clear();
 				vertices.clear();

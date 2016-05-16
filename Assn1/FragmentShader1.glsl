@@ -2,6 +2,8 @@
 
 in vec4 color_out;
 in vec2 st;
+in vec3 lightdirection_tangentspace;
+in vec3 eyedirection_tangentspace;
 uniform sampler2D sample_texture; //unit 0
 uniform sampler2D sample_normalmap; //unit 1
 uniform bool isTextured; //if true, render with color_out
@@ -17,10 +19,21 @@ void main()
 	 * where UV is "in vec2""
 	 */
 	if (isTextured) {
-		if (isNormaled) {
-			//vec3 normal = 2 * texture (sample_normalmap, UV).rbg - vec3(1, 1, 1);
-			color = texture (sample_texture, st).rgb ;
+		if (isNormaled) { //shading with normal map
+			vec3 normal_map = normalize( 
+				texture (sample_normalmap, st).rgb * 2.0 
+				-1.0);
 
+			/* TODO: implement shading with
+				* normal_map for surface normal
+				* lightdirection_tangentspace 
+					for light direction
+				* eyedirection_tangentspace
+					for eye direction
+			*/
+
+			//placeholder
+			color = texture (sample_texture, st).rgb ;
 		}
 		else {
 			color = texture (sample_texture, st).rgb ;
