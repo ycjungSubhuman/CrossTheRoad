@@ -10,7 +10,7 @@
 
 class GModel {
 private:
-	std::tuple<GLuint, vec3, vec3, int> data_model;
+	std::tuple<GLuint, GLuint,GLuint,GLuint,vec3, vec3, int> data_model;
 	bool isTexture;
 	bool isNormal;
 	GLuint index_texturebuffer;
@@ -20,8 +20,11 @@ public:
 	//normal for surface normal mapping
 	enum TextureType { TEXTURE_DIFFUSE, TEXTURE_NORMAL };
 	GModel();
-	GModel(std::tuple<GLuint, vec3, vec3, int> data_models);
+	GModel(std::tuple<GLuint, GLuint,GLuint,GLuint,vec3, vec3, int> data_models);
 	GLuint getModelID();
+	GLuint getUVID();
+	GLuint getVNormalID();
+	GLuint getFNormalID();
 	//returns the buffer id of given texture type
 	GLuint getTextureID(TextureType type); 
 	vec3 getPos();

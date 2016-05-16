@@ -43,7 +43,7 @@ void AssetManager::loadModelFromFile(std::string name_file)
 		int res = fscanf(file, "%s", lineHeader);
 		if (res == EOF)
 		{
-			std::tuple<GLuint, vec3, vec3, int> indexes;
+			std::tuple<GLuint,GLuint,GLuint,GLuint, vec3, vec3, int> indexes;
 			double maxx = 0, maxy = 0, maxz = 0;
 			double minx = 0, miny = 0, minz = 0;
 			double width, height, depth;
@@ -86,23 +86,31 @@ void AssetManager::loadModelFromFile(std::string name_file)
 			for (std::vector<vec3>::iterator it = vertices.begin(); it != vertices.end(); it++) {
 				(*it) = (*it) - vec3((minx + maxx) / 2, (miny + maxy) / 2, (minz + maxz) / 2);
 			}
-
 			GLuint groupint;
+			GLuint uv_buf;
+			GLuint normal_buf;
+			GLuint face_buf;
 			int siz = sizeof(vec3) * vertices.size() + sizeof(vec2) * uvs.size() + sizeof(vec3) * normals.size() + sizeof(vec3) * facenorms.size();
-			int offset = 0;
+			int wowmuchsize = sizeof(vec3);
 			glGenBuffers(1, &groupint);
-			glBindBuffer(GL_ARRAY_BUFFER, groupint);
-			//glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
-			glBufferData(GL_ARRAY_BUFFER, siz, NULL, GL_STATIC_DRAW);
-			glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(vec3) * vertices.size(), &vertices[0]);
-			offset += sizeof(vec3) * vertices.size();
-			glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(vec2) * uvs.size(), &uvs[0]);
-			offset += sizeof(vec2) * uvs.size();
-			glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(vec3) * normals.size(), &normals[0]);
-			offset += sizeof(vec3) * normals.size();
-			glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(vec3) * facenorms.size(), &facenorms[0]);
+			glGenBuffers(1, &uv_buf);
+			glGenBuffers(1, &normal_buf);
+			glGenBuffers(1, &face_buf);
 
-			indexes = std::make_tuple(groupint, vec3((minx+maxx)/2, (miny+maxy)/2, (minz+maxz)/2), vec3(width, height, depth), vertices.size());
+			glBindBuffer(GL_ARRAY_BUFFER, groupint);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+
+			glBindBuffer(GL_ARRAY_BUFFER, uv_buf);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(vec2) * uvs.size(), &uvs[0], GL_STATIC_DRAW);
+
+			glBindBuffer(GL_ARRAY_BUFFER, normal_buf);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * normals.size(), &normals[0], GL_STATIC_DRAW);
+
+			glBindBuffer(GL_ARRAY_BUFFER, face_buf);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * facenorms.size(), &facenorms[0], GL_STATIC_DRAW);
+
+			indexes = std::make_tuple(groupint, uv_buf, normal_buf, face_buf,
+				vec3((minx + maxx) / 2, (miny + maxy) / 2, (minz + maxz) / 2), vec3(width, height, depth), vertices.size());
 			dict[old_groupname] = new GModel(indexes);
 			break;
 		}
@@ -130,7 +138,7 @@ void AssetManager::loadModelFromFile(std::string name_file)
 		}
 		else if (strcmp(lineHeader, "g") == 0) {
 			char groupname[128];
-			std::tuple<GLuint, vec3, vec3, int> indexes;
+			std::tuple<GLuint,GLuint,GLuint,GLuint, vec3, vec3, int> indexes;
 			double maxx = 0, maxy = 0, maxz = 0;
 			double minx = 0, miny = 0, minz = 0;
 			double width, height, depth;
@@ -178,22 +186,30 @@ void AssetManager::loadModelFromFile(std::string name_file)
 				}
 
 				GLuint groupint;
+				GLuint uv_buf;
+				GLuint normal_buf;
+				GLuint face_buf;
 				int siz = sizeof(vec3) * vertices.size() + sizeof(vec2) * uvs.size() + sizeof(vec3) * normals.size() + sizeof(vec3) * facenorms.size();
 				int wowmuchsize = sizeof(vec3);
-				int offset = 0;
 				glGenBuffers(1, &groupint);
-				glBindBuffer(GL_ARRAY_BUFFER, groupint);
-				//glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
-				glBufferData(GL_ARRAY_BUFFER, siz, NULL, GL_STATIC_DRAW);
-				glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(vec3) * vertices.size(), &vertices[0]);
-				offset += sizeof(vec3) * vertices.size();
-				glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(vec2) * uvs.size(), &uvs[0]);
-				offset += sizeof(vec2) * uvs.size();
-				glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(vec3) * normals.size(), &normals[0]);
-				offset += sizeof(vec3) * normals.size();
-				glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(vec3) * facenorms.size(), &facenorms[0]);
+				glGenBuffers(1, &uv_buf);
+				glGenBuffers(1, &normal_buf);
+				glGenBuffers(1, &face_buf);
 
-				indexes = std::make_tuple(groupint, vec3((minx + maxx) / 2, (miny + maxy) / 2, (minz + maxz) / 2), vec3(width, height, depth), vertices.size());
+				glBindBuffer(GL_ARRAY_BUFFER, groupint);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+
+				glBindBuffer(GL_ARRAY_BUFFER, uv_buf);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(vec2) * uvs.size(), &uvs[0], GL_STATIC_DRAW);
+
+				glBindBuffer(GL_ARRAY_BUFFER, normal_buf);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * normals.size(), &normals[0], GL_STATIC_DRAW);
+
+				glBindBuffer(GL_ARRAY_BUFFER, face_buf);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * facenorms.size(), &facenorms[0], GL_STATIC_DRAW);
+
+				indexes = std::make_tuple(groupint, uv_buf, normal_buf, face_buf, 
+					vec3((minx + maxx) / 2, (miny + maxy) / 2, (minz + maxz) / 2), vec3(width, height, depth), vertices.size());
 				dict[old_groupname] = new GModel(indexes);
 				std::string groupnametmp = groupname;
 				vertexIndices.clear();
