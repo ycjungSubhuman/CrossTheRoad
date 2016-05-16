@@ -179,6 +179,7 @@ void AssetManager::loadModelFromFile(std::string name_file)
 
 				GLuint groupint;
 				int siz = sizeof(vec3) * vertices.size() + sizeof(vec2) * uvs.size() + sizeof(vec3) * normals.size() + sizeof(vec3) * facenorms.size();
+				int wowmuchsize = sizeof(vec3);
 				int offset = 0;
 				glGenBuffers(1, &groupint);
 				glBindBuffer(GL_ARRAY_BUFFER, groupint);

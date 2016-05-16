@@ -5,6 +5,7 @@ in vec2 st;
 uniform sampler2D sample_texture; //unit 0
 uniform sampler2D sample_normalmap; //unit 1
 uniform bool isTextured; //if true, render with color_out
+uniform bool isNormaled;
 out vec3 color;
 
 void main()
@@ -16,7 +17,14 @@ void main()
 	 * where UV is "in vec2""
 	 */
 	if (isTextured) {
-		color = texture (sample_texture, st).rgb ;
+		if (isNormaled) {
+			//vec3 normal = 2 * texture (sample_normalmap, UV).rbg - vec3(1, 1, 1);
+			color = texture (sample_texture, st).rgb ;
+
+		}
+		else {
+			color = texture (sample_texture, st).rgb ;
+		}
 	}
 	else {
 		color = color_out.xyz;

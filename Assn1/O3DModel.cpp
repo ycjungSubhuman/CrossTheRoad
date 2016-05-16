@@ -4,6 +4,7 @@
 extern GLint u_Model;
 extern GLint color_in;
 extern GLint u_isTextured;
+extern GLuint program;
 extern AssetManager* assetManager;
 O3DModel::O3DModel(vec3 pos, RotPoint rotcnt, double rotz, double rotx, std::string type, GModel* model)
 	:GObject(Rect(pos.x, pos.y, 0, 0), Rect(0, 0, 0, 0), type)
@@ -67,6 +68,16 @@ void O3DModel::draw(mat4 MVMatrix) {
 	glActiveTexture(GL_TEXTURE0 + 1);
 	glBindTexture(GL_TEXTURE_2D,
 		model.getTextureID(GModel::TEXTURE_NORMAL));
+
+	//checks if the normal map is set
+	GLint u_isNormaled;
+	u_isNormaled = glGetUniformLocation(program, "isNormaled");
+	if (model.isTextureSet(GModel::TEXTURE_NORMAL)) {
+		glUniform1i(u_isNormaled, 1);
+	}
+	else {
+		glUniform1i(u_isNormaled, 0);
+	}
 
 	glUniform4fv(color_in, 1, colors);
 	glUniformMatrix4fv(u_Model, 1, true, MVMatrix);
