@@ -16,14 +16,18 @@ void AssetManager::loadModelFromFile(std::string name_file)
 	//USED ONLY FROM CLASS DIRECTLY
 
 	std::vector<vec3> vertices;
+	std::vector<vec2> uvs;
+	std::vector<vec3> normals;
+	std::vector<vec3> facenorms;
 	std::map<std::string, GModel*> dict;
-	std::vector<unsigned int> vertexIndices;
+	std::map<std::string, GLuint, GLuint> ndict;
+	std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
 	std::vector<vec3> temp_vertices;
+	std::vector<vec2> temp_uvs;
+	std::vector<vec3> temp_normals;
 	std::string old_groupname;
 	char* filename = new char[name_file.size() + 1];
 	strcpy_s(filename, name_file.size() + 1, name_file.c_str());
-
-	int verticesize = 0;
 
 	FILE * file = fopen(filename, "r");
 	if (file == nullptr) {
@@ -46,8 +50,22 @@ void AssetManager::loadModelFromFile(std::string name_file)
 			// For each vertex of each triangle
 			for (unsigned int i = 0; i<vertexIndices.size(); i++) {
 				unsigned int vertexIndex = vertexIndices[i];
+				unsigned int uvIndex = uvIndices[i];
+				unsigned int normalIndex = normalIndices[i];
 				vec3 vertex = temp_vertices[vertexIndex - 1];
+				vec2 uv = temp_uvs[uvIndex - 1];
+				vec3 normal = temp_normals[normalIndex - 1];
 				vertices.push_back(vertex);
+				uvs.push_back(uv);
+				normals.push_back(normal);
+			}
+
+			for (unsigned int i = 0; i < normals.size(); i = i + 3)
+			{
+				vec3 facenorm = cross(normals[i], normals[i + 1]);
+				facenorms.push_back(facenorm);
+				facenorms.push_back(facenorm);
+				facenorms.push_back(facenorm);
 			}
 
 			for (int i = 0; i < vertices.size(); i++)
@@ -70,9 +88,19 @@ void AssetManager::loadModelFromFile(std::string name_file)
 			}
 
 			GLuint groupint;
+			int siz = sizeof(vec3) * vertices.size() + sizeof(vec2) * uvs.size() + sizeof(vec3) * normals.size() + sizeof(vec3) * facenorms.size();
+			int offset = 0;
 			glGenBuffers(1, &groupint);
 			glBindBuffer(GL_ARRAY_BUFFER, groupint);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+			//glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, siz, NULL, GL_STATIC_DRAW);
+			glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(vec3) * vertices.size(), &vertices[0]);
+			offset += sizeof(vec3) * vertices.size();
+			glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(vec2) * uvs.size(), &uvs[0]);
+			offset += sizeof(vec2) * uvs.size();
+			glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(vec3) * normals.size(), &normals[0]);
+			offset += sizeof(vec3) * normals.size();
+			glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(vec3) * facenorms.size(), &facenorms[0]);
 
 			indexes = std::make_tuple(groupint, vec3((minx+maxx)/2, (miny+maxy)/2, (minz+maxz)/2), vec3(width, height, depth), vertices.size());
 			dict[old_groupname] = new GModel(indexes);
@@ -88,6 +116,18 @@ void AssetManager::loadModelFromFile(std::string name_file)
 			fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
 			temp_vertices.push_back(vertex);
 		}
+		else if (strcmp(lineHeader, "vt") == 0)
+		{
+			vec2 uv;
+			fscanf(file, "%f %f\n", &uv.x, &uv.y);
+			uv.y = -uv.y; // Invert V coordinate since we will only use DDS texture, which are inverted. Remove if you want to use TGA or BMP loaders.
+			temp_uvs.push_back(uv);
+		}
+		else if (strcmp(lineHeader, "vn") == 0) {
+			vec3 normal;
+			fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
+			temp_normals.push_back(normal);
+		}
 		else if (strcmp(lineHeader, "g") == 0) {
 			char groupname[128];
 			std::tuple<GLuint, vec3, vec3, int> indexes;
@@ -101,8 +141,22 @@ void AssetManager::loadModelFromFile(std::string name_file)
 				// For each vertex of each triangle
 				for (unsigned int i = 0; i<vertexIndices.size(); i++) {
 					unsigned int vertexIndex = vertexIndices[i];
+					unsigned int uvIndex = uvIndices[i];
+					unsigned int normalIndex = normalIndices[i];
 					vec3 vertex = temp_vertices[vertexIndex - 1];
+					vec2 uv = temp_uvs[uvIndex - 1];
+					vec3 normal = temp_normals[normalIndex - 1];
 					vertices.push_back(vertex);
+					uvs.push_back(uv);
+					normals.push_back(normal);
+				}
+
+				for (unsigned int i = 0; i < normals.size(); i = i + 3)
+				{
+					vec3 facenorm = cross(normals[i], normals[i + 1]);
+					facenorms.push_back(facenorm);
+					facenorms.push_back(facenorm);
+					facenorms.push_back(facenorm);
 				}
 
 				for (int i = 0; i < vertices.size(); i++)
@@ -124,9 +178,19 @@ void AssetManager::loadModelFromFile(std::string name_file)
 				}
 
 				GLuint groupint;
+				int siz = sizeof(vec3) * vertices.size() + sizeof(vec2) * uvs.size() + sizeof(vec3) * normals.size() + sizeof(vec3) * facenorms.size();
+				int offset = 0;
 				glGenBuffers(1, &groupint);
 				glBindBuffer(GL_ARRAY_BUFFER, groupint);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+				//glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, siz, NULL, GL_STATIC_DRAW);
+				glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(vec3) * vertices.size(), &vertices[0]);
+				offset += sizeof(vec3) * vertices.size();
+				glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(vec2) * uvs.size(), &uvs[0]);
+				offset += sizeof(vec2) * uvs.size();
+				glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(vec3) * normals.size(), &normals[0]);
+				offset += sizeof(vec3) * normals.size();
+				glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(vec3) * facenorms.size(), &facenorms[0]);
 
 				indexes = std::make_tuple(groupint, vec3((minx + maxx) / 2, (miny + maxy) / 2, (minz + maxz) / 2), vec3(width, height, depth), vertices.size());
 				dict[old_groupname] = new GModel(indexes);
@@ -146,7 +210,12 @@ void AssetManager::loadModelFromFile(std::string name_file)
 			vertexIndices.push_back(vertexIndex[0]);
 			vertexIndices.push_back(vertexIndex[1]);
 			vertexIndices.push_back(vertexIndex[2]);
-			verticesize += 3;
+			uvIndices.push_back(uvIndex[0]);
+			uvIndices.push_back(uvIndex[1]);
+			uvIndices.push_back(uvIndex[2]);
+			normalIndices.push_back(normalIndex[0]);
+			normalIndices.push_back(normalIndex[1]);
+			normalIndices.push_back(normalIndex[2]);
 		}
 		else {
 			// Probably a comment, eat up the rest of the line
