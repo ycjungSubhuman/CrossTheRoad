@@ -160,6 +160,7 @@ void AssetManager::loadModelFromFile(std::string name_file)
 			indexes = std::make_tuple(groupint, uv_buf, normal_buf, face_buf, tan_buf, bitan_buf,
 				vec3((minx + maxx) / 2, (miny + maxy) / 2, (minz + maxz) / 2), vec3(width, height, depth), vertices.size());
 			dict[old_groupname] = new GModel(indexes);
+
 			break;
 		}
 
@@ -306,7 +307,14 @@ void AssetManager::loadModelFromFile(std::string name_file)
 				dict[old_groupname] = new GModel(indexes);;
 				std::string groupnametmp = groupname;
 				vertexIndices.clear();
+				uvIndices.clear();
+				normalIndices.clear();
 				vertices.clear();
+				uvs.clear();
+				normals.clear();
+				facenorms.clear();
+				tangents.clear();
+				bitangents.clear();
 			}
 			old_groupname = groupname;
 		}
