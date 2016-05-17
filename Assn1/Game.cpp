@@ -13,6 +13,17 @@ Game::Game()
 	/* Game Initiallization */
 	//scene setup
 	scene = new GScene();
+	
+	//Sky box setup
+	box = new SkyBox(
+		"mp_blood/blood_ft.png",
+		"mp_blood/blood_bk.png",
+		"mp_blood/blood_lf.png",
+		"mp_blood/blood_rt.png",
+		"mp_blood/blood_up.png",
+		"mp_blood/blood_dn.png"
+	);
+	scene->addObject(box);
 
 	//GameMap
 	map = new GameMap(GameMap::MODE_ROAD);
