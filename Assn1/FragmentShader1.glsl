@@ -17,6 +17,7 @@ uniform samplerCube sample_cube; //unit 2
 uniform bool isTextured; //if true, render with color_out
 uniform bool isNormaled;
 uniform bool isSkyBox;
+uniform int mode_shader;
 out vec3 color;
 
 void main()
@@ -31,8 +32,6 @@ void main()
 	vec3 E = normalize(fE);
 	vec3 L1 = normalize(fL1);
 	vec3 L2 = normalize(fL2);
-	vec3 H1 = normalize( L1 + E ); 
-	vec3 H2 = normalize( L2 + E ); 
 	vec4 product = vec4(0.4,0.4,0.4,1.0);
 
 	vec4 ambient = product;
@@ -42,10 +41,25 @@ void main()
 	float Kd2 = max(dot(L2, N), 0.0);
 	vec4 diffuse2 = Kd2*product;
 
-	float Ks1 = pow(max(dot(N, H1), 0.0), 0.3);
-	vec4 specular1 = Ks1*product;
-	float Ks2 = pow(max(dot(N, H2), 0.0), 0.3);
-	vec4 specular2 = Ks2*product;
+	vec4 specular1, specular2;
+	if(mode_shader == 2)
+	{
+		vec3 R1 = normalize( reflect(L1, N) );
+		vec3 R2 = normalize( reflect(L2, N) );
+		float Ks1 = pow(max(dot(R1, E), 0.0), 0.3);
+		specular1 = Ks1*product;
+		float Ks2 = pow(max(dot(R2, E), 0.0), 0.3);
+		specular2 = Ks2*product;
+	}
+	else if(mode_shader == 3)
+	{
+		vec3 H1 = normalize( L1 + E ); 
+		vec3 H2 = normalize( L2 + E ); 
+		float Ks1 = pow(max(dot(N, H1), 0.0), 0.3);
+		specular1 = Ks1*product;
+		float Ks2 = pow(max(dot(N, H2), 0.0), 0.3);
+		specular2 = Ks2*product;
+	}
 
 	vec4 lightcolor = ambient + diffuse1 + diffuse2 + specular1 + specular2;
 

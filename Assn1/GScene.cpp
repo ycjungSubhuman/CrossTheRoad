@@ -105,12 +105,12 @@ void GScene::setCameraMode(CameraMode mode) {
 			glUniformMatrix4fv(u_Projection, 1, true, projection);
 			break;
 		case POV:
-			projection = Perspective(65, 1, 0.5, 1000);
+			projection = Perspective(65, 1, 10, 1000);
 			glUniformMatrix4fv(u_Projection, 1, true, projection);
 			break;
 		case CHICKEN:
 		case SHOULDER:
-			projection = Perspective(90, 1, 0.5, 1000);
+			projection = Perspective(90, 1, 10, 1000);
 			glUniformMatrix4fv(u_Projection, 1, true, projection);
 			break;
 	}
