@@ -80,7 +80,17 @@ void main()
 				* t_fE
 					for eye direction
 			*/
+			vec3 FL1 = normalize(t_fL1);
+			vec3 FL2 = normalize(t_fL2);
+			vec3 FE = normalize(t_fE);
 
+			vec3 H1 = normalize( FL1 + FE ); 
+			vec3 H2 = normalize( FL2 + FE ); 
+			float Ks1 = pow(max(dot(normal_map, H1), 0.0), 0.3);
+			specular1 = Ks1*product;
+			float Ks2 = pow(max(dot(normal_map, H2), 0.0), 0.3);
+			specular2 = Ks2*product;
+			lightcolor = ambient + diffuse1 + diffuse2 + specular1 + specular2;
 			//placeholder
 			color = texture (sample_texture, st).rgb * lightcolor.xyz;			
 		}
