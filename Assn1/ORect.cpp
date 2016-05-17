@@ -71,7 +71,7 @@ void ORect::draw(mat4 MVMatrix)
 	glDisableVertexAttribArray(0);
 	error = glGetError();
 	if (error != GL_NO_ERROR) {
-		printf("%x\n", error);
+		std::cerr << glewGetErrorString(error) << std::endl;
 	}
 }
 

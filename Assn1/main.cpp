@@ -17,6 +17,7 @@ AssetManager* assetManager;
 GLuint rectbuffer;
 GLint u_Model, u_Projection, color_in, mode_shader, light_point;
 GLint u_isTextured; //a uniform value that specifies whether it
+GLint u_isSkyBox;
 //shourld be rendered with texture
 
 extern GLuint program;
@@ -65,7 +66,10 @@ void init(void) {
 	glUniform1i(pick, 0);
 	pick = glGetUniformLocation(program, "sample_normalmap");
 	glUniform1i(pick, 1);
+	pick = glGetUniformLocation(program, "sample_cube");
+	glUniform1i(pick, 2);
 	u_isTextured = glGetUniformLocation(program, "isTextured");
+	u_isSkyBox = glGetUniformLocation(program, "isSkyBox");
 
 	//load models and init game
 	assetManager = new AssetManager();
@@ -121,6 +125,8 @@ void init(void) {
 		assetManager->loadTextureFromFile("Mesh0", GModel::TEXTURE_DIFFUSE,
 			"object/chicken/Texture1.png");
 	}
+	assetManager->loadModelFromFile("object/box.wobj");
+
 	game = new Game();
 
 	/* init screen */

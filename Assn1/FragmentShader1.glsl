@@ -2,16 +2,21 @@
 
 in vec4 color_out;
 in vec2 st;
-in vec3 lightdirection_tangentspace;
-in vec3 eyedirection_tangentspace;
+in vec3 t_fL1;
+in vec3 t_fL2;
+in vec3 t_fE;
 in vec3 fN;
 in vec3 fE;
 in vec3 fL1;
 in vec3 fL2;
+in vec3 eyeDirection;
+
 uniform sampler2D sample_texture; //unit 0
 uniform sampler2D sample_normalmap; //unit 1
+uniform samplerCube sample_cube; //unit 2
 uniform bool isTextured; //if true, render with color_out
 uniform bool isNormaled;
+uniform bool isSkyBox;
 out vec3 color;
 
 void main()
@@ -44,7 +49,11 @@ void main()
 
 	vec4 lightcolor = ambient + diffuse1 + diffuse2 + specular1 + specular2;
 
-	if (isTextured) {
+	if (isSkyBox) {
+		//render skybox
+		color = texture ( sample_cube, eyeDirection ).rgb;
+	}
+	else if (isTextured) {
 		if (isNormaled) { //shading with normal map
 			vec3 normal_map = normalize( 
 				texture (sample_normalmap, st).rgb * 2.0 
@@ -52,9 +61,9 @@ void main()
 
 			/* TODO: implement shading with
 				* normal_map for surface normal
-				* lightdirection_tangentspace 
+				* t_fL1, t_fL2
 					for light direction
-				* eyedirection_tangentspace
+				* t_fE
 					for eye direction
 			*/
 
