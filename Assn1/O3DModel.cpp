@@ -95,6 +95,12 @@ void O3DModel::draw(mat4 MVMatrix) {
 		glUniform1i(u_isNormaled, 0);
 	}
 
+	GLint lightpos1, lightpos2;
+	lightpos1 = glGetUniformLocation(program, "LightPosition1");
+	lightpos2 = glGetUniformLocation(program, "LightPosition2");
+	glUniform3fv(lightpos1, 1, vec3(-5.0, 0.0, 10.0));
+	glUniform3fv(lightpos2, 1, vec3(5.0, 0.0, 10.0));
+
 	glUniform4fv(color_in, 1, colors);
 	glUniformMatrix4fv(u_Model, 1, true, MVMatrix);
 	glUniform1i(u_isTextured, 1);

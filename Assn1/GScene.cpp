@@ -10,7 +10,9 @@ float camloc;
 float camlocY;
 double rot;
 float PlayerX;
+mat4 V;
 extern GLint u_Projection;
+extern GLuint program;
 
 GScene::GScene()
 : GObject(Rect(0,0,0,0), Rect(0,0,0,0), "SCENE") {
@@ -29,6 +31,11 @@ void GScene::drawScene() {
 			vec4(camloc, 0, -1, 1),
 			vec4(0, 1, 0, 1)
 			);
+		V = Angel::LookAt(
+			vec4(camloc, 0, 100, 1),
+			vec4(camloc, 0, -1, 1),
+			vec4(0, 1, 0, 1)
+		);
 		break;
 	case POV:
 	{
@@ -50,6 +57,11 @@ void GScene::drawScene() {
 			rotatedvec,
 			vec4(0, 0, 1, 1)
 			);
+		V = Angel::LookAt(
+			rotatedori,
+			rotatedvec,
+			vec4(0, 0, 1, 1)
+		);
 		break;
 	}
 	case SHOULDER:
@@ -58,7 +70,11 @@ void GScene::drawScene() {
 			vec4(camloc+30, camlocY-5, 0, 1),
 			vec4(1, 0, 0, 1)
 			);
-
+		V = Angel::LookAt(
+			vec4(camloc, camlocY - 5, 20, 1),
+			vec4(camloc + 30, camlocY - 5, 0, 1),
+			vec4(1, 0, 0, 1)
+		);
 		break;
 	case CHICKEN:
 		MVMatrix *= Angel::LookAt(
@@ -66,7 +82,15 @@ void GScene::drawScene() {
 			vec4(-200, 0, 0, 1),
 			vec4(1, 0, 0, 1)
 			);
+		V = Angel::LookAt(
+			vec4(-190, 0, 20, 1),
+			vec4(-200, 0, 0, 1),
+			vec4(1, 0, 0, 1)
+		);
 	}
+	GLint VV;
+	VV = glGetUniformLocation(program, "V");
+	glUniformMatrix4fv(VV, 1, true, V);
 	onTraverseDraw(MVMatrix);
 }
 void GScene::updateScene() { /* Updates all elements in the scene. */

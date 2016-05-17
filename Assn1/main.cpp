@@ -15,7 +15,7 @@
 Game* game;
 AssetManager* assetManager;
 GLuint rectbuffer;
-GLint u_Model, u_Projection, color_in, mode_shader;
+GLint u_Model, u_Projection, color_in, mode_shader, light_point;
 GLint u_isTextured; //a uniform value that specifies whether it
 //shourld be rendered with texture
 
@@ -56,6 +56,8 @@ void init(void) {
 	//Get uniform locations and assign texture unit index
 	u_Model = glGetUniformLocation(program, "u_Model");
 	u_Projection = glGetUniformLocation(program, "u_Projection");
+	light_point = glGetUniformLocation(program, "light_point");
+	glUniform1i(light_point, 0);
 	color_in = glGetUniformLocation(program, "color_in");
 	mode_shader = glGetUniformLocation(program, "mode_shader");
 	glUniform1i(mode_shader, 0);
@@ -224,6 +226,12 @@ void processPerspective(unsigned char key, int x, int y) {
 				game->getScene()->setCameraMode(GScene::CHICKEN);
 			}
 			isDebugChicken = !isDebugChicken;
+			break;
+		case 't':			
+			glUniform1i(light_point, 1);
+			break;
+		case 'y':
+			glUniform1i(light_point, 0);
 			break;
 	}
 

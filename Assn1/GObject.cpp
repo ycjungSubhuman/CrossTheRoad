@@ -5,6 +5,8 @@
 #include <queue>
 
 extern Game game;
+extern GLuint program;
+extern mat4 V;
 
 void GObject::setRect(const Rect& rect) {
 	/* sets the obj boundbox */
@@ -25,6 +27,10 @@ void GObject::onTraverseDraw(mat4 MVMatrix) {
 		* RotateX((GLfloat)rotation_x)
 		* Translate(vec3(-rotx, -roty, -rotz))
 		* Scale(vec3(scale_x, scale_y, scale_z));
+
+	GLint M;
+	M = glGetUniformLocation(program, "M");
+	glUniformMatrix4fv(M, 1, true, transpose(V) * MVMatrixLocal);
 
 	draw(MVMatrixLocal);
 

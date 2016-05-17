@@ -100,7 +100,7 @@ void AssetManager::loadModelFromFile(std::string name_file)
 			//facenormal calculation
 			for (unsigned int i = 0; i < normals.size(); i = i + 3)
 			{
-				vec3 facenorm = cross(normals[i], normals[i + 1]);
+				vec3 facenorm = cross(vertices[i + 1] - vertices[i], vertices[i + 2] - vertices[i]);
 				facenorms.push_back(facenorm);
 				facenorms.push_back(facenorm);
 				facenorms.push_back(facenorm);
@@ -245,7 +245,7 @@ void AssetManager::loadModelFromFile(std::string name_file)
 
 				for (unsigned int i = 0; i < normals.size(); i = i + 3)
 				{
-					vec3 facenorm = cross(normals[i], normals[i + 1]);
+					vec3 facenorm = cross(vertices[i + 1] - vertices[i], vertices[i + 2] - vertices[i]);
 					facenorms.push_back(facenorm);
 					facenorms.push_back(facenorm);
 					facenorms.push_back(facenorm);
