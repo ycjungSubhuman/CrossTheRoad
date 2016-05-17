@@ -232,7 +232,6 @@ void AssetManager::loadModelFromFile(std::string name_file)
 					vec3 bitangent = (deltaPos2 * deltaUV1.x - deltaPos1 * deltaUV2.x)*r;
 
 					// Set the same tangent for all three vertices of the triangle.
-					// They will be merged later, in vboindexer.cpp
 					tangents.push_back(tangent);
 					tangents.push_back(tangent);
 					tangents.push_back(tangent);

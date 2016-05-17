@@ -117,13 +117,15 @@ void init(void) {
 	{
 		assetManager->loadTextureFromFile("truck_blue", GModel::TEXTURE_DIFFUSE,
 			"object/truck/truck_blue-tex.tex.png");
-		assetManager->loadTextureFromFile("police_car", GModel::TEXTURE_NORMAL,
+		assetManager->loadTextureFromFile("truck_blue", GModel::TEXTURE_NORMAL,
 			"object/normal_map/normal_map_for_truck.jpg");
 	}
 	assetManager->loadModelFromFile("object/chicken/Chicken.wobj");
 	{
 		assetManager->loadTextureFromFile("Mesh0", GModel::TEXTURE_DIFFUSE,
 			"object/chicken/Texture1.png");
+		assetManager->loadTextureFromFile("Mesh0", GModel::TEXTURE_NORMAL,
+			"object/normal_map/normal_map_for_taxi.jpg");
 	}
 	assetManager->loadModelFromFile("object/box.wobj");
 
